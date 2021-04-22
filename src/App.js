@@ -55,9 +55,9 @@ function App() {
     mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
     onViewportChange={setViewport}
     >
-      <Source {...waterPoints}>
+      {/* <Source {...waterPoints}>
         <Layer {...waterStyle} />
-      </Source>
+      </Source> */}
 
       <Source {...bikePoints}>
         <Layer {...bikePointsStyle} />
