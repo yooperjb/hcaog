@@ -38,7 +38,7 @@ function App() {
   console.log({selectedBikePoint});
 
   const logEvent = (event) => {
-    console.log("Event", event);
+    console.log("Features", event.features);
   }
   
   return (
