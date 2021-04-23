@@ -15,29 +15,13 @@ const bikePointsStyle = {
   "source-layer": "bike_points-8mbmdl", 
   paint: {
     "circle-radius": 3,
-    "circle-color": '#5776f2'
+    "circle-color": 'black'
   }
 }
 
-const waterPoints = {
-  name: 'water-points',
-  type: 'vector',
-  url: "mapbox://yooperjb.d3fmw0q7"
-};
-
-const waterStyle = {
-  id: "water-points", 
-  type: "circle",
-  source: 'water-points',
-  "source-layer": "water_points-d2zqcw", 
-  paint: {
-    "circle-radius": 4,
-    "circle-color": '#5776f2'
-  }
-}
-
-console.log(waterPoints);
-console.log({...waterPoints})
+console.log({...bikePoints});
+console.log({...bikePointsStyle});
+//console.log(Map);
 
 function App() {
 
@@ -49,20 +33,40 @@ function App() {
     height: '100vh'
   });
 
+  // for popup
+  const [selectedBikePoint, setSelectedBikePoint] = useState(null);
+  console.log({selectedBikePoint});
+
+  const logEvent = (event) => {
+    console.log("Event", event);
+  }
+  
   return (
     <ReactMapGl
     {...viewport}
     mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
     onViewportChange={setViewport}
+    onClick={logEvent}
     >
-      {/* <Source {...waterPoints}>
-        <Layer {...waterStyle} />
-      </Source> */}
 
-      <Source {...bikePoints}>
-        <Layer {...bikePointsStyle} />
+      <Source {...bikePoints} onClick={setSelectedBikePoint}>
+        <Layer {...bikePointsStyle} 
+        //onClick={logEvent}
+        
+          />
       </Source>
       
+      {selectedBikePoint ? (
+        <Popup
+        latitude={selectedBikePoint.geometry.coordinates[1]}
+        longitude={selectedBikePoint.geometry.coordinates[0]}
+        closeButton={true}
+        onClose={() => setSelectedBikePoint(null)}>
+          <div>
+            <h3>{selectedBikePoint.properties.Name}</h3>
+          </div>
+        </Popup>
+      ) : null }
 
     </ReactMapGl>
   );
