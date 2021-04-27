@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MapGL, { Source, Layer } from '@urbica/react-map-gl';
+import MapGL, { Source, Layer, Popup } from '@urbica/react-map-gl';
 //import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
 import './App.css';
 
@@ -37,12 +37,16 @@ function App() {
 
   // for popup
   const [selectedBikePoint, setSelectedBikePoint] = useState(null);
-  const [cursorStyle, setCursorStyle] = useState(null)
+  const [cursorStyle, setCursorStyle] = useState(null);
+  const [LngLat, setLngLat] = useState(null);
   console.log({selectedBikePoint});
 
   const logEvent = (event) => {
-    console.log("features", event.features);
-    //console.log(event.lngLat);
+    console.log("features", event.features[0].properties);
+    setSelectedBikePoint(event.features[0].properties);
+    console.log("lngLat", event.lngLat);
+    setLngLat(event.lngLat);
+    console.log("LngLat:", LngLat);
   }
 
   const hoverEvent = (event) => {
@@ -54,7 +58,7 @@ function App() {
     setCursorStyle(null);
   }
 
-  console.log(viewport);
+  //console.log(viewport);
   
   return (
     <MapGL
@@ -67,7 +71,7 @@ function App() {
     
     >
 
-      <Source {...bikePoints} onClick={setSelectedBikePoint}>
+      <Source {...bikePoints} >
         <Layer {...bikePointsStyle}
         onClick={logEvent}
         onHover={hoverEvent}
@@ -76,17 +80,19 @@ function App() {
           />
       </Source>
       
-      {/* {selectedBikePoint ? (
+      {selectedBikePoint ? (
         <Popup
-        latitude={selectedBikePoint.geometry.coordinates[1]}
-        longitude={selectedBikePoint.geometry.coordinates[0]}
-        closeButton={true}
+        latitude={LngLat.lat}
+        longitude={LngLat.lng}
+        closeButton={false}
         onClose={() => setSelectedBikePoint(null)}>
           <div>
-            <h3>{selectedBikePoint.properties.Name}</h3>
+            <h3>{selectedBikePoint.Type}</h3>
+            <p>City: {selectedBikePoint.City}</p>
+            <p>{selectedBikePoint.Location}</p>
           </div>
         </Popup>
-      ) : null } */}
+      ) : null }
 
     </MapGL>
   );
