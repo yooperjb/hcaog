@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
+import MapGL, { Source, Layer } from '@urbica/react-map-gl';
+//import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
 import './App.css';
 
 const bikePoints = {
-  name: 'bike-points',
+  id: 'bike-points',
   type: 'vector',
   url: 'mapbox://yooperjb.96kntbve',
 };
@@ -29,34 +30,53 @@ function App() {
     latitude: 40.7450,
     longitude: -123.8695,
     zoom: 8,
-    width: '100vw',
-    height: '100vh'
+    //cursorStyle: 'pointer',
+    //width: '100vw',
+    //height: '100vh'
   });
 
   // for popup
   const [selectedBikePoint, setSelectedBikePoint] = useState(null);
+  const [cursorStyle, setCursorStyle] = useState(null)
   console.log({selectedBikePoint});
 
   const logEvent = (event) => {
-    console.log("Features", event.features);
+    console.log("features", event.features);
+    //console.log(event.lngLat);
   }
+
+  const hoverEvent = (event) => {
+    //console.log(event.lngLat);
+    setCursorStyle('pointer');
+  }
+
+  const leaveEvent = (event) => {
+    setCursorStyle(null);
+  }
+
+  console.log(viewport);
   
   return (
-    <ReactMapGl
+    <MapGL
     {...viewport}
-    mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+    style={{ width: '100vw', height: '100vh' }}
+    mapStyle='mapbox://styles/mapbox/light-v9'
+    accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
     onViewportChange={setViewport}
-    onClick={logEvent}
+    cursorStyle={cursorStyle}
+    
     >
 
       <Source {...bikePoints} onClick={setSelectedBikePoint}>
-        <Layer {...bikePointsStyle} 
-        //onClick={logEvent}
+        <Layer {...bikePointsStyle}
+        onClick={logEvent}
+        onHover={hoverEvent}
+        onLeave={leaveEvent}
         
           />
       </Source>
       
-      {selectedBikePoint ? (
+      {/* {selectedBikePoint ? (
         <Popup
         latitude={selectedBikePoint.geometry.coordinates[1]}
         longitude={selectedBikePoint.geometry.coordinates[0]}
@@ -66,9 +86,9 @@ function App() {
             <h3>{selectedBikePoint.properties.Name}</h3>
           </div>
         </Popup>
-      ) : null }
+      ) : null } */}
 
-    </ReactMapGl>
+    </MapGL>
   );
 }
 
