@@ -49,7 +49,7 @@ function App() {
     console.log("LngLat:", LngLat);
   }
 
-  const hoverEvent = (event) => {
+  const getCursor = (event) => {
     //console.log(event.lngLat);
     setCursorStyle('pointer');
   }
@@ -74,17 +74,18 @@ function App() {
       <Source {...bikePoints} >
         <Layer {...bikePointsStyle}
         onClick={logEvent}
-        onHover={hoverEvent}
+        onHover={getCursor}
         onLeave={leaveEvent}
         
           />
       </Source>
       
-      {selectedBikePoint ? (
+      {selectedBikePoint && LngLat ? (
         <Popup
         latitude={LngLat.lat}
         longitude={LngLat.lng}
         closeButton={false}
+        className="bikePointsPopup"
         onClose={() => setSelectedBikePoint(null)}>
           <div>
             <h3>{selectedBikePoint.Type}</h3>
