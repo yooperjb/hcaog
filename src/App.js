@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MapGL, { Source, Layer, Popup } from '@urbica/react-map-gl';
+import MapGL, { Source, Layer, Popup, NavigationControl } from '@urbica/react-map-gl';
 //import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
 import './App.css';
 
@@ -94,6 +94,7 @@ function App() {
           </div>
         </Popup>
       ) : null }
+    <NavigationControl showZoom position='top-right' />
 
     </MapGL>
   );
