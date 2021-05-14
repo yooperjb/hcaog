@@ -9,32 +9,61 @@ const bikePoints = {
   url: 'mapbox://yooperjb.96kntbve',
 };
 
-const bikePointsStyle = {
-  id: "bike-points", 
+const bikeParking = {
+  id: "bike-parking", 
   type: "circle",
   source: 'bike-points',
   "source-layer": "bike_points-8mbmdl", 
   paint: {
-    "circle-radius": 3,
+    "circle-radius": 4,
     "circle-color": 'black'
   },
   filter: ['==', "Type", "Bicycle Parking"]
 }
 
+// const bikeShops = {
+//   id: "bike-shops",
+//   type: "circle",
+//   source: 'bike-points',
+//   "source-layer": "bike_points-8mbmdl", 
+//   paint: {
+//     "circle-radius": 4,
+//     "circle-color": 'red'
+//   },
+//   filter: ['==', "Type", "Bicycle Shop"]
+// }
+
 const bikeShops = {
   id: "bike-shops",
-  type: "circle",
+  type: "symbol",
   source: 'bike-points',
   "source-layer": "bike_points-8mbmdl", 
+  layout:{
+    "icon-image": 'bicycle-15',
+    "icon-size": 1.2,
+    "visibility": "visible",
+  },
   paint: {
-    "circle-radius": 3,
-    "circle-color": 'red'
+    "icon-color": "black",
+    "icon-opacity": 1,
   },
   filter: ['==', "Type", "Bicycle Shop"]
 }
 
+const toolStation = {
+  id: "tool-station",
+  type: "circle",
+  source: 'bike-points',
+  "source-layer": "bike_points-8mbmdl", 
+  paint: {
+    "circle-radius": 4,
+    "circle-color": 'blue'
+  },
+  filter: ['==', "Type", "Tool Station"]
+}
+
 console.log({...bikePoints});
-console.log({...bikePointsStyle});
+console.log({...bikeParking});
 //console.log(Map);
 
 function App() {
@@ -86,15 +115,24 @@ function App() {
     >
 
       <Source {...bikePoints} >
-        <Layer {...bikePointsStyle}
+        <Layer {...bikeParking}
         onClick={logEvent}
         onHover={getCursor}
         onLeave={leaveEvent}
           />
-        {/* <Filter layerId="bike-points" filter={['==', 'Type', "Bicycle Parking"]} /> */}
         
-        <Layer {...bikeShops} />
-        {/* <Filter layerId="bikeShops" filter={['==', 'Type', "Bicycle Shops"]} /> */}
+        <Layer {...bikeShops}
+          onClick={logEvent}
+          onHover={getCursor}
+          onLeave={leaveEvent}
+          />
+
+        <Layer {...toolStation}
+          onClick={logEvent}
+          onHover={getCursor}
+          onLeave={leaveEvent}
+          />
+        
       </Source>
 
 
