@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MapGL, { Source, Layer, Popup, NavigationControl } from '@urbica/react-map-gl';
+import MapGL, { Source, Layer, Popup, NavigationControl, Filter } from '@urbica/react-map-gl';
 //import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
 import './App.css';
 
@@ -17,7 +17,20 @@ const bikePointsStyle = {
   paint: {
     "circle-radius": 3,
     "circle-color": 'black'
-  }
+  },
+  filter: ['==', "Type", "Bicycle Parking"]
+}
+
+const bikeShops = {
+  id: "bike-shops",
+  type: "circle",
+  source: 'bike-points',
+  "source-layer": "bike_points-8mbmdl", 
+  paint: {
+    "circle-radius": 3,
+    "circle-color": 'red'
+  },
+  filter: ['==', "Type", "Bicycle Shop"]
 }
 
 console.log({...bikePoints});
@@ -65,6 +78,7 @@ function App() {
     {...viewport}
     style={{ width: '100vw', height: '100vh' }}
     mapStyle='mapbox://styles/mapbox/light-v9'
+    //mapStyle='mapbox://styles/yooperjb/ckn6lzo7i08vu17nvv4tm9i6k'
     accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
     onViewportChange={setViewport}
     cursorStyle={cursorStyle}
@@ -76,9 +90,25 @@ function App() {
         onClick={logEvent}
         onHover={getCursor}
         onLeave={leaveEvent}
-        
           />
+        {/* <Filter layerId="bike-points" filter={['==', 'Type', "Bicycle Parking"]} /> */}
+        
+        <Layer {...bikeShops} />
+        {/* <Filter layerId="bikeShops" filter={['==', 'Type', "Bicycle Shops"]} /> */}
       </Source>
+
+
+      {/* <Source id='contour' type='vector' url='mapbox://mapbox.mapbox-terrain-v2' />
+      <Layer
+        id='contour'
+        type='line'
+        source='contour'
+        source-layer='contour'
+        paint={{
+          'line-color': '#877b59',
+          'line-width': 1
+        }}
+      /> */}
       
       {selectedBikePoint && LngLat ? (
         <Popup
