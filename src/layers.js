@@ -53,3 +53,28 @@ const toolStation = {
     },
     filter: ['==', "Type", "Tool Station"]
 }
+
+// Bike Route Source Data
+const bikeRoutes = {
+    id: 'bike-routes',
+    type: 'vector',
+    url: 'mapbox://yooperjb.3kf292c5',
+  };
+
+// Class I Bike Routes from Bike Route Data
+const bikeParking = {
+    id: "ClassI", 
+    type: "line",
+    source: 'bike-routes',
+    "source-layer": "bike_routes-2nr3p1", 
+    // layout:{
+    //     "icon-image": 'hcaog-parking-15',
+    //     "icon-size": 1,
+    //     "visibility": "visible",
+    // },
+    paint: {
+        "line-width": 3,
+        "line-color": "red",
+    },
+    filter: ['==', "type_2021", "Existing Class I"]
+}
