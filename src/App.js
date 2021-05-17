@@ -11,27 +11,20 @@ const bikePoints = {
 
 const bikeParking = {
   id: "bike-parking", 
-  type: "circle",
+  type: "symbol",
   source: 'bike-points',
   "source-layer": "bike_points-8mbmdl", 
+  layout:{
+    "icon-image": 'hcaog-parking-15',
+    "icon-size": 1,
+    "visibility": "visible",
+  },
   paint: {
-    "circle-radius": 4,
-    "circle-color": 'black'
+    "icon-color": "black",
+    "icon-opacity": 1,
   },
   filter: ['==', "Type", "Bicycle Parking"]
 }
-
-// const bikeShops = {
-//   id: "bike-shops",
-//   type: "circle",
-//   source: 'bike-points',
-//   "source-layer": "bike_points-8mbmdl", 
-//   paint: {
-//     "circle-radius": 4,
-//     "circle-color": 'red'
-//   },
-//   filter: ['==', "Type", "Bicycle Shop"]
-// }
 
 const bikeShops = {
   id: "bike-shops",
@@ -39,8 +32,8 @@ const bikeShops = {
   source: 'bike-points',
   "source-layer": "bike_points-8mbmdl", 
   layout:{
-    "icon-image": 'bicycle-15',
-    "icon-size": 1.2,
+    "icon-image": 'hcaog-hardware-15',
+    "icon-size": 1,
     "visibility": "visible",
   },
   paint: {
@@ -106,7 +99,7 @@ function App() {
     <MapGL
     {...viewport}
     style={{ width: '100vw', height: '100vh' }}
-    mapStyle='mapbox://styles/mapbox/light-v9'
+    mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
     //mapStyle='mapbox://styles/yooperjb/ckn6lzo7i08vu17nvv4tm9i6k'
     accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
     onViewportChange={setViewport}
