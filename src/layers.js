@@ -1,12 +1,12 @@
 // Bike Points Source Data
-const bikePoints = {
+export const bikePoints = {
     id: 'bike-points',
     type: 'vector',
     url: 'mapbox://yooperjb.96kntbve',
   };
   
 // Bike Parking points from Bike Points Data
-const bikeParking = {
+export const bikeParking = {
     id: "bike-parking", 
     type: "symbol",
     source: 'bike-points',
@@ -24,7 +24,7 @@ const bikeParking = {
 }
   
 // Bicycle Shop points from Bike Points Data
-const bikeShops = {
+export const bikeShops = {
     id: "bike-shops",
     type: "symbol",
     source: 'bike-points',
@@ -42,27 +42,31 @@ const bikeShops = {
 }
   
 // Bicycle tool station points from Bike Points Data
-const toolStation = {
+export const toolStation = {
     id: "tool-station",
-    type: "circle",
+    type: "symbol",
     source: 'bike-points',
     "source-layer": "bike_points-8mbmdl", 
+    layout:{
+        "icon-image": 'hardware-15',
+        "icon-size": 1,
+        "visibility": "visible",
+    },
     paint: {
-        "circle-radius": 4,
-        "circle-color": 'blue'
+        "icon-opacity": 1,
     },
     filter: ['==', "Type", "Tool Station"]
 }
 
 // Bike Route Source Data
-const bikeRoutes = {
+export const bikeRoutes = {
     id: 'bike-routes',
     type: 'vector',
     url: 'mapbox://yooperjb.3kf292c5',
   };
 
 // Class I Bike Routes from Bike Route Data
-const bikeParking = {
+export const class1 = {
     id: "ClassI", 
     type: "line",
     source: 'bike-routes',
@@ -73,8 +77,44 @@ const bikeParking = {
     //     "visibility": "visible",
     // },
     paint: {
-        "line-width": 3,
+        "line-width": 2,
         "line-color": "red",
     },
     filter: ['==', "type_2021", "Existing Class I"]
 }
+
+export const class2 = {
+    id: "ClassII", 
+    type: "line",
+    source: 'bike-routes',
+    "source-layer": "bike_routes-2nr3p1", 
+    // layout:{
+    //     "icon-image": 'hcaog-parking-15',
+    //     "icon-size": 1,
+    //     "visibility": "visible",
+    // },
+    paint: {
+        "line-width": 2,
+        "line-color": "orange",
+    },
+    filter: ['==', "type_2021", "Existing Class II"]
+}
+
+export const class3 = {
+    id: "ClassIII", 
+    type: "line",
+    source: 'bike-routes',
+    "source-layer": "bike_routes-2nr3p1", 
+    // layout:{
+    //     "icon-image": 'hcaog-parking-15',
+    //     "icon-size": 1,
+    //     "visibility": "visible",
+    // },
+    paint: {
+        "line-width": 2,
+        "line-color": "yellow",
+    },
+    filter: ['==', "type_2021", "Existing Class III"]
+}
+
+export default {bikePoints,bikeParking,bikeShops,toolStation, bikeRoutes, class1, class2, class3};
