@@ -71,11 +71,7 @@ export const class1 = {
     type: "line",
     source: 'bike-routes',
     "source-layer": "bike_routes-2nr3p1", 
-    // layout:{
-    //     "icon-image": 'hcaog-parking-15',
-    //     "icon-size": 1,
-    //     "visibility": "visible",
-    // },
+
     paint: {
         "line-width": 2,
         "line-color": "red",
@@ -88,11 +84,7 @@ export const class2 = {
     type: "line",
     source: 'bike-routes',
     "source-layer": "bike_routes-2nr3p1", 
-    // layout:{
-    //     "icon-image": 'hcaog-parking-15',
-    //     "icon-size": 1,
-    //     "visibility": "visible",
-    // },
+
     paint: {
         "line-width": 2,
         "line-color": "orange",
@@ -105,11 +97,7 @@ export const class3 = {
     type: "line",
     source: 'bike-routes',
     "source-layer": "bike_routes-2nr3p1", 
-    // layout:{
-    //     "icon-image": 'hcaog-parking-15',
-    //     "icon-size": 1,
-    //     "visibility": "visible",
-    // },
+
     paint: {
         "line-width": 2,
         "line-color": "yellow",
@@ -117,4 +105,25 @@ export const class3 = {
     filter: ['==', "type_2021", "Existing Class III"]
 }
 
-export default {bikePoints,bikeParking,bikeShops,toolStation, bikeRoutes, class1, class2, class3};
+export const trail = {
+    id: "Trail", 
+    type: "line",
+    source: 'bike-routes',
+    "source-layer": "bike_routes-2nr3p1", 
+
+    paint: {
+        "line-width": 2,
+        "line-color": "#baa77c",
+        "line-dasharray": [1,3],
+        //"line-opacity": 1,
+    },
+    layout: {
+        "line-cap": "round",
+        "line-join": "round",
+        // Sorts lines based on this value
+        "line-sort-key": 1,
+    },
+    filter: ['==', "type_2021", "Existing Trail"]
+}
+
+export default {bikePoints, bikeParking, bikeShops, toolStation, bikeRoutes, class1, class2, class3, trail};

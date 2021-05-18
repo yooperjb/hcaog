@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MapGL, { Source, Layer, Popup, NavigationControl, Filter } from '@urbica/react-map-gl';
 //import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
 import './App.css';
-import {bikePoints, bikeParking, bikeShops, toolStation, bikeRoutes, class1, class2, class3} from './layers.js';
+import {bikePoints, bikeParking, bikeShops, toolStation, bikeRoutes, class1, class2, class3, trail} from './layers.js';
 
 // const bikePoints = {
 //   id: 'bike-points',
@@ -110,6 +110,13 @@ function App() {
     cursorStyle={cursorStyle}
     
     >
+      <Source {...bikeRoutes}>
+        <Layer {...class1} />
+        <Layer {...class2} />
+        <Layer {...class3} />
+        <Layer {...trail} />
+      
+      </Source>
 
       <Source {...bikePoints} >
         <Layer {...bikeParking}
@@ -130,13 +137,6 @@ function App() {
           onLeave={leaveEvent}
           />
         
-      </Source>
-
-      <Source {...bikeRoutes}>
-        <Layer {...class1} />
-        <Layer {...class2} />
-        <Layer {...class3} />
-      
       </Source>
       
       {selectedBikePoint && LngLat ? (
