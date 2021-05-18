@@ -67,4 +67,5 @@
 .mapboxgl-popup-content a {
   text-decoration: none;
   font-style: italic;
+  color: #3d380e;
 }

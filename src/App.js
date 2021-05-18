@@ -37,9 +37,10 @@ function App() {
 
   const logBikeRoute = (event) => {
     setSelectedBikeRoute(event.features[0].properties);
-    console.log("Bike Route", selectedBikeRoute);
+    //console.log("Bike Route", selectedBikeRoute);
     setLngLat(event.lngLat);
-    console.log("LngLat:", event.LngLat);
+    //console.log("LngLat:", event.lngLat);
+    //console.log("LngLat:", LngLat);
   }
 
   // set cursor to pointer on feature hover
@@ -117,7 +118,8 @@ function App() {
         longitude={LngLat.lng}
         closeButton={false}
         className="bikePointsPopup"
-        onClose={() => setSelectedBikePoint(null)}>
+        onClose={() => setSelectedBikePoint(null) }>
+
           <div>
             <h3>{selectedBikePoint.Type}</h3>
             <p>{selectedBikePoint.Name}</p>
