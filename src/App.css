@@ -63,3 +63,8 @@
   margin: 0;
   padding: 0;
 }
+
+.mapboxgl-popup-content a {
+  text-decoration: none;
+  font-style: italic;
+}

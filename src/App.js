@@ -4,58 +4,6 @@ import MapGL, { Source, Layer, Popup, NavigationControl, Filter } from '@urbica/
 import './App.css';
 import {bikePoints, bikeParking, bikeShops, toolStation, bikeRoutes, class1, class2, class3, trail} from './layers.js';
 
-// const bikePoints = {
-//   id: 'bike-points',
-//   type: 'vector',
-//   url: 'mapbox://yooperjb.96kntbve',
-// };
-
-// const bikeParking = {
-//   id: "bike-parking", 
-//   type: "symbol",
-//   source: 'bike-points',
-//   "source-layer": "bike_points-8mbmdl", 
-//   layout:{
-//     "icon-image": 'hcaog-parking-15',
-//     "icon-size": 1,
-//     "visibility": "visible",
-//   },
-//   paint: {
-//     "icon-color": "black",
-//     "icon-opacity": 1,
-//   },
-//   filter: ['==', "Type", "Bicycle Parking"]
-// }
-
-// const bikeShops = {
-//   id: "bike-shops",
-//   type: "symbol",
-//   source: 'bike-points',
-//   "source-layer": "bike_points-8mbmdl", 
-//   layout:{
-//     "icon-image": 'hcaog-hardware-15',
-//     "icon-size": 1,
-//     "visibility": "visible",
-//   },
-//   paint: {
-//     "icon-color": "black",
-//     "icon-opacity": 1,
-//   },
-//   filter: ['==', "Type", "Bicycle Shop"]
-// }
-
-// const toolStation = {
-//   id: "tool-station",
-//   type: "circle",
-//   source: 'bike-points',
-//   "source-layer": "bike_points-8mbmdl", 
-//   paint: {
-//     "circle-radius": 4,
-//     "circle-color": 'blue'
-//   },
-//   filter: ['==', "Type", "Tool Station"]
-// }
-
 //console.log({...bikePoints});
 //console.log({...bikeParking});
 //console.log(Map);
@@ -71,28 +19,36 @@ function App() {
     //height: '100vh'
   });
 
-  // For Bike Points popup
+  // UseState for Popups
   const [selectedBikePoint, setSelectedBikePoint] = useState(null);
-  const [cursorStyle, setCursorStyle] = useState(null);
   const [LngLat, setLngLat] = useState(null);
-  console.log({selectedBikePoint});
+  const [cursorStyle, setCursorStyle] = useState(null);
+  const [selectedBikeRoute, setSelectedBikeRoute] = useState(null);
+  
+  //console.log({selectedBikePoint});
 
-  const logEvent = (event) => {
-    console.log("features", event.features[0].properties);
+  const logBikePoint = (event) => {
+    //console.log("features", event.features[0].properties);
     setSelectedBikePoint(event.features[0].properties);
-    console.log("lngLat", event.lngLat);
+    //console.log("lngLat", event.lngLat);
     setLngLat(event.lngLat);
-    console.log("LngLat:", LngLat);
+    //console.log("LngLat:", LngLat);
+  }
+
+  const logBikeRoute = (event) => {
+    setSelectedBikeRoute(event.features[0].properties);
+    console.log("Bike Route", selectedBikeRoute);
+    setLngLat(event.lngLat);
+    console.log("LngLat:", event.LngLat);
   }
 
   // set cursor to pointer on feature hover
   const getCursor = (event) => {
-    //console.log(event.lngLat);
     setCursorStyle('pointer');
   }
 
   // set cursor to default on feature leave
-  const leaveEvent = (event) => {
+  const returnCursor = (event) => {
     setCursorStyle(null);
   }
 
@@ -111,30 +67,46 @@ function App() {
     
     >
       <Source {...bikeRoutes}>
-        <Layer {...class1} />
-        <Layer {...class2} />
-        <Layer {...class3} />
-        <Layer {...trail} />
+        <Layer {...class1} 
+          onHover={getCursor}
+          onLeave={returnCursor}
+          onClick={logBikeRoute}
+        />
+        <Layer {...class2} 
+          onHover={getCursor}
+          onLeave={returnCursor}
+          onClick={logBikeRoute}
+        />
+        <Layer {...class3} 
+          onHover={getCursor}
+          onLeave={returnCursor}
+          onClick={logBikeRoute}
+        />
+        <Layer {...trail} 
+          onHover={getCursor}
+          onLeave={returnCursor}
+          onClick={logBikeRoute}
+          />
       
       </Source>
 
       <Source {...bikePoints} >
         <Layer {...bikeParking}
-        onClick={logEvent}
+        onClick={logBikePoint}
         onHover={getCursor}
-        onLeave={leaveEvent}
+        onLeave={returnCursor}
           />
         
         <Layer {...bikeShops}
-          onClick={logEvent}
+          onClick={logBikePoint}
           onHover={getCursor}
-          onLeave={leaveEvent}
+          onLeave={returnCursor}
           />
 
         <Layer {...toolStation}
-          onClick={logEvent}
+          onClick={logBikePoint}
           onHover={getCursor}
-          onLeave={leaveEvent}
+          onLeave={returnCursor}
           />
         
       </Source>
@@ -148,11 +120,31 @@ function App() {
         onClose={() => setSelectedBikePoint(null)}>
           <div>
             <h3>{selectedBikePoint.Type}</h3>
-            <p>City: {selectedBikePoint.City}</p>
+            <p>{selectedBikePoint.Name}</p>
             <p>{selectedBikePoint.Location}</p>
+            {selectedBikePoint.Website ? (
+              <p><a target="_blank" href={selectedBikePoint.Website}>Website</a></p>
+            ) : null }
+            
           </div>
         </Popup>
       ) : null }
+
+      {selectedBikeRoute && LngLat ? (
+        <Popup
+        latitude={LngLat.lat}
+        longitude={LngLat.lng}
+        closeButton={false}
+        className="bikeRoutePopup"
+        onClose={() => setSelectedBikeRoute(null)}>
+          <div>
+            <h3>{selectedBikeRoute.type_2021}</h3>
+            <p>{selectedBikeRoute.Name}</p>
+            <p>Bike Allowed: {selectedBikeRoute.Bikes_Allo}</p>
+          </div>
+        </Popup>
+      ) : null }
+    
     <NavigationControl showZoom position='top-right' />
 
     </MapGL>
