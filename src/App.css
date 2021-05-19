@@ -87,6 +87,11 @@
   /* border: 1px solid red; */
 }
 
+.sidebar p {
+  margin: 10px;
+  color: white;
+}
+
 .logo {
   /* border: 1px solid white; */
   text-align: center;
