@@ -10,6 +10,7 @@ const Sidebar = () => {
             </div>
             <div>
                 <p>Humboldt County offers incredible bike opportunities for visitors and locals alike. Find a new way to commute to work, explore the countryside, an adventurous mountain bike ride, and more!</p>
+                <p>Learn more about Humboldt County Bike Routes here.</p>
             </div>
 
             <div className="layers">

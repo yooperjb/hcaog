@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import MapGL, { Source, Layer, Popup, NavigationControl, Filter } from '@urbica/react-map-gl';
+import MapGL, { Source, Layer, Popup, NavigationControl, GeolocateControl, Filter } from '@urbica/react-map-gl';
 //import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
 import './App.css';
 import Sidebar from './Sidebar';
 import {bikePoints, bikeParking, bikeShops, toolStation, bikeRoutes, class1, class2, class3, trail} from './layers.js';
 
-//console.log({...bikePoints});
-//console.log({...bikeParking});
-//console.log(Map);
+//console.log("Map",Map);
 
 function App() {
 
@@ -15,9 +13,6 @@ function App() {
     latitude: 40.7450,
     longitude: -123.8695,
     zoom: 8,
-    //cursorStyle: 'pointer',
-    //width: '100vw',
-    //height: '100vh'
   });
 
   // UseState for Popups
@@ -53,8 +48,6 @@ function App() {
   const returnCursor = (event) => {
     setCursorStyle(null);
   }
-
-  //console.log(viewport);
   
   return (
     <div className="container">
@@ -65,30 +58,29 @@ function App() {
     {...viewport}
     style={{ width: '100vw', height: '100vh' }}
     mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
-    //mapStyle='mapbox://styles/yooperjb/ckn6lzo7i08vu17nvv4tm9i6k'
-    //accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-    accessToken="pk.eyJ1IjoieW9vcGVyamIiLCJhIjoiY2toNXR1cWI4MDV2YzJ1bndoZnJtZzY3bCJ9.4O6nJopZD7FE6pUVr7f3kg"
+    accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+    // accessToken="pk.eyJ1IjoieW9vcGVyamIiLCJhIjoiY2toNXR1cWI4MDV2YzJ1bndoZnJtZzY3bCJ9.4O6nJopZD7FE6pUVr7f3kg"
     onViewportChange={setViewport}
     cursorStyle={cursorStyle}
     
     >
       <Source {...bikeRoutes}>
-        <Layer {...class1} 
+        <Layer {...class1}
           onHover={getCursor}
           onLeave={returnCursor}
           onClick={logBikeRoute}
         />
-        <Layer {...class2} 
+        <Layer {...class2}
           onHover={getCursor}
           onLeave={returnCursor}
           onClick={logBikeRoute}
         />
-        <Layer {...class3} 
+        <Layer {...class3}
           onHover={getCursor}
           onLeave={returnCursor}
           onClick={logBikeRoute}
         />
-        <Layer {...trail} 
+        <Layer {...trail}
           onHover={getCursor}
           onLeave={returnCursor}
           onClick={logBikeRoute}
@@ -153,6 +145,7 @@ function App() {
       ) : null }
     
     <NavigationControl showZoom position='top-right' />
+    <GeolocateControl></GeolocateControl>
 
     </MapGL>
     </div>
