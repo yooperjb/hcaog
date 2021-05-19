@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MapGL, { Source, Layer, Popup, NavigationControl, Filter } from '@urbica/react-map-gl';
 //import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
 import './App.css';
+import Sidebar from './Sidebar';
 import {bikePoints, bikeParking, bikeShops, toolStation, bikeRoutes, class1, class2, class3, trail} from './layers.js';
 
 //console.log({...bikePoints});
@@ -56,6 +57,10 @@ function App() {
   //console.log(viewport);
   
   return (
+    <div className="container">
+    
+    <Sidebar></Sidebar>
+    
     <MapGL
     {...viewport}
     style={{ width: '100vw', height: '100vh' }}
@@ -150,6 +155,7 @@ function App() {
     <NavigationControl showZoom position='top-right' />
 
     </MapGL>
+    </div>
   );
 }
 

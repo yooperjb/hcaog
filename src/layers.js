@@ -74,7 +74,7 @@ export const class1 = {
 
     paint: {
         "line-width": 2,
-        "line-color": "red",
+        "line-color": "#b50707",
     },
     filter: ['==', "type_2021", "Existing Class I"]
 }
