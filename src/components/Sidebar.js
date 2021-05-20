@@ -14,7 +14,7 @@ const Sidebar = () => {
             </div>
             <div>
                 <p>Humboldt County offers incredible bike opportunities for visitors and locals alike. Find a new way to commute to work, explore the countryside, an adventurous mountain bike ride, and more!</p>
-                <p>To learn more about Humboldt County Bike Routes click here.</p>
+                <p>To learn more about Humboldt County Bike Routes click <a target="_blank" href="https://www.hcaog.net/documents/humboldt-regional-bicycle-plan-2018">here</a>.</p>
             </div>
 
             <div className="layers">
@@ -36,15 +36,15 @@ const Sidebar = () => {
                 <label for="trail">Natural Surface Trails</label>
                 </div>
                 <div>
-                <input type="checkbox" id="bikeshop" name="bikeshop" value="bikeshop"></input>
+                <input type="checkbox" id="bikeshop" name="bikeshop" onChange={onCheckboxChange} checked={layerVisibility.bikeshop}></input>
                 <label for="bikeshop">Bike Shops</label>
                 </div>
                 <div>
-                <input type="checkbox" id="parking" name="parking" value="parking"></input>
+                <input type="checkbox" id="parking" name="parking" onChange={onCheckboxChange} checked={layerVisibility.parking}></input>
                 <label for="parking">Bike Parking</label>
                 </div>
                 <div>
-                <input type="checkbox" id="toolstation" name="toolstation" value="toolstation"></input>
+                <input type="checkbox" id="toolstation" name="toolstation" onChange={onCheckboxChange} checked={layerVisibility.toolstation}></input>
                 <label for="toolstation">Tool Station</label>
                 </div>
             </div>

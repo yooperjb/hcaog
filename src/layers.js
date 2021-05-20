@@ -100,7 +100,7 @@ export const class3 = {
 
     paint: {
         "line-width": 2,
-        "line-color": "yellow",
+        "line-color": "#eded5c",
     },
     filter: ['==', "type_2021", "Existing Class III"]
 }

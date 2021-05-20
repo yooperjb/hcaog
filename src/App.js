@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import MapGL, { Source, Layer, Popup, NavigationControl, Filter } from '@urbica/react-map-gl';
+import MapGL, { Source, Layer, Popup, NavigationControl, GeolocateControl, Filter } from '@urbica/react-map-gl';
 //import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
-
 import Sidebar from './components/Sidebar';
 import { useLayerVisibility } from "./contexts/LayerVisibilityContext";
 import {bikePoints, bikeParking, bikeShops, toolStation, bikeRoutes, class1, class2, class3, trail} from './layers.js';
 
 import './App.css';
-//console.log({...bikePoints});
-//console.log({...bikeParking});
-//console.log(Map);
 
 function App() {
 
@@ -17,19 +13,17 @@ function App() {
     latitude: 40.7450,
     longitude: -123.8695,
     zoom: 8,
-    //cursorStyle: 'pointer',
-    //width: '100vw',
-    //height: '100vh'
   });
 
-  // UseState for Popups
+  // useState for Popups and 
   const [selectedBikePoint, setSelectedBikePoint] = useState(null);
-  const [LngLat, setLngLat] = useState(null);
-  const [cursorStyle, setCursorStyle] = useState(null);
   const [selectedBikeRoute, setSelectedBikeRoute] = useState(null);
+  const [LngLat, setLngLat] = useState(null);
+  // useState for Cursor style on hover
+  const [cursorStyle, setCursorStyle] = useState(null);
   
   const [ layerVisibility ] = useLayerVisibility();
-  //console.log({selectedBikePoint});
+  
 
   const logBikePoint = (event) => {
     //console.log("features", event.features[0].properties);
@@ -56,8 +50,6 @@ function App() {
   const returnCursor = (event) => {
     setCursorStyle(null);
   }
-
-  console.log(process.env.REACT_APP_MAPBOX_TOKEN);
   
   return (
     <div className="container">
@@ -99,23 +91,24 @@ function App() {
       </Source>
 
       <Source {...bikePoints} >
-        <Layer {...bikeParking}
+        
+        {layerVisibility.parking && <Layer {...bikeParking}
         onClick={logBikePoint}
         onHover={getCursor}
         onLeave={returnCursor}
-          />
+          />}
         
-        <Layer {...bikeShops}
+        {layerVisibility.bikeshop && <Layer {...bikeShops}
           onClick={logBikePoint}
           onHover={getCursor}
           onLeave={returnCursor}
-          />
+          />}
 
-        <Layer {...toolStation}
+        {layerVisibility.toolstation && <Layer {...toolStation}
           onClick={logBikePoint}
           onHover={getCursor}
           onLeave={returnCursor}
-          />
+          />}
         
       </Source>
       
@@ -155,6 +148,7 @@ function App() {
       ) : null }
     
     <NavigationControl showZoom position='top-right' />
+    <GeolocateControl></GeolocateControl>
 
     </MapGL>
     </div>
