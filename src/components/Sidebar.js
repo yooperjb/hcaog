@@ -33,7 +33,7 @@ const Sidebar = () => {
                 </div>
                 <div title="A dirt or gravel single-track paths that are bicycle compatible.">
                 <input type="checkbox" id="trails" name="trails" onChange={onCheckboxChange} checked={layerVisibility.trails}></input>
-                <label for="trail">Natural Surface Trails</label>
+                <label for="trails">Natural Surface Trails</label>
                 </div>
                 <div>
                 <input type="checkbox" id="bikeshop" name="bikeshop" onChange={onCheckboxChange} checked={layerVisibility.bikeshop}></input>
