@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import {LayerVisibilityContextProvider} from "./contexts/LayerVisibilityContext";
 import App from './App';
-
+import { GlobalProvider } from './contexts/GlobalContext';
+import { LayerVisibilityContextProvider } from './contexts/LayerVisibilityContext';
+import './index.scss';
 import reportWebVitals from './reportWebVitals';
-
-import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <LayerVisibilityContextProvider>
-      <App />
-    </LayerVisibilityContextProvider>
+    <GlobalProvider>
+      <LayerVisibilityContextProvider>
+        <App />
+      </LayerVisibilityContextProvider>
+    </GlobalProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

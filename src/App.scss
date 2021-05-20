@@ -1,0 +1,81 @@
+:root {
+  --class1-color: #b50707;
+  --class2-color: orange;
+  --class3-color: #eded5c;
+  --trails-color: #baa77c;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+body a {
+  text-decoration: none;
+  color:white
+}
+
+.container {
+  display: flex;
+}
+
+/* .mapboxgl-map {
+  
+} */
+
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+  border-top-color: #e9e9e9;
+}
+
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip{
+  border-bottom-color: #e9e9e9 ;
+}
+
+.mapboxgl-popup-content {
+  padding: 8px;
+  background: #e9e9e9;
+  color: #3d380e;
+  box-shadow: 3px 3px 10px rgb(128, 128, 128);
+  h3 {
+    text-decoration: underline;
+    margin: 0 0 4px 0;
+    padding: 0;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+    font-style: italic;
+    color: #3d380e;
+  }
+}

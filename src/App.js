@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import MapGL, { Source, Layer, Popup, NavigationControl, GeolocateControl, Filter } from '@urbica/react-map-gl';
-//import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
+import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source } from '@urbica/react-map-gl';
+import React, { useState } from 'react';
+import './App.scss';
 import Sidebar from './components/Sidebar';
-import { useLayerVisibility } from "./contexts/LayerVisibilityContext";
-import {bikePoints, bikeParking, bikeShops, toolStation, bikeRoutes, class1, class2, class3, trail} from './layers.js';
+import { bikeParking, bikePoints, bikeRoutes, bikeShops, class1, class2, class3, toolStation, trails } from './config/layers.js';
+import { clearFocusedLayer, setFocusedLayer, useGlobals } from './contexts/GlobalContext';
+import { useLayerVisibility } from './contexts/LayerVisibilityContext';
 
-import './App.css';
-
-function App() {
+//import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
+const routeLayers = { class1, class2, class3, trails };
+const iconLayers = { bikeShops, bikeParking, toolStation };
+const App  = () => {
 
   const [viewport, setViewport] = useState({
     latitude: 40.7450,
@@ -22,6 +24,7 @@ function App() {
   // useState for Cursor style on hover
   const [cursorStyle, setCursorStyle] = useState(null);
   
+  const [globals, dispatchGlobals] = useGlobals();
   const [ layerVisibility ] = useLayerVisibility();
   
 
@@ -31,7 +34,7 @@ function App() {
     //console.log("lngLat", event.lngLat);
     setLngLat(event.lngLat);
     //console.log("LngLat:", LngLat);
-  }
+  };
 
   const logBikeRoute = (event) => {
     setSelectedBikeRoute(event.features[0].properties);
@@ -39,120 +42,119 @@ function App() {
     setLngLat(event.lngLat);
     //console.log("LngLat:", event.lngLat);
     //console.log("LngLat:", LngLat);
-  }
+  };
 
   // set cursor to pointer on feature hover
-  const getCursor = (event) => {
+  const getCursor = (layer) => () => {
     setCursorStyle('pointer');
-  }
+    dispatchGlobals(setFocusedLayer(layer));
+  };
 
   // set cursor to default on feature leave
-  const returnCursor = (event) => {
+  const returnCursor = () => {
     setCursorStyle(null);
-  }
+    dispatchGlobals(clearFocusedLayer());
+  };
   
   return (
     <div className="container">
-    <Sidebar></Sidebar>
     
-    <MapGL
-    {...viewport}
-    style={{ width: '100vw', height: '100vh' }}
-    mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
-    //mapStyle='mapbox://styles/yooperjb/ckn6lzo7i08vu17nvv4tm9i6k'
-    accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-    //accessToken="pk.eyJ1IjoieW9vcGVyamIiLCJhIjoiY2toNXR1cWI4MDV2YzJ1bndoZnJtZzY3bCJ9.4O6nJopZD7FE6pUVr7f3kg"
-    onViewportChange={setViewport}
-    cursorStyle={cursorStyle}
+      <MapGL
+        {...viewport}
+        style={{ width: '100vw', height: '100vh' }}
+        mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
+        //mapStyle='mapbox://styles/yooperjb/ckn6lzo7i08vu17nvv4tm9i6k'
+        accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        onViewportChange={setViewport}
+        cursorStyle={cursorStyle}
     
-    >
-      <Source {...bikeRoutes}>
-        {layerVisibility.class1 && <Layer {...class1}
-          onHover={getCursor}
-          onLeave={returnCursor}
-          onClick={logBikeRoute}
-        />}
-        {layerVisibility.class2 && <Layer {...class2} 
-          onHover={getCursor}
-          onLeave={returnCursor}
-          onClick={logBikeRoute}
-        />}
-        {layerVisibility.class3 && <Layer {...class3}
-          onHover={getCursor}
-          onLeave={returnCursor}
-          onClick={logBikeRoute}
-        />}
-        {layerVisibility.trails && <Layer {...trail} 
-          onHover={getCursor}
-          onLeave={returnCursor}
-          onClick={logBikeRoute}
-          />}
+      >
+        <Source {...bikeRoutes}>
+          {
+            Object.keys(routeLayers)
+              .map((layerId) => 
+                layerVisibility[layerId] && (
+                  <Layer
+                    key={layerId}
+                    {...routeLayers[layerId]}
+                    paint={
+                      globals.focusedLayer === layerId
+                        ? {...routeLayers[layerId].paint, 'line-width': 5}
+                        : routeLayers[layerId].paint
+                    }
+                    onHover={getCursor(layerId)}
+                    onLeave={returnCursor}
+                    onClick={logBikeRoute}
+                  />
+                )
+              )
+          }
+        </Source>
+
+        <Source {...bikePoints} >
+          {
+            Object.keys(iconLayers).map((layerId) =>
+              layerVisibility[layerId] && (
+                <Layer
+                  key={layerId}
+                  {...iconLayers[layerId]}
+                  layout={
+                    globals.focusedLayer === layerId
+                      ? {...iconLayers[layerId].layout, 'icon-size': 1.1}
+                      : iconLayers[layerId].layout
+                  }
+                  onClick={logBikePoint}
+                  onHover={getCursor(layerId)}
+                  onLeave={returnCursor}
+                />
+              )
+            )
+          }
+        
+        </Source>
       
-      </Source>
+        {selectedBikePoint && LngLat ? (
+          <Popup
+            latitude={LngLat.lat}
+            longitude={LngLat.lng}
+            closeButton={false}
+            className="bikePointsPopup"
+            onClose={() => setSelectedBikePoint(null) }>
 
-      <Source {...bikePoints} >
-        
-        {layerVisibility.parking && <Layer {...bikeParking}
-        onClick={logBikePoint}
-        onHover={getCursor}
-        onLeave={returnCursor}
-          />}
-        
-        {layerVisibility.bikeshop && <Layer {...bikeShops}
-          onClick={logBikePoint}
-          onHover={getCursor}
-          onLeave={returnCursor}
-          />}
-
-        {layerVisibility.toolstation && <Layer {...toolStation}
-          onClick={logBikePoint}
-          onHover={getCursor}
-          onLeave={returnCursor}
-          />}
-        
-      </Source>
-      
-      {selectedBikePoint && LngLat ? (
-        <Popup
-        latitude={LngLat.lat}
-        longitude={LngLat.lng}
-        closeButton={false}
-        className="bikePointsPopup"
-        onClose={() => setSelectedBikePoint(null) }>
-
-          <div>
-            <h3>{selectedBikePoint.Type}</h3>
-            <p>{selectedBikePoint.Name}</p>
-            <p>{selectedBikePoint.Location}</p>
-            {selectedBikePoint.Website ? (
-              <p><a target="_blank" href={selectedBikePoint.Website}>Website</a></p>
-            ) : null }
+            <div>
+              <h3>{selectedBikePoint.Type}</h3>
+              <p>{selectedBikePoint.Name}</p>
+              <p>{selectedBikePoint.Location}</p>
+              {selectedBikePoint.Website ? (
+                <p><a target="_blank" href={selectedBikePoint.Website} rel="noreferrer">Website</a></p>
+              ) : null }
             
-          </div>
-        </Popup>
-      ) : null }
+            </div>
+          </Popup>
+        ) : null }
 
-      {selectedBikeRoute && LngLat ? (
-        <Popup
-        latitude={LngLat.lat}
-        longitude={LngLat.lng}
-        closeButton={false}
-        className="bikeRoutePopup"
-        onClose={() => setSelectedBikeRoute(null)}>
-          <div>
-            <h3>{selectedBikeRoute.type_2021}</h3>
-            <p>{selectedBikeRoute.Name}</p>
-            <p>Bike Allowed: {selectedBikeRoute.Bikes_Allo}</p>
-          </div>
-        </Popup>
-      ) : null }
+        {selectedBikeRoute && LngLat ? (
+          <Popup
+            latitude={LngLat.lat}
+            longitude={LngLat.lng}
+            closeButton={false}
+            className="bikeRoutePopup"
+            onClose={() => setSelectedBikeRoute(null)}>
+            <div>
+              <h3>{selectedBikeRoute.type_2021}</h3>
+              <p>{selectedBikeRoute.Name}</p>
+              <p>Bike Allowed: {selectedBikeRoute.Bikes_Allo}</p>
+            </div>
+          </Popup>
+        ) : null }
     
-    <NavigationControl showZoom position='top-right' />
-    <GeolocateControl></GeolocateControl>
+        <NavigationControl showZoom position='top-right' />
+        <GeolocateControl></GeolocateControl>
 
-    </MapGL>
+      </MapGL>
+      <Sidebar></Sidebar>
     </div>
   );
-}
+};
 
 export default App;
