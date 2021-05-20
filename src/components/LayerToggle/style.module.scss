@@ -1,0 +1,77 @@
+.layer-toggle {
+  * {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  input[type=checkbox] {
+    position: relative;
+    visibility: hidden;
+    cursor: pointer;
+
+    margin: 0;
+    margin-right: 0.5rem;
+
+    &::before {
+      content: " ";
+      position: absolute;
+      visibility: visible;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 100%;
+      width: 100%;
+      background-color: #fff;
+    }
+
+    &.line{
+
+      &.class1[checked]::before {
+        background-color: var(--class1-color);
+      }
+
+      &.class2[checked]::before {
+        background-color: var(--class2-color);
+      }
+
+      &.class3[checked]::before {
+        background-color: var(--class3-color);
+      }
+
+      &.trails[checked]::before {
+        background-color: var(--trails-color);
+      }
+
+      &::before {
+        height: 0.3rem;
+        width: 160%;
+        border-radius: 0.2rem;
+        background-color: #fff;
+      }
+    }
+
+    &.icon{
+
+      &.class1[checked]::before {
+        background-color: var(--class1-color);
+      }
+
+      &[checked]::before {
+        background-color: rgb(76, 146, 250);
+      }
+
+      &.class3[checked]::before {
+        background-color: var(--class3-color);
+      }
+
+      &.trails[checked]::before {
+        background-color: var(--trails-color);
+      }
+
+      &::before {
+        border-radius: 0.2rem;
+        background-color: #fff;
+      }
+    }
+  }
+}

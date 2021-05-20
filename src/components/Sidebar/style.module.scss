@@ -1,0 +1,33 @@
+.sidebar {
+  width: 20%;
+  background-color: #3D3B0A;
+  overflow: auto;
+  max-height: 100vh;
+  min-width: 275px;
+  p {
+    margin: 10px;
+    color: white;
+  }
+}
+
+.logo {
+  text-align: center;
+  margin: 5px 0;
+}
+
+.layers {
+  padding: 10px;
+  
+  label {
+    font-size: 1.1em;
+    color: white;
+    margin: 5px;
+  }
+  h3 {
+    color: white;
+    margin: 5px;
+  }
+  div {
+    margin: 5px 20px;
+  }
+}

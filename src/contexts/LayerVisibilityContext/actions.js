@@ -6,4 +6,4 @@ export const toggleVisibility = (layer) => {
     type: toggleVisibility,
     value: layer
   };
-}
+};
