@@ -1,12 +1,33 @@
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
 import styles from './style.module.scss';
 
+const setOffset = (offset) => document.documentElement.style.setProperty('--tooltip-offset', `${offset}px`);
 
 const ToolTip = ({text, direction, children}) => {
-  return <span className={`${styles['tooltip']} ${styles['tooltip-' + direction]}`}>
-    {children}
-    <span className={styles['tooltip-text']}>{text}</span>
-  </span>;
+  const tooltipRef = useRef();
+  const updateOffset = () => {
+    if (!tooltipRef.current) return;
+    const rect = tooltipRef.current.getBoundingClientRect();
+    const deltaX = Math.floor(Math.min(0, window.innerWidth - rect.right));
+    setOffset(deltaX);
+  };
+  const clearOffset = () => setOffset(0);
+  return (
+    <span
+      className={`${styles['tooltip']} ${styles['tooltip-' + direction]}`}
+      onMouseEnter={updateOffset}
+      onMouseLeave={clearOffset}
+    >
+      {children}
+      <div
+        className={styles['tooltip-text']}
+        ref={tooltipRef}
+      >
+        {text}
+      </div>
+    </span>
+  );
 };
 
 ToolTip.propTypes = {
