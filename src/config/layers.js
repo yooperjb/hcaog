@@ -1,5 +1,15 @@
 import { useMemo } from 'react';
 
+const LAYER_WEIGHTS = {
+  symbol: 1,
+  line: 3,
+};
+
+const LAYER_FOCUS_WEIGHTS = {
+  symbol: LAYER_WEIGHTS.symbol * 1.5,
+  line: LAYER_WEIGHTS.line * 2,
+};
+
 const buildIconLayer = ({ id, icon, paint, layout = {}, layerName}) => ({
   id,
   type: 'symbol',
@@ -7,7 +17,7 @@ const buildIconLayer = ({ id, icon, paint, layout = {}, layerName}) => ({
   'source-layer': 'bike_points-8mbmdl', 
   layout:{
     'icon-image': icon,
-    'icon-size': 1,
+    'icon-size': LAYER_WEIGHTS.symbol,
     'icon-allow-overlap': true,
     'visibility': 'visible',
     'symbol-sort-key': 2,
@@ -31,7 +41,7 @@ const buildRouteLayer = ({ id, paint, layout, layerName}) => ({
     ...layout
   },
   paint: {
-    'line-width': 3,
+    'line-width': LAYER_WEIGHTS.line,
     ...paint,
   },
   filter: ['==', 'type_2021', layerName]
@@ -140,7 +150,6 @@ export const filterVisibleLayers = (
     )
   );
 };
-
 export const applyFocusToLayer = (layer) => {
   switch (layer.type) {
   case 'symbol':
@@ -148,7 +157,7 @@ export const applyFocusToLayer = (layer) => {
       ...layer,
       layout:{
         ...layer.layout,
-        'icon-size': 1.25,
+        'icon-size': LAYER_FOCUS_WEIGHTS.symbol
       },
     };
   case 'line':
@@ -156,7 +165,7 @@ export const applyFocusToLayer = (layer) => {
       ...layer,
       paint: {
         ...layer.paint,
-        'line-width': 6
+        'line-width': LAYER_FOCUS_WEIGHTS.line,
       }
     };
   }
