@@ -2,7 +2,7 @@ import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source } from
 import React, { useState } from 'react';
 import './App.scss';
 import Sidebar from './components/Sidebar';
-import { icons, routes } from './config/layers.js';
+import { applyFocusToLayer, filterVisibleLayers, icons, routes } from './config/layers.js';
 import { clearFocusedLayer, setFocusedLayer, useGlobals } from './contexts/GlobalContext';
 import { useLayerVisibility } from './contexts/LayerVisibilityContext';
 
@@ -53,6 +53,18 @@ const App  = () => {
     setCursorStyle(null);
     dispatchGlobals(clearFocusedLayer());
   };
+
+  const iconLayers = filterVisibleLayers(
+    icons.layers,
+    layerVisibility,
+    globals.focusedLayer
+  );
+  const routeLayers = filterVisibleLayers(
+    routes.layers,
+    layerVisibility,
+    globals.focusedLayer,
+    icons.layers.slice(-1)[0]?.id
+  );
   
   return (
     <div className="container">
@@ -67,46 +79,38 @@ const App  = () => {
         cursorStyle={cursorStyle}
     
       >
-        <Source {...icons.source}>
-          {
-            icons.layers
-              .filter((layer) => layerVisibility[layer.id])
-              .map((layer) => (
-                <Layer
-                  key={layer.id}
-                  {...(globals.focusedLayer === layer.id
-                    ? icons.applyFocusToLayer(layer)
-                    : layer
-                  )}
-                  onHover={getCursor(layer.id)}
-                  onLeave={returnCursor}
-                  onClick={logBikeRoute}
-                />
-              ))
-              
-          }
-        </Source>
-
         <Source {...routes.source} >
           {
-            routes.layers
-              .filter((layer) => layerVisibility[layer.id])
-              .map((layer) => (
-                <Layer
-                  key={layer.id}
-                  {...(globals.focusedLayer === layer.id
-                    ? routes.applyFocusToLayer(layer)
-                    : layer
-                  )}
-                  onClick={logBikePoint}
-                  onHover={getCursor(layer.id)}
-                  onLeave={returnCursor}
-                />
-              ))
+            routeLayers.map((layer) => (
+              <Layer
+                key={layer.id}
+                {...(globals.focusedLayer === layer.id
+                  ? applyFocusToLayer(layer)
+                  : layer
+                )}
+                onClick={logBikePoint}
+                onHover={getCursor(layer.id)}
+                onLeave={returnCursor}
+              />
+            ))
           }
-        
         </Source>
-      
+        <Source {...icons.source}>
+          {
+            iconLayers.map((layer) => (
+              <Layer
+                key={layer.id}
+                {...(globals.focusedLayer === layer.id
+                  ? applyFocusToLayer(layer)
+                  : layer
+                )}
+                onHover={getCursor(layer.id)}
+                onLeave={returnCursor}
+                onClick={logBikeRoute}
+              />
+            ))
+          }
+        </Source>
         {selectedBikePoint && LngLat ? (
           <Popup
             latitude={LngLat.lat}

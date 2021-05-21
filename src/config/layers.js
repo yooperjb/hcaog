@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 const buildIconLayer = ({ id, icon, paint, layout = {}, layerName}) => ({
   id,
   type: 'symbol',
@@ -6,7 +8,9 @@ const buildIconLayer = ({ id, icon, paint, layout = {}, layerName}) => ({
   layout:{
     'icon-image': icon,
     'icon-size': 1,
+    'icon-allow-overlap': true,
     'visibility': 'visible',
+    'symbol-sort-key': 2,
     ...layout
   },
   paint: {
@@ -59,21 +63,9 @@ export const icons = {
     buildIconLayer({
       id: 'tool-station',
       icon: 'hardware-15',
-      paint: {
-        'icon-color': 'black',
-      },
       layerName: 'Tool Station'
     }),
-  ].map((layer, i, layers) => ({ ...layer, before: layers[i - 1]?.id })),
-  applyFocusToLayer(layer) {
-    return { 
-      ...layer,
-      layout:{
-        ...layer.layout,
-        'icon-size': 1.5,
-      },
-    };
-  }
+  ],
 };
 
 export const routes = {
@@ -113,15 +105,59 @@ export const routes = {
       },
       layerName: 'Existing Trail',
     }),
-  ].map((layer, i, layers) => ({ ...layer, before: layers[i - 1]?.id })),
-  applyFocusToLayer(layer) {
+  ],
+};
+
+export const filterVisibleLayers = (
+  layers,
+  layerVisibility,
+  focusedLayerId,
+  baseLayerId
+) => {
+  const visibleLayers = useMemo(
+    () => layers.filter((layer) => layerVisibility[layer.id]),
+    [layers, layerVisibility]
+  );
+  console.log(layerVisibility);
+  const layersOrderedByFocus = useMemo(
+    () => visibleLayers.map((layer, i) => [i, layer])
+      .sort(([ai, a], [bi, b]) => {
+        if (a.id == focusedLayerId) return -1;
+        if (b.id == focusedLayerId) return 1;
+        return ai - bi;
+      })
+      .map(([,layer]) => layer),
+    [visibleLayers, focusedLayerId]
+  );
+  return Array.from(
+    useMemo(
+      () =>  layersOrderedByFocus.map((layer, i, layers) => ({
+        ...layer,
+        before: layers[i - 1]?.id ?? baseLayerId
+      }))
+        .map(layer => (console.log(`${layer.id}, ${layer.before}`), layer)),
+      [layersOrderedByFocus, baseLayerId]
+    )
+  );
+};
+
+export const applyFocusToLayer = (layer) => {
+  switch (layer.type) {
+  case 'symbol':
+    return { 
+      ...layer,
+      layout:{
+        ...layer.layout,
+        'icon-size': 1.25,
+      },
+    };
+  case 'line':
     return { 
       ...layer,
       paint: {
         ...layer.paint,
         'line-width': 6
-      },
-      before: this.layers[this.layers.length - 1].id
+      }
     };
   }
 };
