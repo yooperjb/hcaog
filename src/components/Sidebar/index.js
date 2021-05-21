@@ -5,22 +5,22 @@ import styles from './style.module.scss';
 
 const routeLayers = [
   {
-    id: 'class1',
+    id: 'ClassI',
     name: 'Class I Bike Route',
     description: 'A separated paved path for bicycles and pedestrians.'
   },
   {
-    id: 'class2',
+    id: 'ClassII',
     name: 'Class II Bike Route',
     description: 'A restricted right-of-way for bicycles along the side of a street (typically 5 feet wide). A thick white line separates the auto and bike lanes. Motor vehicles may merge into these lanes to make turns.'
   },
   {
-    id: 'class3',
+    id: 'ClassIII',
     name: 'Class III Bike Route',
     description: 'A travel lane shared by bicycles and motor vehicles designated only by signs or pavement markings. This type of facility mainly informs motorists of preferred cycling routes.'
   },
   {
-    id: 'trails',
+    id: 'Trail',
     name: 'Natural Surface Trails',
     description: 'A dirt or gravel single-track paths that are bicycle compatible.'
   },
@@ -28,15 +28,15 @@ const routeLayers = [
 
 const iconLayers = [
   {
-    id: 'bikeShops',
+    id: 'bike-shops',
     name: 'Bike Shops'
   },
   {
-    id: 'bikeParking',
+    id: 'bike-parking',
     name: 'Bike Parking'
   },
   {
-    id: 'toolStation',
+    id: 'tool-station',
     name: 'Tool Station'
   },
 ];

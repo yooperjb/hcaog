@@ -2,13 +2,12 @@ import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source } from
 import React, { useState } from 'react';
 import './App.scss';
 import Sidebar from './components/Sidebar';
-import { bikeParking, bikePoints, bikeRoutes, bikeShops, class1, class2, class3, toolStation, trails } from './config/layers.js';
+import { icons, routes } from './config/layers.js';
 import { clearFocusedLayer, setFocusedLayer, useGlobals } from './contexts/GlobalContext';
 import { useLayerVisibility } from './contexts/LayerVisibilityContext';
 
 //import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
-const routeLayers = { class1, class2, class3, trails };
-const iconLayers = { bikeShops, bikeParking, toolStation };
+
 const App  = () => {
 
   const [viewport, setViewport] = useState({
@@ -27,7 +26,6 @@ const App  = () => {
   const [globals, dispatchGlobals] = useGlobals();
   const [ layerVisibility ] = useLayerVisibility();
   
-
   const logBikePoint = (event) => {
     //console.log("features", event.features[0].properties);
     setSelectedBikePoint(event.features[0].properties);
@@ -69,46 +67,42 @@ const App  = () => {
         cursorStyle={cursorStyle}
     
       >
-        <Source {...bikeRoutes}>
+        <Source {...icons.source}>
           {
-            Object.keys(routeLayers)
-              .map((layerId) => 
-                layerVisibility[layerId] && (
-                  <Layer
-                    key={layerId}
-                    {...routeLayers[layerId]}
-                    paint={
-                      globals.focusedLayer === layerId
-                        ? {...routeLayers[layerId].paint, 'line-width': 5}
-                        : routeLayers[layerId].paint
-                    }
-                    onHover={getCursor(layerId)}
-                    onLeave={returnCursor}
-                    onClick={logBikeRoute}
-                  />
-                )
-              )
+            icons.layers
+              .filter((layer) => layerVisibility[layer.id])
+              .map((layer) => (
+                <Layer
+                  key={layer.id}
+                  {...(globals.focusedLayer === layer.id
+                    ? icons.applyFocusToLayer(layer)
+                    : layer
+                  )}
+                  onHover={getCursor(layer.id)}
+                  onLeave={returnCursor}
+                  onClick={logBikeRoute}
+                />
+              ))
+              
           }
         </Source>
 
-        <Source {...bikePoints} >
+        <Source {...routes.source} >
           {
-            Object.keys(iconLayers).map((layerId) =>
-              layerVisibility[layerId] && (
+            routes.layers
+              .filter((layer) => layerVisibility[layer.id])
+              .map((layer) => (
                 <Layer
-                  key={layerId}
-                  {...iconLayers[layerId]}
-                  layout={
-                    globals.focusedLayer === layerId
-                      ? {...iconLayers[layerId].layout, 'icon-size': 1.1}
-                      : iconLayers[layerId].layout
-                  }
+                  key={layer.id}
+                  {...(globals.focusedLayer === layer.id
+                    ? routes.applyFocusToLayer(layer)
+                    : layer
+                  )}
                   onClick={logBikePoint}
-                  onHover={getCursor(layerId)}
+                  onHover={getCursor(layer.id)}
                   onLeave={returnCursor}
                 />
-              )
-            )
+              ))
           }
         
         </Source>

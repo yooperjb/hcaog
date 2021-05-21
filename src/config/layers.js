@@ -1,139 +1,129 @@
-// Bike Points Source Data
-export const bikePoints = {
-  id: 'bike-points',
-  type: 'vector',
-  url: 'mapbox://yooperjb.96kntbve',
-};
-  
-// Bike Parking points from Bike Points Data
-export const bikeParking = {
-  id: 'bike-parking', 
+const buildIconLayer = ({ id, icon, paint, layout = {}, layerName}) => ({
+  id,
   type: 'symbol',
   source: 'bike-points',
   'source-layer': 'bike_points-8mbmdl', 
   layout:{
-    'icon-image': 'hcaog-parking-15',
+    'icon-image': icon,
     'icon-size': 1,
     'visibility': 'visible',
-  },
-  paint: {
-    'icon-color': 'black',
-    'icon-opacity': 1,
-  },
-  filter: ['==', 'Type', 'Bicycle Parking']
-};
-  
-// Bicycle Shop points from Bike Points Data
-export const bikeShops = {
-  id: 'bike-shops',
-  type: 'symbol',
-  source: 'bike-points',
-  'source-layer': 'bike_points-8mbmdl', 
-  layout:{
-    'icon-image': 'hcaog-hardware-15',
-    'icon-size': 1,
-    'visibility': 'visible',
-  },
-  paint: {
-    'icon-color': 'black',
-    'icon-opacity': 1,
-  },
-  filter: ['==', 'Type', 'Bicycle Shop']
-};
-  
-// Bicycle tool station points from Bike Points Data
-export const toolStation = {
-  id: 'tool-station',
-  type: 'symbol',
-  source: 'bike-points',
-  'source-layer': 'bike_points-8mbmdl', 
-  layout:{
-    'icon-image': 'hardware-15',
-    'icon-size': 1,
-    'visibility': 'visible',
+    ...layout
   },
   paint: {
     'icon-opacity': 1,
+    ...paint
   },
-  filter: ['==', 'Type', 'Tool Station']
-};
-
-// Bike Route Source Data
-export const bikeRoutes = {
-  id: 'bike-routes',
-  type: 'vector',
-  url: 'mapbox://yooperjb.3kf292c5',
-};
-
-// Class I Bike Routes from Bike Route Data
-export const class1 = {
-  id: 'ClassI', 
+  filter: ['==', 'Type', layerName]
+});
+const buildRouteLayer = ({ id, paint, layout, layerName}) => ({
+  id,
   type: 'line',
   source: 'bike-routes',
   'source-layer': 'bike_routes-2nr3p1', 
-
-  paint: {
-    'line-width': 3,
-    'line-color': '#b50707',
-  },
-  filter: ['==', 'type_2021', 'Existing Class I']
-};
-
-export const class2 = {
-  id: 'ClassII', 
-  type: 'line',
-  source: 'bike-routes',
-  'source-layer': 'bike_routes-2nr3p1', 
-
-  paint: {
-    'line-width': 3,
-    'line-color': 'orange',
-  },
-  filter: ['==', 'type_2021', 'Existing Class II']
-};
-
-export const class3 = {
-  id: 'ClassIII', 
-  type: 'line',
-  source: 'bike-routes',
-  'source-layer': 'bike_routes-2nr3p1', 
-
-  paint: {
-    'line-width': 3,
-    'line-color': '#eded5c',
-  },
-  filter: ['==', 'type_2021', 'Existing Class III']
-};
-
-export const trails = {
-  id: 'Trail', 
-  type: 'line',
-  source: 'bike-routes',
-  'source-layer': 'bike_routes-2nr3p1', 
-
-  paint: {
-    'line-width': 3,
-    'line-color': '#baa77c',
-    'line-dasharray': [1,3],
-    //"line-opacity": 1,
-  },
   layout: {
     'line-cap': 'round',
     'line-join': 'round',
-    // Sorts lines based on this value
     'line-sort-key': 1,
+    ...layout
   },
-  filter: ['==', 'type_2021', 'Existing Trail']
+  paint: {
+    'line-width': 3,
+    ...paint,
+  },
+  filter: ['==', 'type_2021', layerName]
+});
+
+export const icons = {
+  source: {
+    id: 'bike-points',
+    type: 'vector',
+    url: 'mapbox://yooperjb.96kntbve',
+  },
+  layers: [
+    buildIconLayer({
+      id: 'bike-shops',
+      icon: 'hcaog-hardware-15',
+      paint: {
+        'icon-color': 'black',
+      },
+      layerName: 'Bicycle Shop'
+    }),
+    buildIconLayer({
+      id: 'bike-parking',
+      icon: 'hcaog-parking-15',
+      paint: {
+        'icon-color': 'black',
+      },
+      layerName: 'Bicycle Parking'
+    }),
+    buildIconLayer({
+      id: 'tool-station',
+      icon: 'hardware-15',
+      paint: {
+        'icon-color': 'black',
+      },
+      layerName: 'Tool Station'
+    }),
+  ].map((layer, i, layers) => ({ ...layer, before: layers[i - 1]?.id })),
+  applyFocusToLayer(layer) {
+    return { 
+      ...layer,
+      layout:{
+        ...layer.layout,
+        'icon-size': 1.5,
+      },
+    };
+  }
 };
 
-export default {
-  bikePoints,
-  bikeParking,
-  bikeShops,
-  toolStation,
-  bikeRoutes,
-  class1,
-  class2,
-  class3,
-  trail: trails,
+export const routes = {
+  source: {
+    id: 'bike-routes',
+    type: 'vector',
+    url: 'mapbox://yooperjb.3kf292c5',
+  },
+  layers: [
+    buildRouteLayer({
+      id: 'ClassI', 
+      paint: {
+        'line-color': '#b50707',
+      },
+      layerName: 'Existing Class I',
+    }),
+    buildRouteLayer({
+      id: 'ClassII', 
+      paint: {
+        'line-color': 'orange',
+      },
+      layerName: 'Existing Class II',
+    }),
+    buildRouteLayer({
+      id: 'ClassIII', 
+      paint: {
+        'line-color': '#eded5c',
+      },
+      layerName: 'Existing Class III',
+    }),
+    buildRouteLayer({
+      id: 'Trail', 
+      paint: {
+        'line-color': '#baa77c',
+        'line-dasharray': [1,3],
+        //"line-opacity": 1,
+      },
+      layerName: 'Existing Trail',
+    }),
+  ].map((layer, i, layers) => ({ ...layer, before: layers[i - 1]?.id })),
+  applyFocusToLayer(layer) {
+    return { 
+      ...layer,
+      paint: {
+        ...layer.paint,
+        'line-width': 6
+      },
+      before: this.layers[this.layers.length - 1].id
+    };
+  }
 };
+
+export default { icons, routes };

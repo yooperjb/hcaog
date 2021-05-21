@@ -1,10 +1,13 @@
 .sidebar {
-  width: 20%;
+  width: fit-content;
   background-color: #3D3B0A;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: visible;
   max-height: 100vh;
-  min-width: 275px;
+  padding: 10px;
   p {
+    min-width: 275px;
+    max-width: 20vw;
     margin: 10px;
     color: white;
   }
@@ -16,7 +19,6 @@
 }
 
 .layers {
-  padding: 10px;
   
   label {
     font-size: 1.1em;

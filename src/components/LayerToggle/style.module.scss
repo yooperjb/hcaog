@@ -26,19 +26,19 @@
 
     &.line{
 
-      &.class1[checked]::before {
+      &.ClassI[checked]::before {
         background-color: var(--class1-color);
       }
 
-      &.class2[checked]::before {
+      &.ClassII[checked]::before {
         background-color: var(--class2-color);
       }
 
-      &.class3[checked]::before {
+      &.ClassIII[checked]::before {
         background-color: var(--class3-color);
       }
 
-      &.trails[checked]::before {
+      &.Trail[checked]::before {
         background-color: var(--trails-color);
       }
 
@@ -52,20 +52,8 @@
 
     &.icon{
 
-      &.class1[checked]::before {
-        background-color: var(--class1-color);
-      }
-
       &[checked]::before {
         background-color: rgb(76, 146, 250);
-      }
-
-      &.class3[checked]::before {
-        background-color: var(--class3-color);
-      }
-
-      &.trails[checked]::before {
-        background-color: var(--trails-color);
       }
 
       &::before {
