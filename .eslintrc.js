@@ -31,7 +31,8 @@ module.exports = {
     'max-len': [
       'error',
       {
-        'ignoreStrings': true
+        'ignoreStrings': true,
+        'ignoreTemplateLiterals': true
       }
     ],
     'indent': [
