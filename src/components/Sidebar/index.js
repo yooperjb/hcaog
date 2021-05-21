@@ -10,7 +10,7 @@ const Sidebar = () => {
       <div className={styles['logo']}>
         <img src={logo} alt="HCAGO Logo" />
       </div>
-      <div>
+      <div className={styles['summary']}>
         <p>
           Humboldt County offers incredible bike opportunities for
           visitors and locals alike. Find a new way to commute to work,

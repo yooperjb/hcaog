@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import { useRef } from 'react';
 import styles from './style.module.scss';
 
-const setOffset = (offset) => document.documentElement.style.setProperty('--tooltip-offset', `${offset}px`);
+const setOffset = (offset) => offset
+  ? document.documentElement.style.setProperty('--tooltip-offset', `${offset}px`)
+  : document.documentElement.style.removeProperty('--tooltip-offset');
 
 const ToolTip = ({text, direction, children}) => {
   const tooltipRef = useRef();

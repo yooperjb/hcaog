@@ -68,10 +68,9 @@ const App  = () => {
   
   return (
     <div className="container">
-    
       <MapGL
         {...viewport}
-        style={{ width: '100vw', height: '100vh' }}
+        style={{ flexGrow: '1', height: '100%' }}
         mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
         //mapStyle='mapbox://styles/yooperjb/ckn6lzo7i08vu17nvv4tm9i6k'
         accessToken={process.env.REACT_APP_MAPBOX_TOKEN}

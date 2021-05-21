@@ -2,10 +2,9 @@
   width: fit-content;
   background-color: #3D3B0A;
   overflow-y: auto;
-  overflow-x: visible;
-  max-height: 100vh;
+  overflow-x: hidden;
   padding: 10px;
-  p {
+  .summary {
     min-width: 275px;
     max-width: 20vw;
     margin: 10px;
@@ -19,7 +18,6 @@
 }
 
 .layers {
-  
   label {
     font-size: 1.1em;
     color: white;

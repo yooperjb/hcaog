@@ -1,9 +1,11 @@
 .layer-toggle {
+  white-space: nowrap;
   * {
-    cursor: pointer;
     user-select: none;
   }
-
+  label {
+    cursor: pointer;
+  }
   input[type=checkbox] {
     position: relative;
     visibility: hidden;
