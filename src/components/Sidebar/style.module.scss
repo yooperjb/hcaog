@@ -3,10 +3,10 @@
   background-color: #3D3B0A;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 10px;
+  padding: 1rem;
   .summary {
-    min-width: 275px;
-    max-width: 20vw;
+    min-width: 15rem;
+    max-width: 15vw;
     margin: 10px;
     color: white;
   }
@@ -14,20 +14,12 @@
 
 .logo {
   text-align: center;
-  margin: 5px 0;
+  margin: 0.4rem 0;
 }
 
 .layers {
-  label {
-    font-size: 1.1em;
+  .layers-header {
     color: white;
-    margin: 5px;
-  }
-  h3 {
-    color: white;
-    margin: 5px;
-  }
-  div {
-    margin: 5px 20px;
+    margin: 0.6rem;
   }
 }

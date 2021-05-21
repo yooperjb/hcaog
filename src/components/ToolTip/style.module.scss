@@ -1,6 +1,6 @@
 :root {
   --tooltip-color: #000;
-  --tooltip-offset: 0px;
+  --tooltip-offset: 0;
 }
 .tooltip {
   position: relative;
@@ -17,7 +17,7 @@
     background-color: var(--tooltip-color);
     color: #fff;
     text-align: center;
-    border-radius: 6px;
+    border-radius: 0.4rem;
     margin: 0;
     padding: 0.8rem 0.5rem;
     z-index: 5;

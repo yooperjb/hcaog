@@ -23,7 +23,7 @@ const Sidebar = () => {
       </div>
 
       <div className={styles['layers']}>
-        <h3>Existing Bike Routes</h3>
+        <h3 className={styles['layers-header']}>Existing Bike Routes</h3>
         {
           Object.entries(routes.details)
             .map(([layerId, details]) => (
@@ -46,9 +46,7 @@ const Sidebar = () => {
               />
             ))
         }
-      </div>
-      <div className={styles['layers']}>
-        <h3>Connector Routes</h3>
+        <h3 className={styles['layers-header']}>Connector Routes</h3>
         {
           Object.entries(connectors.details)
             .map(([layerId, details]) => (
