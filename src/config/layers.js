@@ -128,7 +128,6 @@ export const filterVisibleLayers = (
     () => layers.filter((layer) => layerVisibility[layer.id]),
     [layers, layerVisibility]
   );
-  console.log(layerVisibility);
   const layersOrderedByFocus = useMemo(
     () => visibleLayers.map((layer, i) => [i, layer])
       .sort(([ai, a], [bi, b]) => {
@@ -144,8 +143,7 @@ export const filterVisibleLayers = (
       () =>  layersOrderedByFocus.map((layer, i, layers) => ({
         ...layer,
         before: layers[i - 1]?.id ?? baseLayerId
-      }))
-        .map(layer => (console.log(`${layer.id}, ${layer.before}`), layer)),
+      })),
       [layersOrderedByFocus, baseLayerId]
     )
   );
