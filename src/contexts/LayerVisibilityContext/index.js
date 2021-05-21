@@ -3,13 +3,13 @@ import { createContext, useContext, useReducer } from 'react';
 import reducer from './reducer';
 
 const initialState = {
-  class1: true,
-  class2: true,
-  class3: true,
-  trails: true,
-  bikeParking: true,
-  bikeShops: true,
-  toolStation: true
+  ClassI: true,
+  ClassII: true,
+  ClassIII: true,
+  Trail: true,
+  'bike-parking': true,
+  'bike-shops': true,
+  'tool-station': true
 };
 
 const LayerVisibilityContext = createContext(initialState);
