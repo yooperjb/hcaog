@@ -9,7 +9,7 @@
   padding: 0;
   color: var(--tooltip-color);
   .tooltip-text {
-    cursor: default;
+    white-space: normal;
     visibility: hidden;
     position: absolute;
     width: max-content;
