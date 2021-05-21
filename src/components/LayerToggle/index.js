@@ -6,7 +6,7 @@ import styles from './style.module.scss';
 
 
 
-const LayerToggle = ({ layer: { id: layerId, name, description }, type }) => {
+const LayerToggle = ({ layerId, details: { name, description }, type }) => {
   const [, dispatchGlobals] = useGlobals();
   const [layerVisibility, dispatchVisibility] = useLayerVisibility();
 
@@ -36,8 +36,8 @@ const LayerToggle = ({ layer: { id: layerId, name, description }, type }) => {
 };
 
 LayerToggle.propTypes = {
-  layer: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+  layerId: PropTypes.string.isRequired,
+  details: PropTypes.shape({
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
   }).isRequired,
