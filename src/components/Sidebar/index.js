@@ -1,69 +1,16 @@
 import React from 'react';
+import { connectors, icons, routes } from '../../config/layers';
 import logo from '../../images/logo.png';
 import LayerToggle from '../LayerToggle';
 import styles from './style.module.scss';
 
-const routeLayers = [
-  {
-    id: 'ClassI',
-    name: 'Class I Bike Route',
-    description: 'A separated paved path for bicycles and pedestrians.'
-  },
-  {
-    id: 'ClassII',
-    name: 'Class II Bike Route',
-    description: 'A restricted right-of-way for bicycles along the side of a street (typically 5 feet wide). A thick white line separates the auto and bike lanes. Motor vehicles may merge into these lanes to make turns.'
-  },
-  {
-    id: 'ClassIII',
-    name: 'Class III Bike Route',
-    description: 'A travel lane shared by bicycles and motor vehicles designated only by signs or pavement markings. This type of facility mainly informs motorists of preferred cycling routes.'
-  },
-  {
-    id: 'Trail',
-    name: 'Natural Surface Trails',
-    description: 'A dirt or gravel single-track paths that are bicycle compatible.'
-  },
-];
-
-const iconLayers = [
-  {
-    id: 'bike-shops',
-    name: 'Bike Shops'
-  },
-  {
-    id: 'bike-parking',
-    name: 'Bike Parking'
-  },
-  {
-    id: 'tool-station',
-    name: 'Tool Station'
-  },
-];
-
-const connectorLayers = [
-  {
-    id: 'familyfriendly',
-    name: 'Family Friendly',
-  },
-  {
-    id: 'intermediate',
-    name: 'Intermediate',
-  },
-  {
-    id: 'advanced',
-    name: 'Advanced',
-  },
-];
-
 const Sidebar = () => {
-
   return (
     <div className={styles['sidebar']}>
       <div className={styles['logo']}>
         <img src={logo} alt="HCAGO Logo" />
       </div>
-      <div>
+      <div className={styles['summary']}>
         <p>
           Humboldt County offers incredible bike opportunities for
           visitors and locals alike. Find a new way to commute to work,
@@ -77,14 +24,42 @@ const Sidebar = () => {
 
       <div className={styles['layers']}>
         <h3>Existing Bike Routes</h3>
-        {routeLayers.map(layer => <LayerToggle key={layer.id} layer={layer} type="line" />)}
-        {iconLayers.map(layer => <LayerToggle key={layer.id} layer={layer} type="icon" />)}
+        {
+          Object.entries(routes.details)
+            .map(([layerId, details]) => (
+              <LayerToggle
+                key={layerId}
+                layerId={layerId}
+                details={details}
+                type="line"
+              />
+            ))
+        }
+        {
+          Object.entries(icons.details)
+            .map(([layerId, details]) => (
+              <LayerToggle
+                key={layerId}
+                layerId={layerId}
+                details={details}
+                type="icon"
+              />
+            ))
+        }
       </div>
       <div className={styles['layers']}>
         <h3>Connector Routes</h3>
-        {connectorLayers.map(layer => (
-          <LayerToggle key={layer.id} layer={layer} type="icon" />
-        ))}
+        {
+          Object.entries(connectors.details)
+            .map(([layerId, details]) => (
+              <LayerToggle
+                key={layerId}
+                layerId={layerId}
+                details={details}
+                type="icon"
+              />
+            ))
+        }
       </div>
 
     </div>

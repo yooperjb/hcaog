@@ -76,6 +76,17 @@ export const icons = {
       layerName: 'Tool Station'
     }),
   ],
+  details: {
+    'bike-shops': {
+      name: 'Bike Shops'
+    },
+    'bike-parking': {
+      name: 'Bike Parking'
+    },
+    'tool-station': {
+      name: 'Tool Station'
+    },
+  }
 };
 
 export const routes = {
@@ -116,6 +127,38 @@ export const routes = {
       layerName: 'Existing Trail',
     }),
   ],
+  details: {
+    'ClassI': {
+      name: 'Class I Bike Route',
+      description: 'A separated paved path for bicycles and pedestrians.'
+    },
+    'ClassII': {
+      name: 'Class II Bike Route',
+      description: 'A restricted right-of-way for bicycles along the side of a street (typically 5 feet wide). A thick white line separates the auto and bike lanes. Motor vehicles may merge into these lanes to make turns.'
+    },
+    'ClassIII': {
+      name: 'Class III Bike Route',
+      description: 'A travel lane shared by bicycles and motor vehicles designated only by signs or pavement markings. This type of facility mainly informs motorists of preferred cycling routes.'
+    },
+    'Trail': {
+      name: 'Natural Surface Trails',
+      description: 'A dirt or gravel single-track paths that are bicycle compatible.'
+    },
+  }
+};
+
+export const connectors = {
+  details: {
+    'familyfriendly': {
+      name: 'Family Friendly',
+    },
+    'intermediate': {
+      name: 'Intermediate',
+    },
+    'advanced': {
+      name: 'Advanced',
+    },
+  }
 };
 
 export const filterVisibleLayers = (
