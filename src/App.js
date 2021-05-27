@@ -1,6 +1,6 @@
 import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source } from '@urbica/react-map-gl';
 import React, { useState } from 'react';
-import './App.scss';
+import './App.css';
 import Sidebar from './components/Sidebar';
 import { applyFocusToLayer, filterVisibleLayers, icons, routes } from './config/layers.js';
 import { clearFocusedLayer, setFocusedLayer, useGlobals } from './contexts/GlobalContext';

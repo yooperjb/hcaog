@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { clearFocusedLayer, setFocusedLayer, useGlobals } from '../../contexts/GlobalContext';
 import { toggleVisibility, useLayerVisibility } from '../../contexts/LayerVisibilityContext';
 import ToolTip from '../ToolTip';
-import styles from './style.module.scss';
+import styles from './style.module.css';
 
 
 

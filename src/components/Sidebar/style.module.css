@@ -4,12 +4,12 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding: 1rem;
-  .summary {
-    min-width: 15rem;
-    max-width: 15vw;
-    margin: 10px;
-    color: white;
-  }
+}
+.sidebar .summary {
+  min-width: 15rem;
+  max-width: 15vw;
+  margin: 10px;
+  color: white;
 }
 
 .logo {
@@ -17,9 +17,7 @@
   margin: 0.4rem 0;
 }
 
-.layers {
-  .layers-header {
-    color: white;
-    margin: 0.6rem;
-  }
+.layers .layers-header {
+  color: white;
+  margin: 0.6rem;
 }
