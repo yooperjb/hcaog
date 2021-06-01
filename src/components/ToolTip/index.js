@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
-import styles from './style.module.scss';
+import styles from './style.module.css';
 
 const setOffset = (offset) => offset
   ? document.documentElement.style.setProperty('--tooltip-offset', `${offset}px`)

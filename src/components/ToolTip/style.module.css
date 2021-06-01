@@ -1,0 +1,49 @@
+:root {
+  --tooltip-color: #000;
+  --tooltip-offset: 0px;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  color: var(--tooltip-color);
+}
+.tooltip .tooltip-text {
+  white-space: normal;
+  visibility: hidden;
+  position: absolute;
+  width: max-content;
+  max-width: min(15rem, 20vw);
+  background-color: var(--tooltip-color);
+  color: #fff;
+  text-align: center;
+  border-radius: 0.4rem;
+  margin: 0;
+  padding: 0.8rem 0.5rem;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity .6s;
+}
+.tooltip .tooltip-text::after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  border-color: var(--tooltip-color) transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip-text:not(:hover), .tooltip.visible .tooltip-text:not(:hover) {
+  visibility: visible;
+  opacity: 1;
+}
+.tooltip-top .tooltip-text {
+  top: 50%;
+  left: calc(50% + var(--tooltip-offset));
+  transform: translate(-50%, calc(-100% - 0.8rem));
+}
+.tooltip-top .tooltip-text::after {
+  top: 100%;
+  left: calc(50% - var(--tooltip-offset));
+  margin-left: -5px;
+  border-width: 5px;
+}

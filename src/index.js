@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { GlobalProvider } from './contexts/GlobalContext';
 import { LayerVisibilityContextProvider } from './contexts/LayerVisibilityContext';
-import './index.scss';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

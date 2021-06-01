@@ -2,7 +2,7 @@ import React from 'react';
 import { connectors, icons, routes } from '../../config/layers';
 import logo from '../../images/logo.png';
 import LayerToggle from '../LayerToggle';
-import styles from './style.module.scss';
+import styles from './style.module.css';
 
 const Sidebar = () => {
   return (
