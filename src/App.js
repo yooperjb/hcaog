@@ -110,6 +110,7 @@ const App  = () => {
             ))
           }
         </Source>
+        
         {selectedBikePoint && LngLat ? (
           <Popup
             latitude={LngLat.lat}
