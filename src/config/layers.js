@@ -1,58 +1,85 @@
-import { useMemo } from 'react';
+import { SOURCES, SOURCE_LAYERS } from './sources';
 
-const LAYER_WEIGHTS = {
+export const LAYER_WEIGHTS = {
   symbol: 1,
   line: 3,
 };
 
-const LAYER_FOCUS_WEIGHTS = {
-  symbol: LAYER_WEIGHTS.symbol * 1.5,
-  line: LAYER_WEIGHTS.line * 2,
+const makeLayerBuilder = ({
+  type,
+  sourceId,
+  sourceLayerId,
+  layout: baseLayout,
+  paint: basePaint,
+  filter
+}) =>  {
+  return ({ id, layerName, layout, paint }) => ({
+    id,
+    type,
+    source: sourceId,
+    'source-layer': SOURCE_LAYERS[sourceLayerId], 
+    layout: {
+      ...baseLayout,
+      ...layout
+    },
+    paint: {
+      ...basePaint,
+      ...paint
+    },
+    filter: filter(layerName)
+  });
 };
 
-const buildIconLayer = ({ id, icon, paint, layout = {}, layerName}) => ({
-  id,
+const makeSymbolLayerBuilder = ({
+  sourceId,
+  sourceLayerId,
+  filter
+}) => makeLayerBuilder({
   type: 'symbol',
-  source: 'bike-points',
-  'source-layer': 'bike_points-8mbmdl', 
-  layout:{
-    'icon-image': icon,
+  sourceId,
+  sourceLayerId,
+  layout: {
     'icon-size': LAYER_WEIGHTS.symbol,
     'icon-allow-overlap': true,
-    'visibility': 'visible',
-    'symbol-sort-key': 2,
-    ...layout
+    'visibility': 'visible'
   },
   paint: {
     'icon-opacity': 1,
-    ...paint
   },
-  filter: ['==', 'Type', layerName]
+  filter
 });
-const buildRouteLayer = ({ id, paint, layout, layerName}) => ({
-  id,
+const makeLineLayerBuilder = ({
+  sourceId,
+  sourceLayerId,
+  filter
+}) => makeLayerBuilder({
   type: 'line',
-  source: 'bike-routes',
-  'source-layer': 'bike_routes-2nr3p1', 
+  sourceId,
+  sourceLayerId,
   layout: {
     'line-cap': 'round',
     'line-join': 'round',
-    'line-sort-key': 1,
-    ...layout
+    'visibility': 'visible'
   },
   paint: {
     'line-width': LAYER_WEIGHTS.line,
-    ...paint,
   },
-  filter: ['==', 'type_2021', layerName]
+  filter
 });
 
-export const icons = {
-  source: {
-    id: 'bike-points',
-    type: 'vector',
-    url: 'mapbox://yooperjb.96kntbve',
-  },
+const buildIconLayer = makeSymbolLayerBuilder({
+  sourceId: 'bike-points',
+  sourceLayerId: 'bike-points',
+  filter: (layerName) => ['==', 'Type', layerName]
+});
+const buildRouteLayer = makeLineLayerBuilder({
+  sourceId: 'bike-routes',
+  sourceLayerId: 'bike-routes',
+  filter: (layerName) => ['==', 'type_2021', layerName]
+});
+
+export const ICONS = {
+  source: SOURCES.get('bike-points'),
   layers: [
     buildIconLayer({
       id: 'bike-shops',
@@ -89,12 +116,8 @@ export const icons = {
   }
 };
 
-export const routes = {
-  source: {
-    id: 'bike-routes',
-    type: 'vector',
-    url: 'mapbox://yooperjb.3kf292c5',
-  },
+export const ROUTES = {
+  source: SOURCES.get('bike-routes'),
   layers: [
     buildRouteLayer({
       id: 'ClassI', 
@@ -161,55 +184,6 @@ export const connectors = {
   }
 };
 
-export const filterVisibleLayers = (
-  layers,
-  layerVisibility,
-  focusedLayerId,
-  baseLayerId
-) => {
-  const visibleLayers = useMemo(
-    () => layers.filter((layer) => layerVisibility[layer.id]),
-    [layers, layerVisibility]
-  );
-  const layersOrderedByFocus = useMemo(
-    () => visibleLayers.map((layer, i) => [i, layer])
-      .sort(([ai, a], [bi, b]) => {
-        if (a.id == focusedLayerId) return -1;
-        if (b.id == focusedLayerId) return 1;
-        return ai - bi;
-      })
-      .map(([,layer]) => layer),
-    [visibleLayers, focusedLayerId]
-  );
-  return Array.from(
-    useMemo(
-      () =>  layersOrderedByFocus.map((layer, i, layers) => ({
-        ...layer,
-        before: layers[i - 1]?.id ?? baseLayerId
-      })),
-      [layersOrderedByFocus, baseLayerId]
-    )
-  );
-};
-export const applyFocusToLayer = (layer) => {
-  switch (layer.type) {
-  case 'symbol':
-    return { 
-      ...layer,
-      layout:{
-        ...layer.layout,
-        'icon-size': LAYER_FOCUS_WEIGHTS.symbol
-      },
-    };
-  case 'line':
-    return { 
-      ...layer,
-      paint: {
-        ...layer.paint,
-        'line-width': LAYER_FOCUS_WEIGHTS.line,
-      }
-    };
-  }
-};
 
-export default { icons, routes };
+
+export default { icons: ICONS, routes: ROUTES };
