@@ -28,19 +28,13 @@ const App  = () => {
   const [ layerVisibility ] = useLayerVisibility();
   
   const logBikePoint = (event) => {
-    //console.log("features", event.features[0].properties);
     setSelectedBikePoint(event.features[0].properties);
-    //console.log("lngLat", event.lngLat);
     setLngLat(event.lngLat);
-    //console.log("LngLat:", LngLat);
   };
 
   const logBikeRoute = (event) => {
     setSelectedBikeRoute(event.features[0].properties);
-    //console.log("Bike Route", selectedBikeRoute);
     setLngLat(event.lngLat);
-    //console.log("LngLat:", event.lngLat);
-    //console.log("LngLat:", LngLat);
   };
 
   // set cursor to pointer on feature hover
@@ -111,6 +105,7 @@ const App  = () => {
             ))
           }
         </Source>
+        
         {selectedBikePoint && LngLat ? (
           <Popup
             latitude={LngLat.lat}
