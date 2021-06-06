@@ -1,10 +1,11 @@
 import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source } from '@urbica/react-map-gl';
 import React, { useState } from 'react';
-import './App.scss';
+import './App.css';
 import Sidebar from './components/Sidebar';
-import { applyFocusToLayer, filterVisibleLayers, icons, routes } from './config/layers.js';
-import { clearFocusedLayer, setFocusedLayer, useGlobals } from './contexts/GlobalContext';
+import { ICONS, ROUTES } from './config/layers.js';
+import { useGlobals } from './contexts/GlobalContext';
 import { useLayerVisibility } from './contexts/LayerVisibilityContext';
+import { applyFocusStyleToLayer, filterVisibleLayers } from './util/layers';
 
 //import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
 
@@ -23,47 +24,41 @@ const App  = () => {
   // useState for Cursor style on hover
   const [cursorStyle, setCursorStyle] = useState(null);
   
-  const [globals, dispatchGlobals] = useGlobals();
+  const [globals] = useGlobals();
   const [ layerVisibility ] = useLayerVisibility();
   
   const logBikePoint = (event) => {
-    //console.log("features", event.features[0].properties);
     setSelectedBikePoint(event.features[0].properties);
-    //console.log("lngLat", event.lngLat);
     setLngLat(event.lngLat);
-    //console.log("LngLat:", LngLat);
   };
 
   const logBikeRoute = (event) => {
     setSelectedBikeRoute(event.features[0].properties);
-    //console.log("Bike Route", selectedBikeRoute);
     setLngLat(event.lngLat);
-    //console.log("LngLat:", event.lngLat);
-    //console.log("LngLat:", LngLat);
   };
 
   // set cursor to pointer on feature hover
-  const getCursor = (layer) => () => {
+  const getCursor = () => () => {
     setCursorStyle('pointer');
-    dispatchGlobals(setFocusedLayer(layer));
+    //dispatchGlobals(setFocusedLayer(layer));
   };
 
   // set cursor to default on feature leave
   const returnCursor = () => {
     setCursorStyle(null);
-    dispatchGlobals(clearFocusedLayer());
+    //dispatchGlobals(clearFocusedLayer());
   };
 
   const iconLayers = filterVisibleLayers(
-    icons.layers,
+    ICONS.layers,
     layerVisibility,
     globals.focusedLayer
   );
   const routeLayers = filterVisibleLayers(
-    routes.layers,
+    ROUTES.layers,
     layerVisibility,
     globals.focusedLayer,
-    icons.layers.slice(-1)[0]?.id
+    ICONS.layers.slice(-1)[0]?.id
   );
   
   return (
@@ -78,13 +73,13 @@ const App  = () => {
         cursorStyle={cursorStyle}
     
       >
-        <Source {...routes.source} >
+        <Source {...ROUTES.source} >
           {
             routeLayers.map((layer) => (
               <Layer
                 key={layer.id}
                 {...(globals.focusedLayer === layer.id
-                  ? applyFocusToLayer(layer)
+                  ? applyFocusStyleToLayer(layer)
                   : layer
                 )}
                 onClick={logBikePoint}
@@ -94,13 +89,13 @@ const App  = () => {
             ))
           }
         </Source>
-        <Source {...icons.source}>
+        <Source {...ICONS.source}>
           {
             iconLayers.map((layer) => (
               <Layer
                 key={layer.id}
                 {...(globals.focusedLayer === layer.id
-                  ? applyFocusToLayer(layer)
+                  ? applyFocusStyleToLayer(layer)
                   : layer
                 )}
                 onHover={getCursor(layer.id)}
@@ -110,6 +105,7 @@ const App  = () => {
             ))
           }
         </Source>
+        
         {selectedBikePoint && LngLat ? (
           <Popup
             latitude={LngLat.lat}

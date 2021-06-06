@@ -1,8 +1,8 @@
 import React from 'react';
-import { connectors, icons, routes } from '../../config/layers';
+import { connectors, ICONS, ROUTES } from '../../config/layers';
 import logo from '../../images/logo.png';
 import LayerToggle from '../LayerToggle';
-import styles from './style.module.scss';
+import styles from './style.module.css';
 
 const Sidebar = () => {
   return (
@@ -25,7 +25,7 @@ const Sidebar = () => {
       <div className={styles['layers']}>
         <h3 className={styles['layers-header']}>Existing Bike Routes</h3>
         {
-          Object.entries(routes.details)
+          Object.entries(ROUTES.details)
             .map(([layerId, details]) => (
               <LayerToggle
                 key={layerId}
@@ -36,7 +36,7 @@ const Sidebar = () => {
             ))
         }
         {
-          Object.entries(icons.details)
+          Object.entries(ICONS.details)
             .map(([layerId, details]) => (
               <LayerToggle
                 key={layerId}
