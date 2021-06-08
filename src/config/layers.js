@@ -81,28 +81,28 @@ const buildRouteLayer = makeLineLayerBuilder({
 export const ICONS = {
   source: SOURCES.get('bike-points'),
   layers: [
-    buildIconLayer({
+    {
       id: 'bike-shops',
       icon: 'hcaog-hardware-15',
       paint: {
         'icon-color': 'black',
       },
       layerName: 'Bicycle Shop'
-    }),
-    buildIconLayer({
+    },
+    {
       id: 'bike-parking',
       icon: 'hcaog-parking-15',
       paint: {
         'icon-color': 'black',
       },
       layerName: 'Bicycle Parking'
-    }),
-    buildIconLayer({
+    },
+    {
       id: 'tool-station',
       icon: 'hardware-15',
       layerName: 'Tool Station'
-    }),
-  ],
+    },
+  ].map(buildIconLayer),
   details: {
     'bike-shops': {
       name: 'Bike Shops'
@@ -119,28 +119,28 @@ export const ICONS = {
 export const ROUTES = {
   source: SOURCES.get('bike-routes'),
   layers: [
-    buildRouteLayer({
+    {
       id: 'ClassI', 
       paint: {
         'line-color': '#b50707',
       },
       layerName: 'Existing Class I',
-    }),
-    buildRouteLayer({
+    },
+    {
       id: 'ClassII', 
       paint: {
         'line-color': 'orange',
       },
       layerName: 'Existing Class II',
-    }),
-    buildRouteLayer({
+    },
+    {
       id: 'ClassIII', 
       paint: {
         'line-color': '#eded5c',
       },
       layerName: 'Existing Class III',
-    }),
-    buildRouteLayer({
+    },
+    {
       id: 'Trail', 
       paint: {
         'line-color': '#baa77c',
@@ -148,8 +148,8 @@ export const ROUTES = {
         //"line-opacity": 1,
       },
       layerName: 'Existing Trail',
-    }),
-  ],
+    },
+  ].map(buildRouteLayer),
   details: {
     'ClassI': {
       name: 'Class I Bike Route',
