@@ -63,6 +63,7 @@ const App  = () => {
   );
   console.log('iconlayers', iconLayers);
   //console.log('iconsource', ICONS.source);
+  // console.log('icons',ICONS);
   
   const routeLayers = filterVisibleLayers(
     ROUTES.layers,
@@ -77,7 +78,7 @@ const App  = () => {
         {...viewport}
         style={{ flexGrow: '1', height: '100%' }}
         mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
-        //mapStyle='mapbox://styles/yooperjb/ckn6lzo7i08vu17nvv4tm9i6k'
+        // mapStyle='mapbox://styles/yooperjb/ckn6lzo7i08vu17nvv4tm9i6k'
         accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         onViewportChange={setViewport}
         cursorStyle={cursorStyle}
@@ -117,6 +118,15 @@ const App  = () => {
             ))
           }
         </Source>
+        
+        {/* Testing icon layers */}
+        {/* <Source {...ICONS.source}>
+          <Layer
+            {...ICONS.layers[0]}>
+
+          </Layer>
+
+        </Source> */}
         {
           selectedBikePoint && LngLat
             ? (

@@ -1,8 +1,9 @@
 import { SOURCES, SOURCE_LAYERS } from './sources';
 
+// Set default symbol and line size
 export const LAYER_WEIGHTS = {
   symbol: 1,
-  line: 3,
+  line: 2,
 };
 
 const makeLayerBuilder = ({
@@ -26,8 +27,9 @@ const makeLayerBuilder = ({
       ...basePaint,
       ...paint
     },
-    filter: filter(layerName)
-  });
+    filter: filter(layerName),
+  }
+  );
 };
 
 const makeSymbolLayerBuilder = ({
@@ -39,15 +41,18 @@ const makeSymbolLayerBuilder = ({
   sourceId,
   sourceLayerId,
   layout: {
+    //icon: 'bicycle-11',
     'icon-size': LAYER_WEIGHTS.symbol,
-    'icon-allow-overlap': true,
-    'visibility': 'visible'
+    'icon-allow-overlap': false,
+    'visibility': 'visible',
+    
   },
   paint: {
-    'icon-opacity': 1,
+    // 'icon-opacity': 1,
   },
   filter
 });
+
 const makeLineLayerBuilder = ({
   sourceId,
   sourceLayerId,
@@ -83,7 +88,8 @@ export const ICONS = {
   layers: [
     {
       id: 'bike-shops',
-      icon: 'hcaog-hardware-15',
+      layout:{
+        'icon-image': 'hcaog-hardware-15'},
       paint: {
         'icon-color': 'black',
       },
@@ -91,7 +97,9 @@ export const ICONS = {
     },
     {
       id: 'bike-parking',
-      icon: 'hcaog-parking-15',
+      layout:{
+        'icon-image': 'hcaog-parking-15'
+      },
       paint: {
         'icon-color': 'black',
       },
@@ -99,7 +107,9 @@ export const ICONS = {
     },
     {
       id: 'tool-station',
-      icon: 'hardware-15',
+      layout:{
+        'icon-image': 'hardware-15'
+      },
       layerName: 'Tool Station'
     },
   ].map(buildIconLayer),
