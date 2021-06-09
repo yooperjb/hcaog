@@ -17,7 +17,7 @@ const App  = () => {
     zoom: 8,
   });
 
-  // useState for Popups and 
+  // useState for Popups 
   const [selectedBikePoint, setSelectedBikePoint] = useState(null);
   const [selectedBikeRoute, setSelectedBikeRoute] = useState(null);
   const [LngLat, setLngLat] = useState(null);
@@ -39,10 +39,9 @@ const App  = () => {
   // Set bike route info to state for popup
   const logBikeRoute = (event) => {
     setSelectedBikeRoute(event.features[0].properties);
-    //console.log("Bike Route", selectedBikeRoute);
+    console.log('Bike Route', selectedBikeRoute);
     setLngLat(event.lngLat);
     //console.log("LngLat:", event.lngLat);
-    //console.log("LngLat:", LngLat);
   };
 
   // set cursor to pointer on feature hover
@@ -51,7 +50,7 @@ const App  = () => {
     //dispatchGlobals(setFocusedLayer(layer));
   };
 
-  // set cursor to default on feature leave
+  // set cursor to back to default on feature leave
   const returnCursor = () => {
     setCursorStyle(null);
     //dispatchGlobals(clearFocusedLayer());
@@ -62,7 +61,9 @@ const App  = () => {
     layerVisibility,
     globals.focusedLayer
   );
-  console.log(iconLayers);
+  console.log('iconlayers', iconLayers);
+  //console.log('iconsource', ICONS.source);
+  
   const routeLayers = filterVisibleLayers(
     ROUTES.layers,
     layerVisibility,
@@ -90,8 +91,8 @@ const App  = () => {
                   ? applyFocusStyleToLayer(layer)
                   : layer
                 )}
-                onClick={logBikeRoute}
                 onHover={getCursor(layer.id)}
+                onClick={logBikeRoute}
                 onLeave={returnCursor}
               />
             ))
@@ -109,8 +110,9 @@ const App  = () => {
                   )
                 }
                 onHover={getCursor(layer.id)}
-                onLeave={returnCursor}
                 onClick={logBikePoint}
+                onLeave={returnCursor}
+                
               />
             ))
           }
@@ -154,7 +156,7 @@ const App  = () => {
                 <div>
                   <h3>{selectedBikeRoute.type_2021}</h3>
                   <p>{selectedBikeRoute.Name}</p>
-                  <p>Bike Allowed: {selectedBikeRoute.Bikes_Allowed}</p>
+                  <p>Bikes Allowed: {selectedBikeRoute.Bikes_Allo}</p>
                 </div>
               </Popup>
             )
