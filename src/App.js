@@ -27,14 +27,17 @@ const App  = () => {
   const [globals] = useGlobals();
   const [ layerVisibility ] = useLayerVisibility();
   
+  // Set bike point info to state for popup
   const logBikePoint = (event) => {
     setSelectedBikePoint(event.features[0].properties);
     setLngLat(event.lngLat);
   };
 
+  // Set bike route info to state for popup
   const logBikeRoute = (event) => {
     setSelectedBikeRoute(event.features[0].properties);
     setLngLat(event.lngLat);
+    //console.log('bike route', selectedBikeRoute);
   };
 
   // set cursor to pointer on feature hover
@@ -54,6 +57,7 @@ const App  = () => {
     layerVisibility,
     globals.focusedLayer
   );
+
   const routeLayers = filterVisibleLayers(
     ROUTES.layers,
     layerVisibility,
@@ -82,7 +86,7 @@ const App  = () => {
                   ? applyFocusStyleToLayer(layer)
                   : layer
                 )}
-                onClick={logBikePoint}
+                onClick={logBikeRoute}
                 onHover={getCursor(layer.id)}
                 onLeave={returnCursor}
               />
@@ -100,7 +104,7 @@ const App  = () => {
                 )}
                 onHover={getCursor(layer.id)}
                 onLeave={returnCursor}
-                onClick={logBikeRoute}
+                onClick={logBikePoint}
               />
             ))
           }
