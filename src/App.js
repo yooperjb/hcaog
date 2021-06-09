@@ -23,18 +23,24 @@ const App  = () => {
   const [LngLat, setLngLat] = useState(null);
   // useState for Cursor style on hover
   const [cursorStyle, setCursorStyle] = useState(null);
-  
+
   const [globals] = useGlobals();
   const [ layerVisibility ] = useLayerVisibility();
   
   const logBikePoint = (event) => {
+    //console.log("features", event.features[0].properties);
     setSelectedBikePoint(event.features[0].properties);
+    //console.log("lngLat", event.lngLat);
     setLngLat(event.lngLat);
+    //console.log("LngLat:", LngLat);
   };
 
   const logBikeRoute = (event) => {
     setSelectedBikeRoute(event.features[0].properties);
+    //console.log("Bike Route", selectedBikeRoute);
     setLngLat(event.lngLat);
+    //console.log("LngLat:", event.lngLat);
+    //console.log("LngLat:", LngLat);
   };
 
   // set cursor to pointer on feature hover
@@ -54,13 +60,14 @@ const App  = () => {
     layerVisibility,
     globals.focusedLayer
   );
+  console.log(iconLayers);
   const routeLayers = filterVisibleLayers(
     ROUTES.layers,
     layerVisibility,
     globals.focusedLayer,
     ICONS.layers.slice(-1)[0]?.id
   );
-  
+
   return (
     <div className="container">
       <MapGL
@@ -71,17 +78,18 @@ const App  = () => {
         accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         onViewportChange={setViewport}
         cursorStyle={cursorStyle}
-    
       >
         <Source {...ROUTES.source} >
           {
             routeLayers.map((layer) => (
               <Layer
                 key={layer.id}
-                {...(globals.focusedLayer === layer.id
-                  ? applyFocusStyleToLayer(layer)
-                  : layer
-                )}
+                {
+                  ...(globals.focusedLayer === layer.id
+                    ? applyFocusStyleToLayer(layer)
+                    : layer
+                  )
+                }
                 onClick={logBikePoint}
                 onHover={getCursor(layer.id)}
                 onLeave={returnCursor}
@@ -94,10 +102,12 @@ const App  = () => {
             iconLayers.map((layer) => (
               <Layer
                 key={layer.id}
-                {...(globals.focusedLayer === layer.id
-                  ? applyFocusStyleToLayer(layer)
-                  : layer
-                )}
+                {
+                  ...(globals.focusedLayer === layer.id
+                    ? applyFocusStyleToLayer(layer)
+                    : layer
+                  )
+                }
                 onHover={getCursor(layer.id)}
                 onLeave={returnCursor}
                 onClick={logBikeRoute}
@@ -105,45 +115,53 @@ const App  = () => {
             ))
           }
         </Source>
-        
-        {selectedBikePoint && LngLat ? (
-          <Popup
-            latitude={LngLat.lat}
-            longitude={LngLat.lng}
-            closeButton={false}
-            className="bikePointsPopup"
-            onClose={() => setSelectedBikePoint(null) }>
+        {
+          selectedBikePoint && LngLat
+            ? (
+              <Popup
+                latitude={LngLat.lat}
+                longitude={LngLat.lng}
+                closeButton={false}
+                className="bikePointsPopup"
+                onClose={() => setSelectedBikePoint(null) }>
 
-            <div>
-              <h3>{selectedBikePoint.Type}</h3>
-              <p>{selectedBikePoint.Name}</p>
-              <p>{selectedBikePoint.Location}</p>
-              {selectedBikePoint.Website ? (
-                <p><a target="_blank" href={selectedBikePoint.Website} rel="noreferrer">Website</a></p>
-              ) : null }
-            
-            </div>
-          </Popup>
-        ) : null }
+                <div>
+                  <h3>{selectedBikePoint.Type}</h3>
+                  <p>{selectedBikePoint.Name}</p>
+                  <p>{selectedBikePoint.Location}</p>
+                  {
+                    selectedBikePoint.Website
+                      ? (
+                        <p><a target="_blank" href={selectedBikePoint.Website} rel="noreferrer">Website</a></p>
+                      )
+                      : null
+                  }
+                </div>
+              </Popup>
+            )
+            : null
+        }
 
-        {selectedBikeRoute && LngLat ? (
-          <Popup
-            latitude={LngLat.lat}
-            longitude={LngLat.lng}
-            closeButton={false}
-            className="bikeRoutePopup"
-            onClose={() => setSelectedBikeRoute(null)}>
-            <div>
-              <h3>{selectedBikeRoute.type_2021}</h3>
-              <p>{selectedBikeRoute.Name}</p>
-              <p>Bike Allowed: {selectedBikeRoute.Bikes_Allo}</p>
-            </div>
-          </Popup>
-        ) : null }
-    
+        {
+          (selectedBikeRoute && LngLat)
+            ? (
+              <Popup
+                latitude={LngLat.lat}
+                longitude={LngLat.lng}
+                closeButton={false}
+                className="bikeRoutePopup"
+                onClose={() => setSelectedBikeRoute(null)}>
+                <div>
+                  <h3>{selectedBikeRoute.type_2021}</h3>
+                  <p>{selectedBikeRoute.Name}</p>
+                  <p>Bike Allowed: {selectedBikeRoute.Bikes_Allowed}</p>
+                </div>
+              </Popup>
+            )
+            : null
+        }
         <NavigationControl showZoom position='top-right' />
         <GeolocateControl></GeolocateControl>
-
       </MapGL>
       <Sidebar></Sidebar>
     </div>

@@ -23,11 +23,13 @@ const LayerToggle = ({ layerId, details: { name, description }, type }) => {
         onMouseEnter={focus}
         onMouseLeave={unfocus}
       >
-        <input
-          type="checkbox"
-          className={`${styles[type]} ${styles[layerId]}`}
-          defaultChecked={layerVisibility[layerId]}
-        />
+        <div className={styles['layer-checkbox']}>
+          <input
+            type="checkbox"
+            className={`${styles[type]} ${styles[layerId]}`}
+            defaultChecked={layerVisibility[layerId]}
+          />
+        </div>
         <label htmlFor={styles[layerId]}>{name}</label>
       </span>
       {description && <ToolTip text={description} direction="top">🛈<strong></strong></ToolTip>}
