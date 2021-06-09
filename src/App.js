@@ -27,6 +27,7 @@ const App  = () => {
   const [globals] = useGlobals();
   const [ layerVisibility ] = useLayerVisibility();
   
+  // Set bike point info to state for popup
   const logBikePoint = (event) => {
     //console.log("features", event.features[0].properties);
     setSelectedBikePoint(event.features[0].properties);
@@ -35,6 +36,7 @@ const App  = () => {
     //console.log("LngLat:", LngLat);
   };
 
+  // Set bike route info to state for popup
   const logBikeRoute = (event) => {
     setSelectedBikeRoute(event.features[0].properties);
     //console.log("Bike Route", selectedBikeRoute);
@@ -84,13 +86,11 @@ const App  = () => {
             routeLayers.map((layer) => (
               <Layer
                 key={layer.id}
-                {
-                  ...(globals.focusedLayer === layer.id
-                    ? applyFocusStyleToLayer(layer)
-                    : layer
-                  )
-                }
-                onClick={logBikePoint}
+                {...(globals.focusedLayer === layer.id
+                  ? applyFocusStyleToLayer(layer)
+                  : layer
+                )}
+                onClick={logBikeRoute}
                 onHover={getCursor(layer.id)}
                 onLeave={returnCursor}
               />
@@ -110,7 +110,7 @@ const App  = () => {
                 }
                 onHover={getCursor(layer.id)}
                 onLeave={returnCursor}
-                onClick={logBikeRoute}
+                onClick={logBikePoint}
               />
             ))
           }
