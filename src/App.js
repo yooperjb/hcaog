@@ -16,12 +16,19 @@ const App  = () => {
     zoom: 8,
   });
 
+  // mayStyle choices
+  const styles = {
+    light: 'mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
+  };
+
   // useState for Popups 
   const [selectedBikePoint, setSelectedBikePoint] = useState(null);
   const [selectedBikeRoute, setSelectedBikeRoute] = useState(null);
   const [LngLat, setLngLat] = useState(null);
   // useState for Cursor style on hover
   const [cursorStyle, setCursorStyle] = useState(null);
+  // useState for mapStyle
+  //const [styleId, setStyleId] = useState('light');
 
   const [globals] = useGlobals();
   const [ layerVisibility ] = useLayerVisibility();
@@ -68,8 +75,8 @@ const App  = () => {
       <MapGL
         {...viewport}
         style={{ flexGrow: '1', height: '100%' }}
-        mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
-        // mapStyle='mapbox://styles/yooperjb/ckn6lzo7i08vu17nvv4tm9i6k'
+        //mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
+        mapStyle={styles.light}
         accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         onViewportChange={setViewport}
         cursorStyle={cursorStyle}
