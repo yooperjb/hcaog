@@ -1,4 +1,4 @@
-import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source } from '@urbica/react-map-gl';
+import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source, AttributionControl } from '@urbica/react-map-gl';
 import React, { useState } from 'react';
 import './App.css';
 import Sidebar from './components/Sidebar';
@@ -7,10 +7,9 @@ import { useGlobals } from './contexts/GlobalContext';
 import { useLayerVisibility } from './contexts/LayerVisibilityContext';
 import { applyFocusStyleToLayer, filterVisibleLayers } from './util/layers';
 
-//import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
-
 const App  = () => {
 
+  // set intial map location settings
   const [viewport, setViewport] = useState({
     latitude: 40.7450,
     longitude: -123.8695,
@@ -29,19 +28,14 @@ const App  = () => {
   
   // Set bike point info to state for popup
   const logBikePoint = (event) => {
-    //console.log("features", event.features[0].properties);
     setSelectedBikePoint(event.features[0].properties);
-    //console.log("lngLat", event.lngLat);
     setLngLat(event.lngLat);
-    //console.log("LngLat:", LngLat);
   };
 
   // Set bike route info to state for popup
   const logBikeRoute = (event) => {
     setSelectedBikeRoute(event.features[0].properties);
-    console.log('Bike Route', selectedBikeRoute);
     setLngLat(event.lngLat);
-    //console.log("LngLat:", event.lngLat);
   };
 
   // set cursor to pointer on feature hover
@@ -61,9 +55,6 @@ const App  = () => {
     layerVisibility,
     globals.focusedLayer
   );
-  console.log('iconlayers', iconLayers);
-  //console.log('iconsource', ICONS.source);
-  // console.log('icons',ICONS);
   
   const routeLayers = filterVisibleLayers(
     ROUTES.layers,
@@ -82,6 +73,9 @@ const App  = () => {
         accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         onViewportChange={setViewport}
         cursorStyle={cursorStyle}
+        attributionControl={false}
+        pitchWithRotate={true}
+        dragRotate={true}
       >
         <Source {...ROUTES.source} >
           {
@@ -119,14 +113,6 @@ const App  = () => {
           }
         </Source>
         
-        {/* Testing icon layers */}
-        {/* <Source {...ICONS.source}>
-          <Layer
-            {...ICONS.layers[0]}>
-
-          </Layer>
-
-        </Source> */}
         {
           selectedBikePoint && LngLat
             ? (
@@ -174,6 +160,11 @@ const App  = () => {
         }
         <NavigationControl showZoom position='top-right' />
         <GeolocateControl></GeolocateControl>
+        <AttributionControl
+          position="bottom-right"
+          customAttribution="HCAOG"
+          compact={true}
+        />
       </MapGL>
       <Sidebar></Sidebar>
     </div>
