@@ -6,6 +6,7 @@ export const LAYER_WEIGHTS = {
   line: 2,
 };
 
+// 
 const makeLayerBuilder = ({
   type,
   sourceId,
@@ -77,12 +78,20 @@ const buildIconLayer = makeSymbolLayerBuilder({
   sourceLayerId: 'bike-points',
   filter: (layerName) => ['==', 'Type', layerName]
 });
+
 const buildRouteLayer = makeLineLayerBuilder({
   sourceId: 'bike-routes',
   sourceLayerId: 'bike-routes',
   filter: (layerName) => ['==', 'type_2021', layerName]
 });
 
+const buildConnectorLayer = makeLineLayerBuilder({
+  sourceId: 'connectors',
+  sourceLayerId: 'connectors',
+  filter: (layerName) => ['==', 'Type', layerName]
+});
+
+// ICON layer for bike points
 export const ICONS = {
   source: SOURCES.get('bike-points'),
   layers: [
@@ -126,6 +135,7 @@ export const ICONS = {
   }
 };
 
+// ROUTES layer for Class I,II,III routes
 export const ROUTES = {
   source: SOURCES.get('bike-routes'),
   layers: [
@@ -180,20 +190,47 @@ export const ROUTES = {
   }
 };
 
-export const connectors = {
+// CONNECTORS layer for city/rural connections
+export const CONNECTORS = {
+  source: SOURCES.get('connectors'),
+  layers: [
+    {
+      id: 'Family Friendly', 
+      paint: {
+        'line-color': 'black',
+      },
+      layerName: 'Family Friendly',
+    },
+    {
+      id: 'Intermidiate', 
+      paint: {
+        'line-color': 'black',
+      },
+      layerName: 'Intermidiate',
+    },
+    {
+      id: 'Advanced', 
+      paint: {
+        'line-color': 'black',
+      },
+      layerName: 'Advanced',
+    },
+  ].map(buildConnectorLayer),
   details: {
-    'familyfriendly': {
+    'Family Friendly': {
       name: 'Family Friendly',
+      description:'Family friendly connector routes.'
     },
     'intermediate': {
       name: 'Intermediate',
+      description:'Intermediate connector routes that are a little more difficult than famiy-friendly routes.'
     },
-    'advanced': {
+    'Advanced': {
       name: 'Advanced',
+      description:'Advanced connector routes that typically involves more traffic and may require advanced bike skills.'
     },
   }
 };
 
 
-
-export default { icons: ICONS, routes: ROUTES };
+export default { icons: ICONS, routes: ROUTES, connectors: CONNECTORS  };

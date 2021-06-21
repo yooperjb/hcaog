@@ -10,9 +10,15 @@ export const SOURCES = {
     type: 'vector',
     url: 'mapbox://yooperjb.3kf292c5',
   },
+  'connectors': {
+    id: 'connectors',
+    type: 'vector',
+    url: 'mapbox://hcaog.digdwntd'
+  }
 };
 
 export const SOURCE_LAYERS = {
   'bike-points': 'bike_points-8mbmdl', 
-  'bike-routes': 'bike_routes-2nr3p1', 
+  'bike-routes': 'bike_routes-2nr3p1',
+  'connectors': 'connectors-7o42gn'
 };

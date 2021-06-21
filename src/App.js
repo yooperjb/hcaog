@@ -2,7 +2,7 @@ import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source, Attri
 import React, { useState } from 'react';
 import './App.css';
 import Sidebar from './components/Sidebar';
-import { ICONS, ROUTES } from './config/layers.js';
+import { ICONS, ROUTES, CONNECTORS } from './config/layers.js';
 import { useGlobals } from './contexts/GlobalContext';
 import { useLayerVisibility } from './contexts/LayerVisibilityContext';
 import { applyFocusStyleToLayer, filterVisibleLayers } from './util/layers';
@@ -21,9 +21,10 @@ const App  = () => {
     light: 'mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
   };
 
-  // useState for Popups 
+  // useState for layer Popups 
   const [selectedBikePoint, setSelectedBikePoint] = useState(null);
   const [selectedBikeRoute, setSelectedBikeRoute] = useState(null);
+  //const [selectedConnector, setSelectedConnector] = useState(null);
   const [LngLat, setLngLat] = useState(null);
   // useState for Cursor style on hover
   const [cursorStyle, setCursorStyle] = useState(null);
@@ -33,17 +34,23 @@ const App  = () => {
   const [globals] = useGlobals();
   const [ layerVisibility ] = useLayerVisibility();
   
-  // Set bike point info to state for popup
+  // Set Bike Point info to state for popup
   const logBikePoint = (event) => {
     setSelectedBikePoint(event.features[0].properties);
     setLngLat(event.lngLat);
   };
 
-  // Set bike route info to state for popup
+  // Set Bike Route info to state for popup
   const logBikeRoute = (event) => {
     setSelectedBikeRoute(event.features[0].properties);
     setLngLat(event.lngLat);
   };
+
+  // Set Connector info to state for popup
+  // const logConnector = (event) => {
+  //   setSelectedConnector(event.features[0].properties);
+  //   setLngLat(event.lngLat);
+  // };
 
   // set cursor to pointer on feature hover
   const getCursor = () => () => {
@@ -68,6 +75,12 @@ const App  = () => {
     layerVisibility,
     globals.focusedLayer,
     ICONS.layers.slice(-1)[0]?.id
+  );
+
+  const connectorLayers = filterVisibleLayers(
+    CONNECTORS.layers,
+    layerVisibility,
+    globals.focusedLayer
   );
 
   return (
@@ -100,6 +113,24 @@ const App  = () => {
             ))
           }
         </Source>
+        
+        <Source {...CONNECTORS.source} >
+          {
+            connectorLayers.map((layer) => (
+              <Layer
+                key={layer.id}
+                {...(globals.focusedLayer === layer.id
+                  ? applyFocusStyleToLayer(layer)
+                  : layer
+                )}
+                // onClick={logConnector}
+                onHover={getCursor(layer.id)}
+                onLeave={returnCursor}
+              />
+            ))
+          }
+        </Source>
+        
         <Source {...ICONS.source}>
           {
             iconLayers.map((layer) => (
