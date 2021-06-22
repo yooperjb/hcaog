@@ -5,7 +5,6 @@ import ToolTip from '../ToolTip';
 import styles from './style.module.css';
 
 
-
 const LayerToggle = ({ layerId, details: { name, description }, type }) => {
   const [, dispatchGlobals] = useGlobals();
   const [layerVisibility, dispatchVisibility] = useLayerVisibility();
@@ -13,7 +12,7 @@ const LayerToggle = ({ layerId, details: { name, description }, type }) => {
   const toggle = () => dispatchVisibility(toggleVisibility(layerId));
   const focus = () => dispatchGlobals(setFocusedLayer(layerId));
   const unfocus = () => dispatchGlobals(clearFocusedLayer(layerId));
-  
+  console.log('layerId', layerId);
   return (
     <div
       className={styles['layer-toggle']}

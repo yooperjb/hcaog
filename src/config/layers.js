@@ -42,7 +42,6 @@ const makeSymbolLayerBuilder = ({
   sourceId,
   sourceLayerId,
   layout: {
-    //icon: 'bicycle-11',
     'icon-size': LAYER_WEIGHTS.symbol,
     'icon-allow-overlap': false,
     'visibility': 'visible',
@@ -73,18 +72,21 @@ const makeLineLayerBuilder = ({
   filter
 });
 
+// create bike points ICON layer
 const buildIconLayer = makeSymbolLayerBuilder({
   sourceId: 'bike-points',
   sourceLayerId: 'bike-points',
   filter: (layerName) => ['==', 'Type', layerName]
 });
 
+// create bike routes layer
 const buildRouteLayer = makeLineLayerBuilder({
   sourceId: 'bike-routes',
   sourceLayerId: 'bike-routes',
   filter: (layerName) => ['==', 'type_2021', layerName]
 });
 
+// create connector routes layer
 const buildConnectorLayer = makeLineLayerBuilder({
   sourceId: 'connectors',
   sourceLayerId: 'connectors',
@@ -201,6 +203,7 @@ export const CONNECTORS = {
         'line-dasharray': [1,2],
       },
       layerName: 'Family Friendly',
+      // layerName: 'Family-Friendly',
     },
     {
       id: 'Intermediate', 
@@ -221,7 +224,7 @@ export const CONNECTORS = {
   ].map(buildConnectorLayer),
   details: {
     'Family Friendly': {
-      name: 'Family Friendly',
+      name: 'Family-Friendly',
       description:'Family friendly connector routes.'
     },
     'Intermediate': {
@@ -235,5 +238,6 @@ export const CONNECTORS = {
   }
 };
 
+//console.log('CONNECTORS', CONNECTORS);
 
 export default { icons: ICONS, routes: ROUTES, connectors: CONNECTORS  };
