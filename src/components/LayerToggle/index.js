@@ -12,7 +12,7 @@ const LayerToggle = ({ layerId, details: { name, description }, type }) => {
   const toggle = () => dispatchVisibility(toggleVisibility(layerId));
   const focus = () => dispatchGlobals(setFocusedLayer(layerId));
   const unfocus = () => dispatchGlobals(clearFocusedLayer(layerId));
-  console.log('layerId', layerId);
+  
   return (
     <div
       className={styles['layer-toggle']}
