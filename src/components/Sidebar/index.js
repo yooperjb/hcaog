@@ -4,8 +4,6 @@ import logo from '../../images/logo.png';
 import LayerToggle from '../LayerToggle';
 import styles from './style.module.css';
 
-//console.log('Connectors', CONNECTORS);
-
 const Sidebar = () => {
   return (
     <div className={styles['sidebar']}>
