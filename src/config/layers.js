@@ -164,7 +164,7 @@ export const ROUTES = {
       id: 'Trail', 
       paint: {
         'line-color': '#baa77c',
-        'line-dasharray': [1,3],
+        'line-dasharray': [1,2],
         //"line-opacity": 1,
       },
       layerName: 'Existing Trail',
@@ -197,21 +197,23 @@ export const CONNECTORS = {
     {
       id: 'Family Friendly', 
       paint: {
-        'line-color': 'black',
+        'line-color': 'green',
+        'line-dasharray': [1,2],
       },
       layerName: 'Family Friendly',
     },
     {
-      id: 'Intermidiate', 
+      id: 'Intermediate', 
       paint: {
         'line-color': 'black',
       },
-      layerName: 'Intermidiate',
+      layerName: 'Intermediate',
     },
     {
       id: 'Advanced', 
       paint: {
-        'line-color': 'black',
+        'line-color': '#871f1f',
+        'line-dasharray': [1,2],
       },
       layerName: 'Advanced',
     },
@@ -221,7 +223,7 @@ export const CONNECTORS = {
       name: 'Family Friendly',
       description:'Family friendly connector routes.'
     },
-    'intermediate': {
+    'Intermediate': {
       name: 'Intermediate',
       description:'Intermediate connector routes that are a little more difficult than famiy-friendly routes.'
     },

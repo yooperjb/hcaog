@@ -51,6 +51,10 @@
   background-color: var(--trails-color);
 }
 
+.layer-toggle input[type=checkbox].line.Advanced[checked] {
+  background-color: var(--advanced-color);
+}
+
 .layer-toggle input[type=checkbox].line[checked] {
   --line-height: 0.5rem;
   height: var(--line-height);

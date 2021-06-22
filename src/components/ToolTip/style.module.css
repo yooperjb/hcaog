@@ -1,5 +1,5 @@
 :root {
-  --tooltip-color: #000;
+  --tooltip-color: rgb(180, 180, 180);
   --tooltip-offset: 0px;
 }
 .tooltip {
