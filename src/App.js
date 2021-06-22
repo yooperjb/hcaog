@@ -24,7 +24,7 @@ const App  = () => {
   // useState for layer Popups 
   const [selectedBikePoint, setSelectedBikePoint] = useState(null);
   const [selectedBikeRoute, setSelectedBikeRoute] = useState(null);
-  //const [selectedConnector, setSelectedConnector] = useState(null);
+  const [selectedConnector, setSelectedConnector] = useState(null);
   const [LngLat, setLngLat] = useState(null);
   // useState for Cursor style on hover
   const [cursorStyle, setCursorStyle] = useState(null);
@@ -47,10 +47,11 @@ const App  = () => {
   };
 
   // Set Connector info to state for popup
-  // const logConnector = (event) => {
-  //   setSelectedConnector(event.features[0].properties);
-  //   setLngLat(event.lngLat);
-  // };
+  const logConnector = (event) => {
+    setSelectedConnector(event.features[0].properties);
+    setLngLat(event.lngLat);
+    console.log('connector', selectedConnector);
+  };
 
   // set cursor to pointer on feature hover
   const getCursor = () => () => {
@@ -123,7 +124,7 @@ const App  = () => {
                   ? applyFocusStyleToLayer(layer)
                   : layer
                 )}
-                // onClick={logConnector}
+                onClick={logConnector}
                 onHover={getCursor(layer.id)}
                 onLeave={returnCursor}
               />
@@ -145,7 +146,6 @@ const App  = () => {
                 onHover={getCursor(layer.id)}
                 onClick={logBikePoint}
                 onLeave={returnCursor}
-                
               />
             ))
           }
@@ -196,6 +196,25 @@ const App  = () => {
             )
             : null
         }
+
+        {
+          (selectedConnector && LngLat)
+            ? (
+              <Popup
+                latitude={LngLat.lat}
+                longitude={LngLat.lng}
+                closeButton={false}
+                className="connectorPopup"
+                onClose={() => setSelectedConnector(null)}>
+                <div>
+                  <h3>{selectedConnector.Type}</h3>
+                  <p>{selectedConnector.Name}</p>
+                </div>
+              </Popup>
+            )
+            : null
+        }
+
         <NavigationControl showZoom position='top-right' />
         <GeolocateControl></GeolocateControl>
         <AttributionControl
