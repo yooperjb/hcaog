@@ -205,7 +205,8 @@ export const CONNECTORS = {
     {
       id: 'Intermediate', 
       paint: {
-        'line-color': 'black',
+        'line-color': '#2b47a1',
+        'line-dasharray': [1,2],
       },
       layerName: 'Intermediate',
     },
