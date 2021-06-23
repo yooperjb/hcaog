@@ -3,6 +3,9 @@
   --class2-color: orange;
   --class3-color: #eded5c;
   --trails-color: #baa77c;
+  --advanced-color: #871f1f;
+  --intermediate-color: #2b47a1;
+  --family-color: green;
 }
 
 body a {
@@ -15,10 +18,6 @@ body a {
   width: 100vw;
   height: 100vh;
 }
-
-/* .mapboxgl-map {
-  
-} */
 
 .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
   border-top-color: #e9e9e9;

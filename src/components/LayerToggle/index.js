@@ -5,7 +5,6 @@ import ToolTip from '../ToolTip';
 import styles from './style.module.css';
 
 
-
 const LayerToggle = ({ layerId, details: { name, description }, type }) => {
   const [, dispatchGlobals] = useGlobals();
   const [layerVisibility, dispatchVisibility] = useLayerVisibility();

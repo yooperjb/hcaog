@@ -1,5 +1,5 @@
 import React from 'react';
-import { connectors, ICONS, ROUTES } from '../../config/layers';
+import { CONNECTORS, ICONS, ROUTES } from '../../config/layers';
 import logo from '../../images/logo.png';
 import LayerToggle from '../LayerToggle';
 import styles from './style.module.css';
@@ -48,13 +48,13 @@ const Sidebar = () => {
         }
         <h3 className={styles['layers-header']}>Connector Routes</h3>
         {
-          Object.entries(connectors.details)
+          Object.entries(CONNECTORS.details)
             .map(([layerId, details]) => (
               <LayerToggle
                 key={layerId}
                 layerId={layerId}
                 details={details}
-                type="icon"
+                type="line"
               />
             ))
         }

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source } from '@urbica/react-map-gl';
+import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source, AttributionControl } from '@urbica/react-map-gl';
 
 import FeatureInfo from './components/FeatureInfo';
 import Sidebar from './components/Sidebar';
 
-import { ICONS, ROUTES } from './config/layers.js';
 import { MAP_DEFAULTS } from './config/map';
+import { ICONS, ROUTES, CONNECTORS } from './config/layers.js';
 
 import { useGlobals } from './contexts/GlobalContext';
 import { useLayerVisibility } from './contexts/LayerVisibilityContext';
@@ -14,7 +14,10 @@ import { applyFocusStyleToLayer, filterVisibleLayers } from './util/layers';
 
 import './App.css';
 
-//import ReactMapGl, {Marker, Popup, Source, Layer} from 'react-map-gl';
+// mayStyle choices
+const styles = {
+  light: 'mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
+};
 
 const App  = () => {
   const [globals] = useGlobals();
@@ -35,6 +38,7 @@ const App  = () => {
   };
 
   const onRouteFeatureClick = onFeatureClick('route');
+  const onConnectorFeatureClick = onFeatureClick('connector');
   const onIconFeatureClick = onFeatureClick('icon');
 
   const resetCursor = () => setCursorStyle(null);
@@ -53,11 +57,17 @@ const App  = () => {
     ICONS.layers.slice(-1)[0]?.id
   );
 
+  const connectorLayers = filterVisibleLayers(
+    CONNECTORS.layers,
+    layerVisibility,
+    globals.focusedLayer
+  );
+
   return (
     <div className="container">
       <MapGL
         accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-        mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
+        mapStyle={styles.light}
         onClick={clearSelectedFeature}
         onViewportChange={setViewport}
         {...viewport}
@@ -83,6 +93,27 @@ const App  = () => {
               ))
           }
         </Source>
+        
+        <Source {...CONNECTORS.source} >
+          {
+            connectorLayers
+              .map(layer =>
+                globals.focusedLayer === layer.id
+                  ? applyFocusStyleToLayer(layer)
+                  : layer
+              )
+              .map((layer) => (
+                <Layer
+                  key={layer.id}
+                  {...layer}
+                  onClick={onConnectorFeatureClick}
+                  onHover={setPointerCursor}
+                  onLeave={resetCursor}
+                />
+              ))
+          }
+        </Source>
+        
         <Source {...ICONS.source}>
           {
             iconLayers
@@ -102,6 +133,7 @@ const App  = () => {
               ))
           }
         </Source>
+        
         {
           selectedFeature && (
             <Popup
@@ -115,8 +147,14 @@ const App  = () => {
             </Popup>
           )
         }
+
         <NavigationControl showZoom position='top-right' />
         <GeolocateControl></GeolocateControl>
+        <AttributionControl
+          position="bottom-right"
+          customAttribution="HCAOG"
+          compact={true}
+        />
       </MapGL>
       <Sidebar></Sidebar>
     </div>

@@ -1,9 +1,10 @@
 import { MAP_DEFAULTS } from './map';
 import { SOURCES, SOURCE_LAYERS } from './sources';
 
+// Set default symbol and line size
 export const LAYER_WEIGHTS = {
   symbol: 1,
-  line: 3,
+  line: 2,
 };
 
 export const calculateLineWidth = (width) => [
@@ -36,8 +37,9 @@ const makeLayerBuilder = ({
       ...basePaint,
       ...paint
     },
-    filter: filter(layerName)
-  });
+    filter: filter(layerName),
+  }
+  );
 };
 
 const makeSymbolLayerBuilder = ({
@@ -50,14 +52,16 @@ const makeSymbolLayerBuilder = ({
   sourceLayerId,
   layout: {
     'icon-size': LAYER_WEIGHTS.symbol,
-    'icon-allow-overlap': true,
-    'visibility': 'visible'
+    'icon-allow-overlap': false,
+    'visibility': 'visible',
+    
   },
   paint: {
-    'icon-opacity': 1,
+    // 'icon-opacity': 1,
   },
   filter
 });
+
 const makeLineLayerBuilder = ({
   sourceId,
   sourceLayerId,
@@ -77,23 +81,35 @@ const makeLineLayerBuilder = ({
   filter
 });
 
+// create bike points ICON layer
 const buildIconLayer = makeSymbolLayerBuilder({
   sourceId: 'bike-points',
   sourceLayerId: 'bike-points',
   filter: (layerName) => ['==', 'Type', layerName]
 });
+
+// create bike routes layer
 const buildRouteLayer = makeLineLayerBuilder({
   sourceId: 'bike-routes',
   sourceLayerId: 'bike-routes',
   filter: (layerName) => ['==', 'type_2021', layerName]
 });
 
+// create connector routes layer
+const buildConnectorLayer = makeLineLayerBuilder({
+  sourceId: 'connectors',
+  sourceLayerId: 'connectors',
+  filter: (layerName) => ['==', 'Type', layerName]
+});
+
+// ICON layer for bike points
 export const ICONS = {
   source: SOURCES.get('bike-points'),
   layers: [
     {
       id: 'bike-shops',
-      icon: 'hcaog-hardware-15',
+      layout:{
+        'icon-image': 'hcaog-hardware-15'},
       paint: {
         'icon-color': 'black',
       },
@@ -101,7 +117,9 @@ export const ICONS = {
     },
     {
       id: 'bike-parking',
-      icon: 'hcaog-parking-15',
+      layout:{
+        'icon-image': 'hcaog-parking-15'
+      },
       paint: {
         'icon-color': 'black',
       },
@@ -109,7 +127,9 @@ export const ICONS = {
     },
     {
       id: 'tool-station',
-      icon: 'hardware-15',
+      layout:{
+        'icon-image': 'hardware-15'
+      },
       layerName: 'Tool Station'
     },
   ].map(buildIconLayer),
@@ -126,6 +146,7 @@ export const ICONS = {
   }
 };
 
+// ROUTES layer for Class I,II,III routes
 export const ROUTES = {
   source: SOURCES.get('bike-routes'),
   layers: [
@@ -154,7 +175,7 @@ export const ROUTES = {
       id: 'Trail', 
       paint: {
         'line-color': '#baa77c',
-        'line-dasharray': [1,3],
+        'line-dasharray': [1,2],
         //"line-opacity": 1,
       },
       layerName: 'Existing Trail',
@@ -180,20 +201,52 @@ export const ROUTES = {
   }
 };
 
-export const connectors = {
+// CONNECTORS layer for city/rural connections
+export const CONNECTORS = {
+  source: SOURCES.get('connectors'),
+  layers: [
+    {
+      id: 'Family Friendly', 
+      paint: {
+        'line-color': 'green',
+        'line-dasharray': [1,2],
+      },
+      layerName: 'Family Friendly',
+      // layerName: 'Family-Friendly',
+    },
+    {
+      id: 'Intermediate', 
+      paint: {
+        'line-color': '#2b47a1',
+        'line-dasharray': [1,2],
+      },
+      layerName: 'Intermediate',
+    },
+    {
+      id: 'Advanced', 
+      paint: {
+        'line-color': '#871f1f',
+        'line-dasharray': [1,2],
+      },
+      layerName: 'Advanced',
+    },
+  ].map(buildConnectorLayer),
   details: {
-    'familyfriendly': {
-      name: 'Family Friendly',
+    'Family Friendly': {
+      name: 'Family-Friendly',
+      description:'Family friendly connector routes.'
     },
-    'intermediate': {
+    'Intermediate': {
       name: 'Intermediate',
+      description:'Intermediate connector routes that are a little more difficult than famiy-friendly routes.'
     },
-    'advanced': {
+    'Advanced': {
       name: 'Advanced',
+      description:'Advanced connector routes that typically involves more traffic and may require advanced bike skills.'
     },
   }
 };
 
+//console.log('CONNECTORS', CONNECTORS);
 
-
-export default { icons: ICONS, routes: ROUTES };
+export default { icons: ICONS, routes: ROUTES, connectors: CONNECTORS  };
