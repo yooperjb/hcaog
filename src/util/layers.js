@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { LAYER_WEIGHTS } from '../config/layers';
+import { LAYER_WEIGHTS, calculateLineWidth } from '../config/layers';
 
 const LAYER_FOCUS_WEIGHTS = {
   symbol: LAYER_WEIGHTS.symbol * 1.5,
@@ -51,7 +51,7 @@ export const applyFocusStyleToLayer = (layer) => {
       ...layer,
       paint: {
         ...layer.paint,
-        'line-width': LAYER_FOCUS_WEIGHTS.line,
+        'line-width': calculateLineWidth(LAYER_FOCUS_WEIGHTS.line),
       }
     };
   }

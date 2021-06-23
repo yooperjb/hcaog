@@ -1,9 +1,19 @@
+import { MAP_DEFAULTS } from './map';
 import { SOURCES, SOURCE_LAYERS } from './sources';
 
 export const LAYER_WEIGHTS = {
   symbol: 1,
   line: 3,
 };
+
+export const calculateLineWidth = (width) => [
+  'interpolate', 
+  ['linear'], 
+  ['zoom'],
+  MAP_DEFAULTS.viewport.zoom, width, 
+  MAP_DEFAULTS.viewport.zoom + 8, width*2, 
+  MAP_DEFAULTS.viewport.zoom + 16, width * 4
+];
 
 const makeLayerBuilder = ({
   type,
@@ -62,7 +72,7 @@ const makeLineLayerBuilder = ({
     'visibility': 'visible'
   },
   paint: {
-    'line-width': LAYER_WEIGHTS.line,
+    'line-width': calculateLineWidth(LAYER_WEIGHTS.line),
   },
   filter
 });
