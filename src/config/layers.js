@@ -16,7 +16,7 @@ export const calculateLineWidth = (width) => [
   MAP_DEFAULTS.viewport.zoom + 16, width * 4
 ];
 
-const makeLayerBuilder = ({
+const makeLayerGenerator = ({
   type,
   sourceId,
   sourceLayerId,
@@ -42,11 +42,11 @@ const makeLayerBuilder = ({
   );
 };
 
-const makeSymbolLayerBuilder = ({
+const makeSymbolLayerGenerator = ({
   sourceId,
   sourceLayerId,
   filter
-}) => makeLayerBuilder({
+}) => makeLayerGenerator({
   type: 'symbol',
   sourceId,
   sourceLayerId,
@@ -62,11 +62,11 @@ const makeSymbolLayerBuilder = ({
   filter
 });
 
-const makeLineLayerBuilder = ({
+const makeLineLayerGenerator = ({
   sourceId,
   sourceLayerId,
   filter
-}) => makeLayerBuilder({
+}) => makeLayerGenerator({
   type: 'line',
   sourceId,
   sourceLayerId,
@@ -82,21 +82,21 @@ const makeLineLayerBuilder = ({
 });
 
 // create bike points ICON layer
-const buildIconLayer = makeSymbolLayerBuilder({
+const buildIconLayer = makeSymbolLayerGenerator({
   sourceId: 'bike-points',
   sourceLayerId: 'bike-points',
   filter: (layerName) => ['==', 'Type', layerName]
 });
 
 // create bike routes layer
-const buildRouteLayer = makeLineLayerBuilder({
+const buildRouteLayer = makeLineLayerGenerator({
   sourceId: 'bike-routes',
   sourceLayerId: 'bike-routes',
   filter: (layerName) => ['==', 'type_2021', layerName]
 });
 
 // create connector routes layer
-const buildConnectorLayer = makeLineLayerBuilder({
+const buildConnectorLayer = makeLineLayerGenerator({
   sourceId: 'connectors',
   sourceLayerId: 'connectors',
   filter: (layerName) => ['==', 'Type', layerName]
