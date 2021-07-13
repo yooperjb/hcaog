@@ -273,11 +273,12 @@ export const PCB = {
     },
     'Alternative': {
       name: 'Alternative',
-      description:'Alternative Pacific Coast Bike Route.'
+      description:'Alternative Pacific Coast Bike Route segments.'
     },
   }
 };
 
-//console.log('CONNECTORS', CONNECTORS);
+console.log('CONNECTORS', CONNECTORS);
+console.log('PCB', PCB);
 
-export default { icons: ICONS, routes: ROUTES, connectors: CONNECTORS, pcb: PCB  };
+export default { icons:ICONS, routes:ROUTES, connectors:CONNECTORS, pcb:PCB  };
