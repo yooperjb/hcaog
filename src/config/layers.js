@@ -93,6 +93,13 @@ const buildConnectorLayer = makeLineLayerBuilder({
   filter: (layerName) => ['==', 'Type', layerName]
 });
 
+// create pacific coast bike route layer
+const buildPcbLayer = makeLineLayerBuilder({
+  sourceId: 'pcb',
+  sourceLayerId: 'pcb',
+  filter: (layerName) => ['==', 'Status', layerName]
+});
+
 // ICON layer for bike points
 export const ICONS = {
   source: SOURCES.get('bike-points'),
@@ -238,6 +245,39 @@ export const CONNECTORS = {
   }
 };
 
+// PCB layer for official and alt routes
+export const PCB = {
+  source: SOURCES.get('pcb'),
+  layers: [
+    {
+      id: 'Official', 
+      paint: {
+        'line-color': 'black',
+        'line-dasharray': [1,2],
+      },
+      layerName: 'Official',
+    },
+    {
+      id: 'Alternative', 
+      paint: {
+        'line-color': 'gray',
+        'line-dasharray': [1,2],
+      },
+      layerName: 'Alternative',
+    },
+  ].map(buildPcbLayer),
+  details: {
+    'Official': {
+      name: 'Official',
+      description:'Official Pacific Coast Bike Route.'
+    },
+    'Alternative': {
+      name: 'Alternative',
+      description:'Alternative Pacific Coast Bike Route.'
+    },
+  }
+};
+
 //console.log('CONNECTORS', CONNECTORS);
 
-export default { icons: ICONS, routes: ROUTES, connectors: CONNECTORS  };
+export default { icons: ICONS, routes: ROUTES, connectors: CONNECTORS, pcb: PCB  };

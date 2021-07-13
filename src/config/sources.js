@@ -14,11 +14,17 @@ export const SOURCES = {
     id: 'connectors',
     type: 'vector',
     url: 'mapbox://hcaog.digdwntd'
+  },
+  'pcb': {
+    id: 'pcb',
+    type: 'vector',
+    url: 'mapbox://hcaog.6vx5ufzz'
   }
 };
 
 export const SOURCE_LAYERS = {
   'bike-points': 'bike_points-8mbmdl', 
   'bike-routes': 'bike_routes-2nr3p1',
-  'connectors': 'connectors-7o42gn'
+  'connectors': 'connectors-7o42gn',
+  'pcb': 'PCB_full-4s2gb0'
 };
