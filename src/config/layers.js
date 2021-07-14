@@ -1,5 +1,7 @@
 import { SOURCES, SOURCE_LAYERS } from './sources';
 
+console.log('sources', SOURCES);
+
 // Set default symbol and line size
 export const LAYER_WEIGHTS = {
   symbol: 1,
@@ -19,7 +21,7 @@ const makeLayerBuilder = ({
     id,
     type,
     source: sourceId,
-    'source-layer': SOURCE_LAYERS[sourceLayerId], 
+    'source-layer': SOURCE_LAYERS[sourceLayerId],
     layout: {
       ...baseLayout,
       ...layout

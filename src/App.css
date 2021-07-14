@@ -6,6 +6,8 @@
   --advanced-color: #871f1f;
   --intermediate-color: #2b47a1;
   --family-color: green;
+  --official-color: black;
+  --alternative-color: gray;
 }
 
 body a {

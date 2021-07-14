@@ -4,6 +4,8 @@ import logo from '../../images/logo.png';
 import LayerToggle from '../LayerToggle';
 import styles from './style.module.css';
 
+console.log('pcb', PCB);
+
 const Sidebar = () => {
   return (
     <div className={styles['sidebar']}>
@@ -58,7 +60,7 @@ const Sidebar = () => {
               />
             ))
         }
-        <h3 className={styles['layers-header']}>Regional Routes</h3>
+        <h3 className={styles['layers-header']}>Pacific Coast Bike Route</h3>
         {
           Object.entries(PCB.details)
             .map(([layerId, details]) => (

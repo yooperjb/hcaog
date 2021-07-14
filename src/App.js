@@ -2,7 +2,7 @@ import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source, Attri
 import React, { useState } from 'react';
 import './App.css';
 import Sidebar from './components/Sidebar';
-import { ICONS, ROUTES, CONNECTORS } from './config/layers.js';
+import { ICONS, ROUTES, CONNECTORS, PCB } from './config/layers.js';
 import { useGlobals } from './contexts/GlobalContext';
 import { useLayerVisibility } from './contexts/LayerVisibilityContext';
 import { applyFocusStyleToLayer, filterVisibleLayers } from './util/layers';
@@ -84,6 +84,12 @@ const App  = () => {
     globals.focusedLayer
   );
 
+  const pcbLayers = filterVisibleLayers(
+    PCB.layers,
+    layerVisibility,
+    globals.focusedLayer
+  );
+
   return (
     <div className="container">
       <MapGL
@@ -125,6 +131,23 @@ const App  = () => {
                   : layer
                 )}
                 onClick={logConnector}
+                onHover={getCursor(layer.id)}
+                onLeave={returnCursor}
+              />
+            ))
+          }
+        </Source>
+
+        <Source {...PCB.source} >
+          {
+            pcbLayers.map((layer) => (
+              <Layer
+                key={layer.id}
+                {...(globals.focusedLayer === layer.id
+                  ? applyFocusStyleToLayer(layer)
+                  : layer
+                )}
+                // onClick={logConnector}
                 onHover={getCursor(layer.id)}
                 onLeave={returnCursor}
               />
