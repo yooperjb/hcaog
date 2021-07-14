@@ -153,21 +153,21 @@ export const ROUTES = {
     {
       id: 'ClassI', 
       paint: {
-        'line-color': '#b50707',
+        'line-color': '#2fa021',
       },
       layerName: 'Existing Class I',
     },
     {
       id: 'ClassII', 
       paint: {
-        'line-color': 'orange',
+        'line-color': '#103ca1',
       },
       layerName: 'Existing Class II',
     },
     {
       id: 'ClassIII', 
       paint: {
-        'line-color': '#eded5c',
+        'line-color': '#fa8807',
       },
       layerName: 'Existing Class III',
     },
@@ -183,15 +183,15 @@ export const ROUTES = {
   ].map(buildRouteLayer),
   details: {
     'ClassI': {
-      name: 'Class I Bike Route',
+      name: 'Multi-use Path',
       description: 'A separated paved path for bicycles and pedestrians.'
     },
     'ClassII': {
-      name: 'Class II Bike Route',
+      name: 'Bike Lane',
       description: 'A restricted right-of-way for bicycles along the side of a street (typically 5 feet wide). A thick white line separates the auto and bike lanes. Motor vehicles may merge into these lanes to make turns.'
     },
     'ClassIII': {
-      name: 'Class III Bike Route',
+      name: 'Shared Road',
       description: 'A travel lane shared by bicycles and motor vehicles designated only by signs or pavement markings. This type of facility mainly informs motorists of preferred cycling routes.'
     },
     'Trail': {
