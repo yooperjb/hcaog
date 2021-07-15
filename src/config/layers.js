@@ -255,7 +255,7 @@ export const PCB = {
       id: 'Official', 
       paint: {
         'line-color': 'black',
-        'line-dasharray': [1,2],
+        // 'line-dasharray': [1,2],
       },
       layerName: 'Official',
     },
@@ -263,7 +263,7 @@ export const PCB = {
       id: 'Alternative', 
       paint: {
         'line-color': 'gray',
-        'line-dasharray': [1,2],
+        // 'line-dasharray': [1,2],
       },
       layerName: 'Alternative',
     },

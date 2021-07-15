@@ -8,7 +8,7 @@ export const SOURCES = {
   'bike-routes': {
     id: 'bike-routes',
     type: 'vector',
-    url: 'mapbox://yooperjb.3kf292c5',
+    url: 'mapbox://hcaog.1nksq7lv',
   },
   'connectors': {
     id: 'connectors',
@@ -24,7 +24,7 @@ export const SOURCES = {
 
 export const SOURCE_LAYERS = {
   'bike-points': 'bike_points-8mbmdl', 
-  'bike-routes': 'bike_routes-2nr3p1',
+  'bike-routes': 'bike_routes-4e3370',
   'connectors': 'connectors-7o42gn',
   'pcb': 'PCB_full-4s2gb0'
 };
