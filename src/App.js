@@ -5,7 +5,7 @@ import FeatureInfo from './components/FeatureInfo';
 import Sidebar from './components/Sidebar';
 
 import { MAP_DEFAULTS } from './config/map';
-import { ICONS, ROUTES, CONNECTORS } from './config/layers.js';
+import { ICONS, ROUTES, CONNECTORS, PCB } from './config/layers.js';
 
 import { useGlobals } from './contexts/GlobalContext';
 import { useLayerVisibility } from './contexts/LayerVisibilityContext';
@@ -63,6 +63,12 @@ const App  = () => {
     globals.focusedLayer
   );
 
+  const pcbLayers = filterVisibleLayers(
+    PCB.layers,
+    layerVisibility,
+    globals.focusedLayer
+  );
+
   return (
     <div className="container">
       <MapGL
@@ -111,6 +117,23 @@ const App  = () => {
                   onLeave={resetCursor}
                 />
               ))
+          }
+        </Source>
+
+        <Source {...PCB.source} >
+          {
+            pcbLayers.map((layer) => (
+              <Layer
+                key={layer.id}
+                {...(globals.focusedLayer === layer.id
+                  ? applyFocusStyleToLayer(layer)
+                  : layer
+                )}
+                // onClick={logConnector}
+                onHover={getCursor(layer.id)}
+                onLeave={returnCursor}
+              />
+            ))
           }
         </Source>
         

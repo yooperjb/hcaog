@@ -63,6 +63,14 @@
   background-color: var(--family-color);
 }
 
+.layer-toggle input[type=checkbox].line.Official[checked] {
+  background-color: var(--official-color);
+}
+
+.layer-toggle input[type=checkbox].line.Alternative[checked] {
+  background-color: var(--alternative-color);
+}
+
 .layer-toggle input[type=checkbox].line[checked] {
   --line-height: 0.5rem;
   height: var(--line-height);
