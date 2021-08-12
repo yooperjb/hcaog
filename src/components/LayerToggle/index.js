@@ -4,11 +4,9 @@ import { toggleVisibility, useLayerVisibility } from '../../contexts/LayerVisibi
 import ToolTip from '../ToolTip';
 import styles from './style.module.css';
 
-
-const LayerToggle = ({ layerId, details: { name, description }, type }) => {
+const LayerToggle = ({ layerId, details: { name, description }, type = 'icon' }) => {
   const [, dispatchGlobals] = useGlobals();
   const [layerVisibility, dispatchVisibility] = useLayerVisibility();
-
   const toggle = () => dispatchVisibility(toggleVisibility(layerId));
   const focus = () => dispatchGlobals(setFocusedLayer(layerId));
   const unfocus = () => dispatchGlobals(clearFocusedLayer(layerId));
@@ -21,6 +19,9 @@ const LayerToggle = ({ layerId, details: { name, description }, type }) => {
         onClick={toggle}
         onMouseEnter={focus}
         onMouseLeave={unfocus}
+        onTouchEnd={()=> console.log('hey') || unfocus}
+        onTouchStart={focus}
+        onTouchCancel={unfocus}
       >
         <div className={styles['layer-checkbox']}>
           <input
@@ -31,7 +32,7 @@ const LayerToggle = ({ layerId, details: { name, description }, type }) => {
         </div>
         <label htmlFor={styles[layerId]}>{name}</label>
       </span>
-      {description && <ToolTip text={description} direction="top">🛈<strong></strong></ToolTip>}
+      {description && <ToolTip text={description} direction="top">🛈</ToolTip>}
     </div>
   );
 };
@@ -42,7 +43,7 @@ LayerToggle.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
   }).isRequired,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
 };
 
 export default LayerToggle;

@@ -28,7 +28,7 @@ export const filterVisibleLayers = (
   );
   return Array.from(
     useMemo(
-      () =>  layersOrderedByFocus.map((layer, i, layers) => ({
+      () => layersOrderedByFocus.map((layer, i, layers) => ({
         ...layer,
         before: layers[i - 1]?.id ?? baseLayerId
       })),

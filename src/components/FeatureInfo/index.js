@@ -18,7 +18,7 @@ export const FeatureInfo = ({ type, info }) => {
           <>
             <p>{info.Location}</p>
             {
-              !!info.Website && (
+              info.Website && (
                 <p>
                   <a
                     target="_blank"
@@ -46,7 +46,12 @@ export const FeatureInfo = ({ type, info }) => {
 
 FeatureInfo.propTypes = {
   type: PropTypes.string.isRequired,
-  info: PropTypes.object.isRequired,
+  info: PropTypes.shape({
+    Name: PropTypes.string,
+    Location: PropTypes.string,
+    Website: PropTypes.string,
+    Bikes_Allowed: PropTypes.string,
+  }).isRequired,
 };
 
 export default FeatureInfo;

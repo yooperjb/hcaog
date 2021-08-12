@@ -14,3 +14,26 @@ export const clearFocusedLayer = () => {
     type: clearFocusedLayer
   };
 };
+/**
+ */
+export const showSidebar = () => {
+  return {
+    type: showSidebar
+  };
+};
+
+/**
+ */
+export const hideSidebar = () => {
+  return {
+    type: hideSidebar
+  };
+};
+
+/**
+ */
+export const toggleSidebar = () => {
+  return {
+    type: toggleSidebar
+  };
+};

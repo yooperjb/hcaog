@@ -17,7 +17,7 @@ const ToolTip = ({text, direction, children}) => {
   const clearOffset = () => setOffset(0);
   return (
     <span
-      className={`${styles['tooltip']} ${styles['tooltip-' + direction]}`}
+      className={`${styles['tooltip-wrapper']} ${styles['tooltip-' + direction]}`}
       onMouseEnter={updateOffset}
       onMouseLeave={clearOffset}
     >

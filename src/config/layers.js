@@ -105,7 +105,7 @@ const buildConnectorLayer = makeLineLayerGenerator({
 });
 
 // create pacific coast bike route layer
-const buildPcbLayer = makeLineLayerBuilder({
+const buildPcbLayer = makeLineLayerGenerator({
   sourceId: 'pcb',
   sourceLayerId: 'pcb',
   filter: (layerName) => ['==', 'Status', layerName]

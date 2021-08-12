@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source, AttributionControl } from '@urbica/react-map-gl';
 
 import FeatureInfo from './components/FeatureInfo';
@@ -13,6 +13,7 @@ import { useLayerVisibility } from './contexts/LayerVisibilityContext';
 import { applyFocusStyleToLayer, filterVisibleLayers } from './util/layers';
 
 import './App.css';
+import SidebarControl from './components/SidebarControl';
 
 // mayStyle choices
 const styles = {
@@ -29,17 +30,18 @@ const App  = () => {
   const [selectedFeature, setSelectedFeature] = useState();
 
   const clearSelectedFeature = () => setSelectedFeature(() => null);
-  const onFeatureClick = (type) => ({features, lngLat}) => {
+
+  const onFeatureClick = (type) => useCallback(({features, lngLat}) => {
     setSelectedFeature(() => ({
       type,
       ...lngLat,
       info: features[0]?.properties,
     }));
-  };
-
+  }, [type]);
   const onRouteFeatureClick = onFeatureClick('route');
   const onConnectorFeatureClick = onFeatureClick('connector');
   const onIconFeatureClick = onFeatureClick('icon');
+  const onPCBFeatureClick = onFeatureClick('pcb');
 
   const resetCursor = () => setCursorStyle(null);
   const setPointerCursor = () => setCursorStyle('pointer');
@@ -69,6 +71,29 @@ const App  = () => {
     globals.focusedLayer
   );
 
+  const mapLayerSources = [
+    {
+      ...ROUTES.source,
+      layers: routeLayers,
+      onLayerClick: onRouteFeatureClick
+    },
+    {
+      ...CONNECTORS.source,
+      layers: connectorLayers,
+      onLayerClick: onConnectorFeatureClick
+    },
+    {
+      ...PCB.source,
+      layers: pcbLayers,
+      onLayerClick: onPCBFeatureClick
+    },
+    {
+      ...ICONS.source,
+      layers: iconLayers,
+      onLayerClick: onIconFeatureClick
+    },
+  ];
+
   return (
     <div className="container">
       <MapGL
@@ -76,86 +101,32 @@ const App  = () => {
         mapStyle={styles.light}
         onClick={clearSelectedFeature}
         onViewportChange={setViewport}
-        {...viewport}
         cursorStyle={cursorStyle}
-        style={{ flexGrow: '1', height: '100%' }}
+        {...viewport}
       >
-        <Source {...ROUTES.source} >
-          {
-            routeLayers
-              .map(layer =>
-                globals.focusedLayer === layer.id
-                  ? applyFocusStyleToLayer(layer)
-                  : layer
-              )
-              .map((layer) => (
-                <Layer
-                  key={layer.id}
-                  { ...layer }
-                  onClick={onRouteFeatureClick}
-                  onHover={setPointerCursor}
-                  onLeave={resetCursor}
-                />
-              ))
-          }
-        </Source>
-        
-        <Source {...CONNECTORS.source} >
-          {
-            connectorLayers
-              .map(layer =>
-                globals.focusedLayer === layer.id
-                  ? applyFocusStyleToLayer(layer)
-                  : layer
-              )
-              .map((layer) => (
-                <Layer
-                  key={layer.id}
-                  {...layer}
-                  onClick={onConnectorFeatureClick}
-                  onHover={setPointerCursor}
-                  onLeave={resetCursor}
-                />
-              ))
-          }
-        </Source>
-
-        <Source {...PCB.source} >
-          {
-            pcbLayers.map((layer) => (
-              <Layer
-                key={layer.id}
-                {...(globals.focusedLayer === layer.id
-                  ? applyFocusStyleToLayer(layer)
-                  : layer
-                )}
-                // onClick={logConnector}
-                onHover={getCursor(layer.id)}
-                onLeave={returnCursor}
-              />
-            ))
-          }
-        </Source>
-        
-        <Source {...ICONS.source}>
-          {
-            iconLayers
-              .map(layer =>
-                globals.focusedLayer === layer.id
-                  ? applyFocusStyleToLayer(layer)
-                  : layer
-              )
-              .map((layer) => (
-                <Layer
-                  key={layer.id}
-                  { ...layer }
-                  onClick={onIconFeatureClick}
-                  onHover={setCursorStyle}
-                  onLeave={resetCursor}
-                />
-              ))
-          }
-        </Source>
+        {
+          mapLayerSources.map(({layers, onLayerClick, ...source}) => (
+            <Source {...source} key={source} >
+              {
+                layers
+                  .map(layer =>
+                    globals.focusedLayer === layer.id
+                      ? applyFocusStyleToLayer(layer)
+                      : layer
+                  )
+                  .map((layer) => (
+                    <Layer
+                      key={layer.id}
+                      { ...layer }
+                      onClick={onLayerClick}
+                      onHover={setPointerCursor}
+                      onLeave={resetCursor}
+                    />
+                  ))
+              }
+            </Source>
+          ))
+        }
         
         {
           selectedFeature && (
@@ -178,8 +149,9 @@ const App  = () => {
           customAttribution="HCAOG"
           compact={true}
         />
+        <SidebarControl />
       </MapGL>
-      <Sidebar></Sidebar>
+      <Sidebar show={globals.showSidebar}></Sidebar>
     </div>
   );
 };

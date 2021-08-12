@@ -10,7 +10,7 @@
   --alternative-color: gray;
 }
 
-body a {
+a {
   text-decoration: none;
   color:white
 }
@@ -19,6 +19,11 @@ body a {
   display: flex;
   width: 100vw;
   height: 100vh;
+}
+
+.mapboxgl-map {
+  flex-grow: 1;
+  height: 100%;
 }
 
 .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
