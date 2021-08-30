@@ -2,7 +2,7 @@ import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source, Attri
 import React, { useState } from 'react';
 import './App.css';
 import Sidebar from './components/Sidebar';
-import { ICONS, ROUTES, CONNECTORS } from './config/layers.js';
+import { ICONS, ROUTES, CONNECTORS, PCB } from './config/layers.js';
 import { useGlobals } from './contexts/GlobalContext';
 import { useLayerVisibility } from './contexts/LayerVisibilityContext';
 import { applyFocusStyleToLayer, filterVisibleLayers } from './util/layers';
@@ -18,7 +18,8 @@ const App  = () => {
 
   // mayStyle choices
   const styles = {
-    light: 'mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
+    //light: 'mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
+    light: 'mapbox://styles/hcaog/ckr3qf0ot95xh17linukv86ts'
   };
 
   // useState for layer Popups 
@@ -84,6 +85,12 @@ const App  = () => {
     globals.focusedLayer
   );
 
+  const pcbLayers = filterVisibleLayers(
+    PCB.layers,
+    layerVisibility,
+    globals.focusedLayer
+  );
+
   return (
     <div className="container">
       <MapGL
@@ -91,6 +98,7 @@ const App  = () => {
         style={{ flexGrow: '1', height: '100%' }}
         //mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
         mapStyle={styles.light}
+        // need to change to HCAOG token!
         accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         onViewportChange={setViewport}
         cursorStyle={cursorStyle}
@@ -125,6 +133,23 @@ const App  = () => {
                   : layer
                 )}
                 onClick={logConnector}
+                onHover={getCursor(layer.id)}
+                onLeave={returnCursor}
+              />
+            ))
+          }
+        </Source>
+
+        <Source {...PCB.source} >
+          {
+            pcbLayers.map((layer) => (
+              <Layer
+                key={layer.id}
+                {...(globals.focusedLayer === layer.id
+                  ? applyFocusStyleToLayer(layer)
+                  : layer
+                )}
+                // onClick={logConnector}
                 onHover={getCursor(layer.id)}
                 onLeave={returnCursor}
               />

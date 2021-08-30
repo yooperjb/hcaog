@@ -1,5 +1,7 @@
 import { SOURCES, SOURCE_LAYERS } from './sources';
 
+console.log('sources', SOURCES);
+
 // Set default symbol and line size
 export const LAYER_WEIGHTS = {
   symbol: 1,
@@ -19,7 +21,7 @@ const makeLayerBuilder = ({
     id,
     type,
     source: sourceId,
-    'source-layer': SOURCE_LAYERS[sourceLayerId], 
+    'source-layer': SOURCE_LAYERS[sourceLayerId],
     layout: {
       ...baseLayout,
       ...layout
@@ -93,6 +95,13 @@ const buildConnectorLayer = makeLineLayerBuilder({
   filter: (layerName) => ['==', 'Type', layerName]
 });
 
+// create pacific coast bike route layer
+const buildPcbLayer = makeLineLayerBuilder({
+  sourceId: 'pcb',
+  sourceLayerId: 'pcb',
+  filter: (layerName) => ['==', 'Status', layerName]
+});
+
 // ICON layer for bike points
 export const ICONS = {
   source: SOURCES.get('bike-points'),
@@ -107,14 +116,13 @@ export const ICONS = {
       layerName: 'Bicycle Shop'
     },
     {
-      id: 'bike-parking',
+      id: 'rental',
       layout:{
-        'icon-image': 'hcaog-parking-15'
-      },
+        'icon-image': 'hcaog-bicycle-15'},
       paint: {
         'icon-color': 'black',
       },
-      layerName: 'Bicycle Parking'
+      layerName: 'Rental'
     },
     {
       id: 'tool-station',
@@ -126,10 +134,10 @@ export const ICONS = {
   ].map(buildIconLayer),
   details: {
     'bike-shops': {
-      name: 'Bike Shops'
+      name: 'Bike Shop'
     },
-    'bike-parking': {
-      name: 'Bike Parking'
+    'rental': {
+      name: 'Bike Rental'
     },
     'tool-station': {
       name: 'Tool Station'
@@ -144,21 +152,21 @@ export const ROUTES = {
     {
       id: 'ClassI', 
       paint: {
-        'line-color': '#b50707',
+        'line-color': '#2fa021',
       },
       layerName: 'Existing Class I',
     },
     {
       id: 'ClassII', 
       paint: {
-        'line-color': 'orange',
+        'line-color': '#103ca1',
       },
       layerName: 'Existing Class II',
     },
     {
       id: 'ClassIII', 
       paint: {
-        'line-color': '#eded5c',
+        'line-color': '#fa8807',
       },
       layerName: 'Existing Class III',
     },
@@ -174,15 +182,15 @@ export const ROUTES = {
   ].map(buildRouteLayer),
   details: {
     'ClassI': {
-      name: 'Class I Bike Route',
+      name: 'Multi-use Path',
       description: 'A separated paved path for bicycles and pedestrians.'
     },
     'ClassII': {
-      name: 'Class II Bike Route',
+      name: 'Bike Lane',
       description: 'A restricted right-of-way for bicycles along the side of a street (typically 5 feet wide). A thick white line separates the auto and bike lanes. Motor vehicles may merge into these lanes to make turns.'
     },
     'ClassIII': {
-      name: 'Class III Bike Route',
+      name: 'Shared Road',
       description: 'A travel lane shared by bicycles and motor vehicles designated only by signs or pavement markings. This type of facility mainly informs motorists of preferred cycling routes.'
     },
     'Trail': {
@@ -238,6 +246,41 @@ export const CONNECTORS = {
   }
 };
 
-//console.log('CONNECTORS', CONNECTORS);
+// PCB layer for official and alt routes
+export const PCB = {
+  source: SOURCES.get('pcb'),
+  layers: [
+    {
+      id: 'Official', 
+      paint: {
+        'line-color': 'black',
+        // 'line-dasharray': [1,2],
+      },
+      layerName: 'Official',
+    },
+    {
+      id: 'Alternative', 
+      paint: {
+        'line-color': 'gray',
+        // 'line-dasharray': [1,2],
+      },
+      layerName: 'Alternative',
+    },
+  ].map(buildPcbLayer),
+  details: {
+    'Official': {
+      name: 'Official',
+      description:'Official Pacific Coast Bike Route.'
+    },
+    'Alternative': {
+      name: 'Alternative',
+      description:'Alternative Pacific Coast Bike Route segments.'
+    },
+  }
+};
 
-export default { icons: ICONS, routes: ROUTES, connectors: CONNECTORS  };
+console.log('CONNECTORS', CONNECTORS);
+console.log('PCB', PCB);
+console.log('Icons', ICONS);
+
+export default { icons:ICONS, routes:ROUTES, connectors:CONNECTORS, pcb:PCB  };

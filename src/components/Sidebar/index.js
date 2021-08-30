@@ -1,8 +1,10 @@
 import React from 'react';
-import { CONNECTORS, ICONS, ROUTES } from '../../config/layers';
+import { CONNECTORS, ICONS, ROUTES, PCB } from '../../config/layers';
 import logo from '../../images/logo.png';
 import LayerToggle from '../LayerToggle';
 import styles from './style.module.css';
+
+//console.log('pcb', PCB);
 
 const Sidebar = () => {
   return (
@@ -58,7 +60,18 @@ const Sidebar = () => {
               />
             ))
         }
-        <h3 className={styles['layers-header']}>Regional Routes</h3> 
+        <h3 className={styles['layers-header']}>Pacific Coast Bike Route</h3>
+        {
+          Object.entries(PCB.details)
+            .map(([layerId, details]) => (
+              <LayerToggle
+                key={layerId}
+                layerId={layerId}
+                details={details}
+                type="line"
+              />
+            ))
+        }
       </div>
 
     </div>
