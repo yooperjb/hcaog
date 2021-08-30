@@ -18,7 +18,8 @@ const App  = () => {
 
   // mayStyle choices
   const styles = {
-    light: 'mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
+    //light: 'mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
+    light: 'mapbox://styles/hcaog/ckr3qf0ot95xh17linukv86ts'
   };
 
   // useState for layer Popups 
@@ -97,6 +98,7 @@ const App  = () => {
         style={{ flexGrow: '1', height: '100%' }}
         //mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
         mapStyle={styles.light}
+        // need to change to HCAOG token!
         accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         onViewportChange={setViewport}
         cursorStyle={cursorStyle}

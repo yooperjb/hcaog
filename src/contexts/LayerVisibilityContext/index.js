@@ -7,7 +7,7 @@ const initialState = {
   ClassII: true,
   ClassIII: true,
   Trail: true,
-  'bike-parking': true,
+  'rental': true,
   'bike-shops': true,
   'tool-station': true
 };

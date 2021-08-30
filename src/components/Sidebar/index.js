@@ -4,7 +4,7 @@ import logo from '../../images/logo.png';
 import LayerToggle from '../LayerToggle';
 import styles from './style.module.css';
 
-console.log('pcb', PCB);
+//console.log('pcb', PCB);
 
 const Sidebar = () => {
   return (

@@ -116,14 +116,13 @@ export const ICONS = {
       layerName: 'Bicycle Shop'
     },
     {
-      id: 'bike-parking',
+      id: 'rental',
       layout:{
-        'icon-image': 'hcaog-parking-15'
-      },
+        'icon-image': 'hcaog-bicycle-15'},
       paint: {
         'icon-color': 'black',
       },
-      layerName: 'Bicycle Parking'
+      layerName: 'Rental'
     },
     {
       id: 'tool-station',
@@ -135,10 +134,10 @@ export const ICONS = {
   ].map(buildIconLayer),
   details: {
     'bike-shops': {
-      name: 'Bike Shops'
+      name: 'Bike Shop'
     },
-    'bike-parking': {
-      name: 'Bike Parking'
+    'rental': {
+      name: 'Bike Rental'
     },
     'tool-station': {
       name: 'Tool Station'
@@ -282,5 +281,6 @@ export const PCB = {
 
 console.log('CONNECTORS', CONNECTORS);
 console.log('PCB', PCB);
+console.log('Icons', ICONS);
 
 export default { icons:ICONS, routes:ROUTES, connectors:CONNECTORS, pcb:PCB  };
