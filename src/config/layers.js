@@ -1,6 +1,6 @@
 import { SOURCES, SOURCE_LAYERS } from './sources';
 
-console.log('sources', SOURCES);
+//console.log('sources', SOURCES);
 
 // Set default symbol and line size
 export const LAYER_WEIGHTS = {
@@ -254,7 +254,6 @@ export const PCB = {
       id: 'Official', 
       paint: {
         'line-color': 'black',
-        // 'line-dasharray': [1,2],
       },
       layerName: 'Official',
     },
@@ -262,7 +261,6 @@ export const PCB = {
       id: 'Alternative', 
       paint: {
         'line-color': 'gray',
-        // 'line-dasharray': [1,2],
       },
       layerName: 'Alternative',
     },
@@ -279,8 +277,8 @@ export const PCB = {
   }
 };
 
-console.log('CONNECTORS', CONNECTORS);
-console.log('PCB', PCB);
-console.log('Icons', ICONS);
+//console.log('CONNECTORS', CONNECTORS);
+//console.log('PCB', PCB);
+//console.log('Icons', ICONS);
 
 export default { icons:ICONS, routes:ROUTES, connectors:CONNECTORS, pcb:PCB  };
