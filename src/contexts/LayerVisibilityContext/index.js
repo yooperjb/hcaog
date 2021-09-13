@@ -7,9 +7,11 @@ const initialState = {
   ClassII: true,
   ClassIII: true,
   Trail: true,
-  'bike-parking': true,
+  'rental': true,
   'bike-shops': true,
-  'tool-station': true
+  'tool-station': true,
+  'Official': false,
+  'Alternative': false
 };
 
 const LayerVisibilityContext = createContext(initialState);

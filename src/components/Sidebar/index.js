@@ -6,7 +6,6 @@ import LayerToggleGroup from '../LayerToggleGroup';
 import styles from './style.module.css';
 
 const Sidebar = ({show}) => {
-
   const layerToggleGroups = [
     {
       details:ROUTES.details,

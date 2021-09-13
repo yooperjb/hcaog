@@ -1,7 +1,7 @@
 import { MAP_DEFAULTS } from './map';
 import { SOURCES, SOURCE_LAYERS } from './sources';
 
-console.log('sources', SOURCES);
+//console.log('sources', SOURCES);
 
 // Set default symbol and line size
 export const LAYER_WEIGHTS = {
@@ -125,14 +125,13 @@ export const ICONS = {
       layerName: 'Bicycle Shop'
     },
     {
-      id: 'bike-parking',
+      id: 'rental',
       layout:{
-        'icon-image': 'hcaog-parking-15'
-      },
+        'icon-image': 'hcaog-bicycle-15'},
       paint: {
         'icon-color': 'black',
       },
-      layerName: 'Bicycle Parking'
+      layerName: 'Rental'
     },
     {
       id: 'tool-station',
@@ -144,10 +143,10 @@ export const ICONS = {
   ].map(buildIconLayer),
   details: {
     'bike-shops': {
-      name: 'Bike Shops'
+      name: 'Bike Shop'
     },
-    'bike-parking': {
-      name: 'Bike Parking'
+    'rental': {
+      name: 'Bike Rental'
     },
     'tool-station': {
       name: 'Tool Station'
@@ -264,7 +263,6 @@ export const PCB = {
       id: 'Official', 
       paint: {
         'line-color': 'black',
-        // 'line-dasharray': [1,2],
       },
       layerName: 'Official',
     },
@@ -272,7 +270,6 @@ export const PCB = {
       id: 'Alternative', 
       paint: {
         'line-color': 'gray',
-        // 'line-dasharray': [1,2],
       },
       layerName: 'Alternative',
     },
@@ -289,7 +286,8 @@ export const PCB = {
   }
 };
 
-console.log('CONNECTORS', CONNECTORS);
-console.log('PCB', PCB);
+//console.log('CONNECTORS', CONNECTORS);
+//console.log('PCB', PCB);
+//console.log('Icons', ICONS);
 
 export default { icons:ICONS, routes:ROUTES, connectors:CONNECTORS, pcb:PCB  };
