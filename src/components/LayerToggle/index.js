@@ -19,7 +19,7 @@ const LayerToggle = ({ layerId, details: { name, description }, type = 'icon' })
         onClick={toggle}
         onMouseEnter={focus}
         onMouseLeave={unfocus}
-        onTouchEnd={()=> console.log('hey') || unfocus}
+        onTouchEnd={unfocus}
         onTouchStart={focus}
         onTouchCancel={unfocus}
       >
@@ -32,7 +32,7 @@ const LayerToggle = ({ layerId, details: { name, description }, type = 'icon' })
         </div>
         <label htmlFor={styles[layerId]}>{name}</label>
       </span>
-      {description && <ToolTip text={description} direction="top">🛈</ToolTip>}
+      {description && <ToolTip text={description} direction="top"><i className="fa fa-info-circle"></i></ToolTip>}
     </div>
   );
 };
