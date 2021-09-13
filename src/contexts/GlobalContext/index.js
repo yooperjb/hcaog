@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { createContext, useContext, useReducer } from 'react';
-import { useViewPort } from '../../util/window';
+import { getViewPort } from '../../util/window';
 import reducer from './reducer';
 
-const { width } = useViewPort();
+const { width } = getViewPort();
 
 const initialState = {
   showSidebar: width > 600,

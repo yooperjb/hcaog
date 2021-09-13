@@ -5,13 +5,16 @@ import { GlobalProvider } from './contexts/GlobalContext';
 import { LayerVisibilityContextProvider } from './contexts/LayerVisibilityContext';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import ViewPortProvider from './contexts/ViewPortContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <GlobalProvider>
-      <LayerVisibilityContextProvider>
-        <App />
-      </LayerVisibilityContextProvider>
+      <ViewPortProvider>
+        <LayerVisibilityContextProvider>
+          <App />
+        </LayerVisibilityContextProvider>
+      </ViewPortProvider>
     </GlobalProvider>
   </React.StrictMode>,
   document.getElementById('root')

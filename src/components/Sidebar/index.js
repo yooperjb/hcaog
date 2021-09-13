@@ -46,8 +46,8 @@ const Sidebar = ({show}) => {
           </p>
         </div>
         {
-          layerToggleGroups.map(({header, details, toggleType}) => (
-            <LayerToggleGroup key={header} header={header}>
+          layerToggleGroups.map(({header, details, toggleType}, i) => (
+            <LayerToggleGroup key={header ?? i} header={header}>
               {
                 Object.entries(details)
                   .map(([layerId, details]) => (

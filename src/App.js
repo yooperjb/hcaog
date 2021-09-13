@@ -105,27 +105,30 @@ const App  = () => {
         {...viewport}
       >
         {
-          mapLayerSources.map(({layers, onLayerClick, ...source}) => (
-            <Source {...source} key={source} >
-              {
-                layers
-                  .map(layer =>
-                    globals.focusedLayer === layer.id
-                      ? applyFocusStyleToLayer(layer)
-                      : layer
-                  )
-                  .map((layer) => (
-                    <Layer
-                      key={layer.id}
-                      { ...layer }
-                      onClick={onLayerClick}
-                      onHover={setPointerCursor}
-                      onLeave={resetCursor}
-                    />
-                  ))
-              }
-            </Source>
-          ))
+          mapLayerSources.map(({layers, onLayerClick, ...source}) => {
+            const filteredLayers = layers
+              .map(layer =>
+                globals.focusedLayer === layer.id
+                  ? applyFocusStyleToLayer(layer)
+                  : layer
+              )
+              .map((layer) => (
+                <Layer
+                  key={layer.id}
+                  { ...layer }
+                  onClick={onLayerClick}
+                  onHover={setPointerCursor}
+                  onLeave={resetCursor}
+                />
+              ));
+            if (!filteredLayers.length) return null;
+            return (
+              <Source {...source} key={source.id} >
+                { filteredLayers }
+              </Source>
+            );
+          }).filter(source => source)
+            
         }
         
         {

@@ -1,8 +1,6 @@
 import { MAP_DEFAULTS } from './map';
 import { SOURCES, SOURCE_LAYERS } from './sources';
 
-//console.log('sources', SOURCES);
-
 // Set default symbol and line size
 export const LAYER_WEIGHTS = {
   symbol: 1,
@@ -285,9 +283,5 @@ export const PCB = {
     },
   }
 };
-
-//console.log('CONNECTORS', CONNECTORS);
-//console.log('PCB', PCB);
-//console.log('Icons', ICONS);
 
 export default { icons:ICONS, routes:ROUTES, connectors:CONNECTORS, pcb:PCB  };
