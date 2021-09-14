@@ -10,8 +10,10 @@ export const FeatureInfo = ({ type, info }) => {
     () => {
       switch (type) {
       case 'route':
+        if (info.type_2021 !== 'Existing Trail')
+          return null;
         return (
-          <p> Bike Allowed: {info.Bikes_Allowed} </p>
+          <p> Bike Allowed: {info.Bikes_Allo} </p>
         );
       case 'icon':
         return (
@@ -50,7 +52,8 @@ FeatureInfo.propTypes = {
     Name: PropTypes.string,
     Location: PropTypes.string,
     Website: PropTypes.string,
-    Bikes_Allowed: PropTypes.string,
+    Bikes_Allo: PropTypes.string,
+    type_2021: PropTypes.string,
   }).isRequired,
 };
 
