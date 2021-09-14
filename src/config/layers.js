@@ -1,6 +1,5 @@
+import { MAP_DEFAULTS } from './map';
 import { SOURCES, SOURCE_LAYERS } from './sources';
-
-//console.log('sources', SOURCES);
 
 // Set default symbol and line size
 export const LAYER_WEIGHTS = {
@@ -8,8 +7,16 @@ export const LAYER_WEIGHTS = {
   line: 2,
 };
 
-// 
-const makeLayerBuilder = ({
+export const calculateLineWidth = (width) => [
+  'interpolate', 
+  ['linear'], 
+  ['zoom'],
+  MAP_DEFAULTS.viewport.zoom, width, 
+  MAP_DEFAULTS.viewport.zoom + 8, width*2, 
+  MAP_DEFAULTS.viewport.zoom + 16, width * 4
+];
+
+const makeLayerGenerator = ({
   type,
   sourceId,
   sourceLayerId,
@@ -35,11 +42,11 @@ const makeLayerBuilder = ({
   );
 };
 
-const makeSymbolLayerBuilder = ({
+const makeSymbolLayerGenerator = ({
   sourceId,
   sourceLayerId,
   filter
-}) => makeLayerBuilder({
+}) => makeLayerGenerator({
   type: 'symbol',
   sourceId,
   sourceLayerId,
@@ -55,11 +62,11 @@ const makeSymbolLayerBuilder = ({
   filter
 });
 
-const makeLineLayerBuilder = ({
+const makeLineLayerGenerator = ({
   sourceId,
   sourceLayerId,
   filter
-}) => makeLayerBuilder({
+}) => makeLayerGenerator({
   type: 'line',
   sourceId,
   sourceLayerId,
@@ -69,34 +76,34 @@ const makeLineLayerBuilder = ({
     'visibility': 'visible'
   },
   paint: {
-    'line-width': LAYER_WEIGHTS.line,
+    'line-width': calculateLineWidth(LAYER_WEIGHTS.line),
   },
   filter
 });
 
 // create bike points ICON layer
-const buildIconLayer = makeSymbolLayerBuilder({
+const buildIconLayer = makeSymbolLayerGenerator({
   sourceId: 'bike-points',
   sourceLayerId: 'bike-points',
   filter: (layerName) => ['==', 'Type', layerName]
 });
 
 // create bike routes layer
-const buildRouteLayer = makeLineLayerBuilder({
+const buildRouteLayer = makeLineLayerGenerator({
   sourceId: 'bike-routes',
   sourceLayerId: 'bike-routes',
   filter: (layerName) => ['==', 'type_2021', layerName]
 });
 
 // create connector routes layer
-const buildConnectorLayer = makeLineLayerBuilder({
+const buildConnectorLayer = makeLineLayerGenerator({
   sourceId: 'connectors',
   sourceLayerId: 'connectors',
   filter: (layerName) => ['==', 'Type', layerName]
 });
 
 // create pacific coast bike route layer
-const buildPcbLayer = makeLineLayerBuilder({
+const buildPcbLayer = makeLineLayerGenerator({
   sourceId: 'pcb',
   sourceLayerId: 'pcb',
   filter: (layerName) => ['==', 'Status', layerName]
@@ -276,9 +283,5 @@ export const PCB = {
     },
   }
 };
-
-//console.log('CONNECTORS', CONNECTORS);
-//console.log('PCB', PCB);
-//console.log('Icons', ICONS);
 
 export default { icons:ICONS, routes:ROUTES, connectors:CONNECTORS, pcb:PCB  };

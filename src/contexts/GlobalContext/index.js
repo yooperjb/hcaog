@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
 import { createContext, useContext, useReducer } from 'react';
+import { getViewPort } from '../../util/window';
 import reducer from './reducer';
 
+const { width } = getViewPort();
+
 const initialState = {
+  showSidebar: width > 600,
   focusedLayer: 'class1',
 };
 

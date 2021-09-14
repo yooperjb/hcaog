@@ -1,70 +1,50 @@
+import React, { useCallback, useState } from 'react';
 import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source, AttributionControl } from '@urbica/react-map-gl';
-import React, { useState } from 'react';
-import './App.css';
+
+import FeatureInfo from './components/FeatureInfo';
 import Sidebar from './components/Sidebar';
+
+import { MAP_DEFAULTS } from './config/map';
 import { ICONS, ROUTES, CONNECTORS, PCB } from './config/layers.js';
+
 import { useGlobals } from './contexts/GlobalContext';
 import { useLayerVisibility } from './contexts/LayerVisibilityContext';
+
 import { applyFocusStyleToLayer, filterVisibleLayers } from './util/layers';
 
+import './App.css';
+import SidebarControl from './components/SidebarControl';
+
+// mayStyle choices
+const styles = {
+  light: 'mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
+};
+
 const App  = () => {
-
-  // set intial map location settings
-  const [viewport, setViewport] = useState({
-    latitude: 40.7450,
-    longitude: -123.8695,
-    zoom: 8,
-  });
-
-  // mapStyle choices
-  const styles = {
-    //light: 'mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
-    light: 'mapbox://styles/hcaog/ckr3qf0ot95xh17linukv86ts'
-  };
-
-  // useState for layer Popups 
-  const [selectedBikePoint, setSelectedBikePoint] = useState(null);
-  const [selectedBikeRoute, setSelectedBikeRoute] = useState(null);
-  const [selectedConnector, setSelectedConnector] = useState(null);
-  const [LngLat, setLngLat] = useState(null);
-  // useState for Cursor style on hover
-  const [cursorStyle, setCursorStyle] = useState(null);
-  // useState for mapStyle
-  //const [styleId, setStyleId] = useState('light');
-
   const [globals] = useGlobals();
   const [ layerVisibility ] = useLayerVisibility();
+
+  const [cursorStyle, setCursorStyle] = useState();
+  const [viewport, setViewport] = useState(MAP_DEFAULTS.viewport);
   
-  // Set Bike Point info to state for popup
-  const logBikePoint = (event) => {
-    setSelectedBikePoint(event.features[0].properties);
-    setLngLat(event.lngLat);
-  };
+  const [selectedFeature, setSelectedFeature] = useState();
 
-  // Set Bike Route info to state for popup
-  const logBikeRoute = (event) => {
-    setSelectedBikeRoute(event.features[0].properties);
-    setLngLat(event.lngLat);
-  };
+  const clearSelectedFeature = () => setSelectedFeature(() => null);
 
-  // Set Connector info to state for popup
-  const logConnector = (event) => {
-    setSelectedConnector(event.features[0].properties);
-    setLngLat(event.lngLat);
-    console.log('connector', selectedConnector);
-  };
+  const onFeatureClick = (type) => useCallback(({features, lngLat}) => {
+    setSelectedFeature(() => ({
+      type,
+      ...lngLat,
+      info: features[0]?.properties,
+    }));
+  }, [type]);
+  const onRouteFeatureClick = onFeatureClick('route');
+  const onConnectorFeatureClick = onFeatureClick('connector');
+  const onIconFeatureClick = onFeatureClick('icon');
+  const onPCBFeatureClick = onFeatureClick('pcb');
 
-  // set cursor to pointer on feature hover
-  const getCursor = () => () => {
-    setCursorStyle('pointer');
-    //dispatchGlobals(setFocusedLayer(layer));
-  };
-
-  // set cursor to back to default on feature leave
-  const returnCursor = () => {
-    setCursorStyle(null);
-    //dispatchGlobals(clearFocusedLayer());
-  };
+  const resetCursor = () => setCursorStyle(null);
+  const setPointerCursor = () => setCursorStyle('pointer');
 
   const iconLayers = filterVisibleLayers(
     ICONS.layers,
@@ -91,153 +71,78 @@ const App  = () => {
     globals.focusedLayer
   );
 
+  const mapLayerSources = [
+    {
+      ...ROUTES.source,
+      layers: routeLayers,
+      onLayerClick: onRouteFeatureClick
+    },
+    {
+      ...CONNECTORS.source,
+      layers: connectorLayers,
+      onLayerClick: onConnectorFeatureClick
+    },
+    {
+      ...PCB.source,
+      layers: pcbLayers,
+      onLayerClick: onPCBFeatureClick
+    },
+    {
+      ...ICONS.source,
+      layers: iconLayers,
+      onLayerClick: onIconFeatureClick
+    },
+  ];
+
   return (
     <div className="container">
       <MapGL
-        {...viewport}
-        style={{ flexGrow: '1', height: '100%' }}
-        //mapStyle='mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
-        mapStyle={styles.light}
-        // need to change to HCAOG token!
         accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        mapStyle={styles.light}
+        onClick={clearSelectedFeature}
         onViewportChange={setViewport}
         cursorStyle={cursorStyle}
-        attributionControl={false}
-        pitchWithRotate={true}
-        dragRotate={true}
+        {...viewport}
       >
-        <Source {...ROUTES.source} >
-          {
-            routeLayers.map((layer) => (
-              <Layer
-                key={layer.id}
-                {...(globals.focusedLayer === layer.id
-                  ? applyFocusStyleToLayer(layer)
-                  : layer
-                )}
-                onHover={getCursor(layer.id)}
-                onClick={logBikeRoute}
-                onLeave={returnCursor}
-              />
-            ))
-          }
-        </Source>
-        
-        <Source {...CONNECTORS.source} >
-          {
-            connectorLayers.map((layer) => (
-              <Layer
-                key={layer.id}
-                {...(globals.focusedLayer === layer.id
-                  ? applyFocusStyleToLayer(layer)
-                  : layer
-                )}
-                onClick={logConnector}
-                onHover={getCursor(layer.id)}
-                onLeave={returnCursor}
-              />
-            ))
-          }
-        </Source>
-
-        <Source {...PCB.source} >
-          {
-            pcbLayers.map((layer) => (
-              <Layer
-                key={layer.id}
-                {...(globals.focusedLayer === layer.id
-                  ? applyFocusStyleToLayer(layer)
-                  : layer
-                )}
-                // onClick={logConnector}
-                onHover={getCursor(layer.id)}
-                onLeave={returnCursor}
-              />
-            ))
-          }
-        </Source>
-        
-        <Source {...ICONS.source}>
-          {
-            iconLayers.map((layer) => (
-              <Layer
-                key={layer.id}
-                {
-                  ...(globals.focusedLayer === layer.id
-                    ? applyFocusStyleToLayer(layer)
-                    : layer
-                  )
-                }
-                onHover={getCursor(layer.id)}
-                onClick={logBikePoint}
-                onLeave={returnCursor}
-              />
-            ))
-          }
-        </Source>
-        
         {
-          selectedBikePoint && LngLat
-            ? (
-              <Popup
-                latitude={LngLat.lat}
-                longitude={LngLat.lng}
-                closeButton={false}
-                className="bikePointsPopup"
-                onClose={() => setSelectedBikePoint(null) }>
-
-                <div>
-                  <h3>{selectedBikePoint.Type}</h3>
-                  <p>{selectedBikePoint.Name}</p>
-                  <p>{selectedBikePoint.Location}</p>
-                  {
-                    selectedBikePoint.Website
-                      ? (
-                        <p><a target="_blank" href={selectedBikePoint.Website} rel="noreferrer">Website</a></p>
-                      )
-                      : null
-                  }
-                </div>
-              </Popup>
-            )
-            : null
+          mapLayerSources.map(({layers, onLayerClick, ...source}) => {
+            const filteredLayers = layers
+              .map(layer =>
+                globals.focusedLayer === layer.id
+                  ? applyFocusStyleToLayer(layer)
+                  : layer
+              )
+              .map((layer) => (
+                <Layer
+                  key={layer.id}
+                  { ...layer }
+                  onClick={onLayerClick}
+                  onHover={setPointerCursor}
+                  onLeave={resetCursor}
+                />
+              ));
+            if (!filteredLayers.length) return null;
+            return (
+              <Source {...source} key={source.id} >
+                { filteredLayers }
+              </Source>
+            );
+          }).filter(source => source)
+            
         }
-
+        
         {
-          (selectedBikeRoute && LngLat)
-            ? (
-              <Popup
-                latitude={LngLat.lat}
-                longitude={LngLat.lng}
-                closeButton={false}
-                className="bikeRoutePopup"
-                onClose={() => setSelectedBikeRoute(null)}>
-                <div>
-                  <h3>{selectedBikeRoute.type_2021}</h3>
-                  <p>{selectedBikeRoute.Name}</p>
-                  <p>Bikes Allowed: {selectedBikeRoute.Bikes_Allo}</p>
-                </div>
-              </Popup>
-            )
-            : null
-        }
-
-        {
-          (selectedConnector && LngLat)
-            ? (
-              <Popup
-                latitude={LngLat.lat}
-                longitude={LngLat.lng}
-                closeButton={false}
-                className="connectorPopup"
-                onClose={() => setSelectedConnector(null)}>
-                <div>
-                  <h3>{selectedConnector.Type}</h3>
-                  <p>{selectedConnector.Name}</p>
-                </div>
-              </Popup>
-            )
-            : null
+          selectedFeature && (
+            <Popup
+              latitude={selectedFeature.lat}
+              longitude={selectedFeature.lng}
+              closeButton={false}
+              closeOnClick={false}
+              className="selectedFeaturePopup"
+              onClose={clearSelectedFeature}>
+              <FeatureInfo {...selectedFeature} />
+            </Popup>
+          )
         }
 
         <NavigationControl showZoom position='top-right' />
@@ -247,8 +152,9 @@ const App  = () => {
           customAttribution="HCAOG"
           compact={true}
         />
+        <SidebarControl />
       </MapGL>
-      <Sidebar></Sidebar>
+      <Sidebar show={globals.showSidebar}></Sidebar>
     </div>
   );
 };
