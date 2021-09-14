@@ -142,13 +142,19 @@ export const ICONS = {
   ].map(buildIconLayer),
   details: {
     'bike-shops': {
-      name: 'Bike Shop'
+      name: 'Bike Shop',
+      icon: 'dollar-sign',
+      color: 'blue'
     },
     'rental': {
-      name: 'Bike Rental'
+      name: 'Bike Rental',
+      icon: 'bicycle',
+      color: 'red'
     },
     'tool-station': {
-      name: 'Tool Station'
+      name: 'Tool Station',
+      icon: 'wrench',
+      color: 'green'
     },
   }
 };

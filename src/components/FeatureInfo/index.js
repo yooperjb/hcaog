@@ -2,20 +2,12 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './style.module.css';
+import { ICONS } from '../../config/layers';
 
-const iconMap = {
-  'Bicycle Shop': {
-    icon: 'dollar-sign',
-    color: 'blue'
-  },
-  'Rental': {
-    icon: 'bicycle',
-    color: 'red'
-  },
-  'Tool Station': {
-    icon: 'wrench',
-    color: 'green'
-  }
+const iconIdMap = {
+  'Bicycle Shop': 'bike-shops',
+  'Rental': 'rental',
+  'Tool Station': 'tool-station'
 };
 
 export const FeatureInfo = ({ type, info }) => {
@@ -26,7 +18,8 @@ export const FeatureInfo = ({ type, info }) => {
   const icon = useMemo(() => {
     if (type !== 'icon')
       return;
-    return <FontAwesomeIcon {...iconMap[info[typeProperty]]}/>;
+    const { icon, color } = ICONS.details[iconIdMap[info[typeProperty]]];
+    return <FontAwesomeIcon icon={icon} color={color}/>;
   }, [type, typeProperty]);
   const link = useMemo(
     () => {
