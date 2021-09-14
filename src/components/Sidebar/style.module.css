@@ -1,14 +1,17 @@
 .sidebar {
+  display:block;
   width: fit-content;
+  max-width: 1000px;
   background-color: #3D3B0A;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 1rem;
-  transition: width 0.5s ease-in-out ;
+  transition: max-width 50ms ease-in-out ;
 }
 .sidebar.hidden {
-  width: 0;
+  max-width: 0;
   padding: 0;
+  transition: max-width 0s ease-in-out ;
 }
 
 .logo {
