@@ -125,7 +125,7 @@ const App  = () => {
         }
         
         {
-          selectedFeature && !console.log(selectedFeature) && (
+          selectedFeature && (
             <Popup
               latitude={selectedFeature.lat}
               longitude={selectedFeature.lng}
