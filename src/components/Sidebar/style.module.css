@@ -6,12 +6,10 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding: 1rem;
-  transition: max-width 50ms ease-in-out ;
 }
 .sidebar.hidden {
   max-width: 0;
   padding: 0;
-  transition: max-width 0s ease-in-out ;
 }
 
 .logo {
