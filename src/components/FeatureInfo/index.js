@@ -30,7 +30,7 @@ export const FeatureInfo = ({ type, info }) => {
         );
       if (type == 'route' && info.type_2021 === 'Existing Trail')
         return (
-          <p> Bike Allowed: {info.Bikes_Allo} </p>
+          <p> Bikes Allowed: {info.Bikes_Allo} </p>
         );
     },
     [type, info]
