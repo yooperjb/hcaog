@@ -213,7 +213,7 @@ export const CONNECTORS = {
   source: SOURCES.get('connectors'),
   layers: [
     {
-      id: 'Family Friendly', 
+      id: 'Family-Friendly', 
       paint: {
         'line-color': 'green',
         'line-dasharray': [1,2],
@@ -239,8 +239,8 @@ export const CONNECTORS = {
     },
   ].map(buildConnectorLayer),
   details: {
-    'Family Friendly': {
-      name: 'Family-Friendly',
+    'Family-Friendly': {
+      name: 'Family Friendly',
       description:'Family friendly connector routes.'
     },
     'Intermediate': {
