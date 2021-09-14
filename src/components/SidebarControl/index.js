@@ -27,7 +27,7 @@ const SidebarControl = () => {
     <div className={styles['sidebar-toggle']}>
       <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
         <button className="mapboxgl-ctrl-geolocate" onClick={onClick}>
-          {<i className={`fa fa-arrow-${showSidebar ? 'right': 'left'}`}/>}
+          {<i className={`fa fa-chevron-${showSidebar ? 'right': 'left'}`}/>}
         </button>
       </div>
     </div>
