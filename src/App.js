@@ -17,7 +17,7 @@ import SidebarControl from './components/SidebarControl';
 
 // mayStyle choices
 const styles = {
-  light: 'mapbox://styles/yooperjb/ckot0y3yz3kd217lllr2akvdn'
+  light: 'mapbox://styles/hcaog/ckr3qf0ot95xh17linukv86ts'
 };
 
 const App  = () => {
