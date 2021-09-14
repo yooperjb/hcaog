@@ -1,13 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import '@fortawesome/fontawesome-svg-core/attribution';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {faInfoCircle, faExternalLinkAlt, faChevronRight, faChevronLeft, faDollarSign, faBicycle, faWrench} from '@fortawesome/free-solid-svg-icons';
+
 import App from './App';
+
 import { GlobalProvider } from './contexts/GlobalContext';
 import { LayerVisibilityContextProvider } from './contexts/LayerVisibilityContext';
-import reportWebVitals from './reportWebVitals';
-import './index.css';
 import ViewPortProvider from './contexts/ViewPortContext';
+
+import reportWebVitals from './reportWebVitals';
+
+import './index.css';
 
 library.add(
   faInfoCircle,
