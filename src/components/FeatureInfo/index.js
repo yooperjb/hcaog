@@ -3,15 +3,42 @@ import { useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './style.module.css';
 
+const iconMap = {
+  'Bicycle Shop': {
+    icon: 'dollar-sign',
+    color: 'blue'
+  },
+  'Rental': {
+    icon: 'bicycle',
+    color: 'red'
+  },
+  'Tool Station': {
+    icon: 'wrench',
+    color: 'green'
+  }
+};
+
 export const FeatureInfo = ({ type, info }) => {
   const typeProperty = useMemo(
     () => type === 'route' ? 'type_2021' : 'Type',
     [type]
   );
+  const icon = useMemo(() => {
+    if (type !== 'icon')
+      return;
+    return <FontAwesomeIcon {...iconMap[info[typeProperty]]}/>;
+  }, [type, typeProperty]);
   const link = useMemo(
     () => {
       if (type === 'icon')
-        return info.Website;
+        return (
+          <a
+            target="_blank"
+            href={info.Website}
+            rel="noreferrer">
+            <FontAwesomeIcon icon="external-link-alt"/>
+          </a>
+        );
     },
     [type, info]
   );
@@ -30,20 +57,12 @@ export const FeatureInfo = ({ type, info }) => {
   );
   return (
     <div className={styles['popup']}>
-      <h3>{info[typeProperty]}</h3>
+      <h3>{icon}{info[typeProperty]}</h3>
       {
         info.Name &&
           <div className={styles['popup-row']}>
             <p>{info.Name}</p>
-            {
-              link &&
-                <a
-                  target="_blank"
-                  href={link}
-                  rel="noreferrer">
-                  <FontAwesomeIcon icon="external-link-alt"/>
-                </a>
-            }
+            {link}
           </div>
       }
       {body}

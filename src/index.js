@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {faInfoCircle, faExternalLinkAlt, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import {faInfoCircle, faExternalLinkAlt, faChevronRight, faChevronLeft, faDollarSign, faBicycle, faWrench} from '@fortawesome/free-solid-svg-icons';
 import App from './App';
 import { GlobalProvider } from './contexts/GlobalContext';
 import { LayerVisibilityContextProvider } from './contexts/LayerVisibilityContext';
@@ -9,7 +9,15 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import ViewPortProvider from './contexts/ViewPortContext';
 
-library.add(faInfoCircle, faExternalLinkAlt, faChevronRight, faChevronLeft);
+library.add(
+  faInfoCircle,
+  faExternalLinkAlt,
+  faChevronRight,
+  faChevronLeft,
+  faDollarSign,
+  faBicycle,
+  faWrench
+);
 
 ReactDOM.render(
   <React.StrictMode>

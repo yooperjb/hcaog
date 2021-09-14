@@ -54,7 +54,6 @@ const makeSymbolLayerGenerator = ({
     'icon-size': LAYER_WEIGHTS.symbol,
     'icon-allow-overlap': false,
     'visibility': 'visible',
-    
   },
   paint: {
     // 'icon-opacity': 1,
@@ -116,7 +115,8 @@ export const ICONS = {
     {
       id: 'bike-shops',
       layout:{
-        'icon-image': 'hcaog-hardware-15'},
+        'icon-image': 'hcaog-hardware-15'
+      },
       paint: {
         'icon-color': 'black',
       },
@@ -125,7 +125,8 @@ export const ICONS = {
     {
       id: 'rental',
       layout:{
-        'icon-image': 'hcaog-bicycle-15'},
+        'icon-image': 'hcaog-bicycle-15'
+      },
       paint: {
         'icon-color': 'black',
       },
