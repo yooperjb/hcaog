@@ -1,5 +1,6 @@
-import { MapContext } from '@urbica/react-map-gl';
 import { useContext, useEffect } from 'react';
+import { MapContext } from '@urbica/react-map-gl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Breakpoints from '../../config/breakpoints';
 import { toggleSidebar, useGlobals } from '../../contexts/GlobalContext';
 import { useViewPort } from '../../contexts/ViewPortContext';
@@ -27,7 +28,7 @@ const SidebarControl = () => {
     <div className={styles['sidebar-toggle']}>
       <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
         <button className="mapboxgl-ctrl-geolocate" onClick={onClick}>
-          {<i className={`fa fa-chevron-${showSidebar ? 'right': 'left'}`}/>}
+          <FontAwesomeIcon icon={`chevron-${showSidebar ? 'right': 'left'}`} />
         </button>
       </div>
     </div>

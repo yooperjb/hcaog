@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { clearFocusedLayer, setFocusedLayer, useGlobals } from '../../contexts/GlobalContext';
 import { toggleVisibility, useLayerVisibility } from '../../contexts/LayerVisibilityContext';
 import ToolTip from '../ToolTip';
@@ -35,7 +36,7 @@ const LayerToggle = ({ layerId, details: { name, description }, type = 'icon' })
       {
         description && 
           <ToolTip text={description} direction="top">
-            <i className="fa fa-info-circle" style={{color:'white'}}></i>
+            <FontAwesomeIcon icon="info-circle" style={{color:'white'}} />
           </ToolTip>
       }
     </div>

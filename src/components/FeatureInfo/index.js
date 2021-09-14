@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './style.module.css';
 
 export const FeatureInfo = ({ type, info }) => {
@@ -40,7 +41,7 @@ export const FeatureInfo = ({ type, info }) => {
                   target="_blank"
                   href={link}
                   rel="noreferrer">
-                  <i className="fa fa-external-link"/>
+                  <FontAwesomeIcon icon="external-link-alt"/>
                 </a>
             }
           </div>
