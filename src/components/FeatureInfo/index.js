@@ -8,14 +8,7 @@ export const FeatureInfo = ({ type, info }) => {
   );
   const body = useMemo(
     () => {
-      switch (type) {
-      case 'route':
-        if (info.type_2021 !== 'Existing Trail')
-          return null;
-        return (
-          <p> Bike Allowed: {info.Bikes_Allo} </p>
-        );
-      case 'icon':
+      if (type == 'icon')
         return (
           <>
             <p>{info.Location}</p>
@@ -33,7 +26,10 @@ export const FeatureInfo = ({ type, info }) => {
             }
           </>
         );
-      }
+      if (type == 'route' && info.type_2021 === 'Existing Trail')
+        return (
+          <p> Bike Allowed: {info.Bikes_Allo} </p>
+        );
     },
     [type, info]
   );
