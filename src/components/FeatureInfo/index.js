@@ -7,28 +7,20 @@ export const FeatureInfo = ({ type, info }) => {
     () => type === 'route' ? 'type_2021' : 'Type',
     [type]
   );
+  const link = useMemo(
+    () => {
+      if (type === 'icon')
+        return info.Website;
+    },
+    [type, info]
+  );
   const body = useMemo(
     () => {
-      if (type == 'icon')
+      if (type === 'icon')
         return (
-          <>
-            <p>{info.Location}</p>
-            {
-              info.Website && (
-                <p>
-                  <a
-                    className={styles['website-link']}
-                    target="_blank"
-                    href={info.Website}
-                    rel="noreferrer">
-                    Website
-                  </a>
-                </p>
-              )
-            }
-          </>
+          <p>{info.Location}</p>
         );
-      if (type == 'route' && info[typeProperty] === 'Existing Trail')
+      if (type === 'route' && info[typeProperty] === 'Existing Trail')
         return (
           <p> Bikes Allowed: {info.Bikes_Allo} </p>
         );
@@ -36,9 +28,23 @@ export const FeatureInfo = ({ type, info }) => {
     [type, info]
   );
   return (
-    <div>
+    <div className={styles['popup']}>
       <h3>{info[typeProperty]}</h3>
-      <p>{info.Name}</p>
+      {
+        info.Name &&
+          <div className={styles['popup-row']}>
+            <p>{info.Name}</p>
+            {
+              link &&
+                <a
+                  target="_blank"
+                  href={link}
+                  rel="noreferrer">
+                  <i className="fa fa-external-link"/>
+                </a>
+            }
+          </div>
+      }
       {body}
     </div>
   );
