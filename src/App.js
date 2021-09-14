@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source, AttributionControl } from '@urbica/react-map-gl';
 
 import FeatureInfo from './components/FeatureInfo';
@@ -38,6 +38,7 @@ const App  = () => {
       info: features[0]?.properties,
     }));
   }, [type]);
+
   const onRouteFeatureClick = onFeatureClick('route');
   const onConnectorFeatureClick = onFeatureClick('connector');
   const onIconFeatureClick = onFeatureClick('icon');
@@ -85,6 +86,8 @@ const App  = () => {
       onLayerClick: onIconFeatureClick
     },
   ];
+
+  useEffect(clearSelectedFeature, [layerVisibility]);
 
   return (
     <div className="container">
