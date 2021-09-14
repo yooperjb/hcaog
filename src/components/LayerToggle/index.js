@@ -32,7 +32,12 @@ const LayerToggle = ({ layerId, details: { name, description }, type = 'icon' })
         </div>
         <label htmlFor={styles[layerId]}>{name}</label>
       </span>
-      {description && <ToolTip text={description} direction="top"><i className="fa fa-info-circle"></i></ToolTip>}
+      {
+        description && 
+          <ToolTip text={description} direction="top">
+            <i className="fa fa-info-circle" style={{color:'white'}}></i>
+          </ToolTip>
+      }
     </div>
   );
 };
