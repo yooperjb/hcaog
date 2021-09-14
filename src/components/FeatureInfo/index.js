@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
+import styles from './style.module.css';
 
 export const FeatureInfo = ({ type, info }) => {
   const typeProperty = useMemo(
@@ -16,6 +17,7 @@ export const FeatureInfo = ({ type, info }) => {
               info.Website && (
                 <p>
                   <a
+                    className={styles['website-link']}
                     target="_blank"
                     href={info.Website}
                     rel="noreferrer">
