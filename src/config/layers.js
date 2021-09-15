@@ -194,6 +194,7 @@ export const ROUTES = {
       layerName: 'Existing Trail',
     },
   ].map(buildRouteLayer),
+  // What shows up in legend
   details: {
     'ClassI': {
       name: 'Multi-use Path',
@@ -208,8 +209,8 @@ export const ROUTES = {
       description: 'A travel lane shared by bicycles and motor vehicles designated only by signs or pavement markings. This type of facility mainly informs motorists of preferred cycling routes.'
     },
     'Trail': {
-      name: 'Natural Surface Trails',
-      description: 'A dirt or gravel single-track paths that are bicycle compatible.'
+      name: 'Natural Surface',
+      description: 'A dirt or gravel path that is often bicycle compatible'
     },
   }
 };
@@ -225,7 +226,6 @@ export const CONNECTORS = {
         'line-dasharray': [1,2],
       },
       layerName: 'Family Friendly',
-      // layerName: 'Family-Friendly',
     },
     {
       id: 'Intermediate', 
@@ -244,18 +244,19 @@ export const CONNECTORS = {
       layerName: 'Advanced',
     },
   ].map(buildConnectorLayer),
+  // What shows up in legend
   details: {
     'Family-Friendly': {
-      name: 'Family Friendly',
-      description:'Family friendly connector routes.'
+      name: 'Mellow',
+      description:'Lower traffic/speed streets; generally appropriate for children and for relaxed everyday use'
     },
     'Intermediate': {
-      name: 'Intermediate',
-      description:'Intermediate connector routes that are a little more difficult than famiy-friendly routes.'
+      name: 'Confident',
+      description:'Moderate traffic/speed with medium shoulder width streets; suitable for a range of bicyclists'
     },
     'Advanced': {
-      name: 'Advanced',
-      description:'Advanced connector routes that typically involves more traffic and may require advanced bike skills.'
+      name: 'Brave',
+      description:'High traffic volume/speed; narrow or non-existent shoulder, and/or extreme topography (hills)'
     },
   }
 };

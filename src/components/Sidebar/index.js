@@ -62,6 +62,13 @@ const Sidebar = ({show}) => {
             </LayerToggleGroup>
           ))
         }
+        <div className={styles['header']}>
+          <h4>Public Transit Routes</h4>
+        </div>
+        <div className={styles['summary']}>
+          <p>Note that all busses are equipped with bike racks. 
+            Plan your connection <a href="https://hta.org/" target="_blank" rel="noreferrer">here</a>.</p>
+        </div>
       </div>
     </>
   );
