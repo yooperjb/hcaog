@@ -1,13 +1,14 @@
 .sidebar {
+  display:block;
   width: fit-content;
+  max-width: 1000px;
   background-color: #3D3B0A;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 1rem;
-  transition: width 0.5s ease-in-out ;
 }
 .sidebar.hidden {
-  width: 0;
+  max-width: 0;
   padding: 0;
 }
 
@@ -20,5 +21,13 @@
   min-width: 15rem;
   max-width: 15vw;
   margin: 10px;
+  color: white;
+}
+p {
+  margin-top: 0;
+}
+
+h4 {
+  margin: .8rem .6rem .4rem 0;
   color: white;
 }

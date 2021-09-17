@@ -59,7 +59,7 @@
   background-color: var(--intermediate-color);
 }
 
-.layer-toggle input[type=checkbox].line.Family[checked] {
+.layer-toggle input[type=checkbox].line.Family-Friendly[checked] {
   background-color: var(--family-color);
 }
 

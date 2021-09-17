@@ -1,0 +1,11 @@
+div.popup-row {
+  display: flex;
+  justify-content: space-between;
+}
+.popup a {
+  display: block;
+  margin-left: 0.5rem;
+}
+.popup h3 svg {
+  margin-right: 0.25rem;
+}

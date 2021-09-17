@@ -35,14 +35,14 @@ const Sidebar = ({show}) => {
         </div>
         <div className={styles['summary']}>
           <p>
-            Humboldt County offers incredible bike opportunities for
-            visitors and locals alike. Find a new way to commute to work,
-            explore the countryside, an adventurous mountain bike ride,
-            and more!
+            Humboldt County offers incredible biking opportunities 
+            for visitors and residents alike. 
+            Find a new way to commute to work, explore the countryside, 
+            take an adventurous mountain bike ride, and more!
           </p>
           <p>
             To learn more about Humboldt County Bike Routes click
-            <a target="_blank" href="https://www.hcaog.net/documents/humboldt-regional-bicycle-plan-2018" rel="noreferrer">here</a>.
+            <a target="_blank" href="https://www.hcaog.net/documents/humboldt-regional-bicycle-plan-2018" rel="noreferrer"> here</a>.
           </p>
         </div>
         {
@@ -62,6 +62,12 @@ const Sidebar = ({show}) => {
             </LayerToggleGroup>
           ))
         }
+       
+        <div className={styles['summary']}>
+          <h4>Public Transit Routes</h4>
+          <p>Note that all busses are equipped with bike racks. 
+            Plan your connection <a href="https://hta.org/" target="_blank" rel="noreferrer">here</a>.</p>
+        </div>
       </div>
     </>
   );

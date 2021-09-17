@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source, AttributionControl } from '@urbica/react-map-gl';
 
 import FeatureInfo from './components/FeatureInfo';
@@ -38,6 +38,7 @@ const App  = () => {
       info: features[0]?.properties,
     }));
   }, [type]);
+
   const onRouteFeatureClick = onFeatureClick('route');
   const onConnectorFeatureClick = onFeatureClick('connector');
   const onIconFeatureClick = onFeatureClick('icon');
@@ -46,53 +47,47 @@ const App  = () => {
   const resetCursor = () => setCursorStyle(null);
   const setPointerCursor = () => setCursorStyle('pointer');
 
-  const iconLayers = filterVisibleLayers(
-    ICONS.layers,
-    layerVisibility,
-    globals.focusedLayer
-  );
-  
-  const routeLayers = filterVisibleLayers(
-    ROUTES.layers,
-    layerVisibility,
-    globals.focusedLayer,
-    ICONS.layers.slice(-1)[0]?.id
-  );
-
-  const connectorLayers = filterVisibleLayers(
-    CONNECTORS.layers,
-    layerVisibility,
-    globals.focusedLayer
-  );
-
-  const pcbLayers = filterVisibleLayers(
-    PCB.layers,
-    layerVisibility,
-    globals.focusedLayer
-  );
-
   const mapLayerSources = [
     {
       ...ROUTES.source,
-      layers: routeLayers,
+      layers: filterVisibleLayers(
+        ROUTES.layers,
+        layerVisibility,
+        globals.focusedLayer,
+        ICONS.layers.slice(-1)[0]?.id
+      ),
       onLayerClick: onRouteFeatureClick
     },
     {
       ...CONNECTORS.source,
-      layers: connectorLayers,
+      layers: filterVisibleLayers(
+        CONNECTORS.layers,
+        layerVisibility,
+        globals.focusedLayer
+      ),
       onLayerClick: onConnectorFeatureClick
     },
     {
       ...PCB.source,
-      layers: pcbLayers,
+      layers: filterVisibleLayers(
+        PCB.layers,
+        layerVisibility,
+        globals.focusedLayer
+      ),
       onLayerClick: onPCBFeatureClick
     },
     {
       ...ICONS.source,
-      layers: iconLayers,
+      layers: filterVisibleLayers(
+        ICONS.layers,
+        layerVisibility,
+        globals.focusedLayer
+      ),
       onLayerClick: onIconFeatureClick
     },
   ];
+
+  useEffect(clearSelectedFeature, [layerVisibility]);
 
   return (
     <div className="container">
@@ -102,6 +97,7 @@ const App  = () => {
         onClick={clearSelectedFeature}
         onViewportChange={setViewport}
         cursorStyle={cursorStyle}
+        attributionControl={false}
         {...viewport}
       >
         {
