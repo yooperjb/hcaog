@@ -115,7 +115,7 @@ export const ICONS = {
     {
       id: 'bike-shops',
       layout:{
-        'icon-image': 'hcaog-hardware-15'
+        'icon-image': 'hcaog-bicycle-shop'
       },
       paint: {
         'icon-color': 'black',
@@ -125,7 +125,8 @@ export const ICONS = {
     {
       id: 'rental',
       layout:{
-        'icon-image': 'hcaog-bicycle-15'
+        // 'icon-image': 'hcaog-bicycle-15'
+        'icon-image': 'hcaog-bicycle-rental-17'
       },
       paint: {
         'icon-color': 'black',
@@ -135,7 +136,8 @@ export const ICONS = {
     {
       id: 'tool-station',
       layout:{
-        'icon-image': 'hardware-15'
+        // 'icon-image': 'hardware-15'
+        'icon-image': 'hcaog-hardware-new'
       },
       layerName: 'Tool Station'
     },
