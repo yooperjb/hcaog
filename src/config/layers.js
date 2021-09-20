@@ -146,17 +146,17 @@ export const ICONS = {
     'bike-shops': {
       name: 'Bike Shop',
       icon: 'dollar-sign',
-      color: 'blue'
+      color: 'white'
     },
     'rental': {
       name: 'Bike Rental',
       icon: 'bicycle',
-      color: 'red'
+      color: 'white'
     },
     'tool-station': {
       name: 'Tool Station',
       icon: 'wrench',
-      color: 'green'
+      color: 'white'
     },
   }
 };
