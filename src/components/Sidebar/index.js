@@ -65,7 +65,7 @@ const Sidebar = ({show}) => {
        
         <div className={styles['summary']}>
           <h4>Public Transit Routes</h4>
-          <p>Note that most busses are equipped with bike racks. 
+          <p>Note that several bus lines are equipped with bike racks. 
             Plan your connection <a href="https://hta.org/" target="_blank" rel="noreferrer">here</a>.</p>
         </div>
       </div>
