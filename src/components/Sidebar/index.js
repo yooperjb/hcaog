@@ -18,6 +18,7 @@ const Sidebar = ({show}) => {
     {
       details:CONNECTORS.details,
       header: 'Connector Routes',
+      description: 'These are connector routes',
       toggleType: 'line'
     },
     {
@@ -46,8 +47,17 @@ const Sidebar = ({show}) => {
           </p>
         </div>
         {
-          layerToggleGroups.map(({header, details, toggleType}, i) => (
-            <LayerToggleGroup key={header ?? i} header={header}>
+          layerToggleGroups.map(({
+            header,
+            description,
+            details,
+            toggleType
+          }, i) => (
+            <LayerToggleGroup
+              key={header ?? i}
+              header={header}
+              description={description}
+            >
               {
                 Object.entries(details)
                   .map(([layerId, details]) => (
