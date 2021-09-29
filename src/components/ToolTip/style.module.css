@@ -18,6 +18,8 @@
   max-width: min(15rem, 20vw);
   background-color: var(--tooltip-color);
   border-color: var(--tooltip-color);
+  font-size: 1rem;
+  font-weight: normal;
   color: #fff;
   text-align: center;
   border-radius: 0.4rem; 
