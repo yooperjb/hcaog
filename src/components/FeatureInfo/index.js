@@ -18,8 +18,9 @@ export const FeatureInfo = ({ type, info }) => {
   const icon = useMemo(() => {
     if (type !== 'icon')
       return;
-    const { icon, color } = ICONS.details[iconIdMap[info[typeProperty]]];
-    return <FontAwesomeIcon icon={icon} color={color}/>;
+    // const { icon, color } = ICONS.details[iconIdMap[info[typeProperty]]];
+    const { icon } = ICONS.details[iconIdMap[info[typeProperty]]];
+    return <FontAwesomeIcon icon={icon} color='black'/>;
   }, [type, typeProperty]);
   const link = useMemo(
     () => {
