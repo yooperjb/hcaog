@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/hcaog/static/css/main.9fd3efaf.chunk.css",
-    "main.js": "/hcaog/static/js/main.a55dda86.chunk.js",
-    "main.js.map": "/hcaog/static/js/main.a55dda86.chunk.js.map",
+    "main.js": "/hcaog/static/js/main.6a19c5a1.chunk.js",
+    "main.js.map": "/hcaog/static/js/main.6a19c5a1.chunk.js.map",
     "runtime-main.js": "/hcaog/static/js/runtime-main.66fafbcc.js",
     "runtime-main.js.map": "/hcaog/static/js/runtime-main.66fafbcc.js.map",
-    "static/js/2.82daed1a.chunk.js": "/hcaog/static/js/2.82daed1a.chunk.js",
-    "static/js/2.82daed1a.chunk.js.map": "/hcaog/static/js/2.82daed1a.chunk.js.map",
+    "static/js/2.c1905b4e.chunk.js": "/hcaog/static/js/2.c1905b4e.chunk.js",
+    "static/js/2.c1905b4e.chunk.js.map": "/hcaog/static/js/2.c1905b4e.chunk.js.map",
     "static/js/3.9f4b3df4.chunk.js": "/hcaog/static/js/3.9f4b3df4.chunk.js",
     "static/js/3.9f4b3df4.chunk.js.map": "/hcaog/static/js/3.9f4b3df4.chunk.js.map",
     "index.html": "/hcaog/index.html",
     "static/css/main.9fd3efaf.chunk.css.map": "/hcaog/static/css/main.9fd3efaf.chunk.css.map",
-    "static/js/2.82daed1a.chunk.js.LICENSE.txt": "/hcaog/static/js/2.82daed1a.chunk.js.LICENSE.txt",
+    "static/js/2.c1905b4e.chunk.js.LICENSE.txt": "/hcaog/static/js/2.c1905b4e.chunk.js.LICENSE.txt",
     "static/media/logo.3d93fbe4.png": "/hcaog/static/media/logo.3d93fbe4.png"
   },
   "entrypoints": [
     "static/js/runtime-main.66fafbcc.js",
-    "static/js/2.82daed1a.chunk.js",
+    "static/js/2.c1905b4e.chunk.js",
     "static/css/main.9fd3efaf.chunk.css",
-    "static/js/main.a55dda86.chunk.js"
+    "static/js/main.6a19c5a1.chunk.js"
   ]
 }
