@@ -6,11 +6,11 @@ import styles from './style.module.css';
 const LayerToggleGroup = ({header, description, children}) => (
   <>
     {
-      header && 
+      header &&
         <h3 className={styles['layer-group-header']}>
           <span className={styles['layer-group-header-text']}>{header}</span>
           {
-            description && 
+            description &&
               <ToolTip text={description} direction="top">
                 <FontAwesomeIcon icon="info-circle" style={{color:'white'}} />
               </ToolTip>

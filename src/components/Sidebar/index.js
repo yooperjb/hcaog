@@ -18,7 +18,7 @@ const Sidebar = ({show}) => {
     {
       details:CONNECTORS.details,
       header: 'Connector Routes',
-      description: 'These are connector routes',
+      description: 'These dashed lines are streets that bicyclists often use, but do not yet have dedicated bicycle infrastructure.',
       toggleType: 'line'
     },
     {
