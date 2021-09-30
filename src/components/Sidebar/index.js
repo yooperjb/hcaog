@@ -18,6 +18,7 @@ const Sidebar = ({show}) => {
     {
       details:CONNECTORS.details,
       header: 'Connector Routes',
+      description: 'These dashed lines are streets that bicyclists often use, but do not yet have dedicated bicycle infrastructure.',
       toggleType: 'line'
     },
     {
@@ -46,8 +47,17 @@ const Sidebar = ({show}) => {
           </p>
         </div>
         {
-          layerToggleGroups.map(({header, details, toggleType}, i) => (
-            <LayerToggleGroup key={header ?? i} header={header}>
+          layerToggleGroups.map(({
+            header,
+            description,
+            details,
+            toggleType
+          }, i) => (
+            <LayerToggleGroup
+              key={header ?? i}
+              header={header}
+              description={description}
+            >
               {
                 Object.entries(details)
                   .map(([layerId, details]) => (
@@ -65,7 +75,7 @@ const Sidebar = ({show}) => {
        
         <div className={styles['summary']}>
           <h4>Public Transit Routes</h4>
-          <p>Note that most busses are equipped with bike racks. 
+          <p>Note that several bus lines are equipped with bike racks. 
             Plan your connection <a href="https://hta.org/" target="_blank" rel="noreferrer">here</a>.</p>
         </div>
       </div>
