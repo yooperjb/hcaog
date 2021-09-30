@@ -125,7 +125,6 @@ export const ICONS = {
     {
       id: 'rental',
       layout:{
-        // 'icon-image': 'hcaog-bicycle-15'
         'icon-image': 'hcaog-bicycle-rental-17'
       },
       paint: {
@@ -145,7 +144,7 @@ export const ICONS = {
   details: {
     'bike-shops': {
       name: 'Bike Shop',
-      icon: 'dollar-sign',
+      icon: 'store-alt',
       color: 'white'
     },
     'rental': {

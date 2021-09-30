@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import '@fortawesome/fontawesome-svg-core/attribution';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {faInfoCircle, faExternalLinkAlt, faChevronRight, faChevronLeft, faDollarSign, faBicycle, faWrench} from '@fortawesome/free-solid-svg-icons';
+import {faInfoCircle, faExternalLinkAlt, faChevronRight, faChevronLeft, faDollarSign, faBicycle, faWrench, faStoreAlt} from '@fortawesome/free-solid-svg-icons';
 
 import App from './App';
 
@@ -22,7 +22,8 @@ library.add(
   faChevronLeft,
   faDollarSign,
   faBicycle,
-  faWrench
+  faWrench,
+  faStoreAlt
 );
 
 ReactDOM.render(
