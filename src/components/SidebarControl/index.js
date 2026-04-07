@@ -1,5 +1,4 @@
-import { useContext, useEffect } from 'react';
-import { MapContext } from '@urbica/react-map-gl';
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Breakpoints from '../../config/breakpoints';
 import { toggleSidebar, useGlobals } from '../../contexts/GlobalContext';
@@ -9,8 +8,6 @@ import styles from './style.module.css';
 const SidebarControl = () => {
   const [{showSidebar}, dispatch] = useGlobals();
   const {width} = useViewPort();
-  const map = useContext(MapContext);
-
 
   const onClick = () => dispatch(toggleSidebar());
   const showControl = width <= Breakpoints.LARGE;
@@ -21,11 +18,7 @@ const SidebarControl = () => {
     dispatch(toggleSidebar());
   }, [showControl]);
 
-  useEffect(() => {
-    if (map) {
-      map.resize();
-    }
-  }, [showSidebar, map]);
+  // Note: map.resize() is not needed with react-map-gl - it handles resizing automatically
 
   if (!showControl) return <></>;
 

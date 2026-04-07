@@ -1,5 +1,5 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import MapGL, { GeolocateControl, Layer, NavigationControl, Popup, Source, AttributionControl } from '@urbica/react-map-gl';
+import React, { useState, useEffect } from 'react';
+import Map, { Layer, Source, Popup, NavigationControl, GeolocateControl, AttributionControl } from 'react-map-gl';
 
 import FeatureInfo from './components/FeatureInfo';
 import Sidebar from './components/Sidebar';
@@ -24,29 +24,58 @@ const App  = () => {
   const [globals] = useGlobals();
   const [ layerVisibility ] = useLayerVisibility();
 
-  const [cursorStyle, setCursorStyle] = useState();
-  const [viewport, setViewport] = useState(MAP_DEFAULTS.viewport);
-  
+  const [cursorStyle, setCursorStyle] = useState('default');
   const [selectedFeature, setSelectedFeature] = useState();
 
   const clearSelectedFeature = () => setSelectedFeature(null);
 
-  // Factory function to create feature click handlers
-  const createFeatureClickHandler = (type) => ({features, lngLat}) => {
-    setSelectedFeature({
-      type,
-      ...lngLat,
-      info: features[0]?.properties,
-    });
+  // Handle map clicks to show feature popups
+  const handleMapClick = (event) => {
+    const features = event.features;
+    if (features && features.length > 0) {
+      const feature = features[0];
+      const layerId = feature.layer.id;
+
+      // Determine feature type based on layer
+      let type = 'route';
+      if (ICONS.layers.some(layer => layer.id === layerId)) {
+        type = 'icon';
+      } else if (CONNECTORS.layers.some(layer => layer.id === layerId)) {
+        type = 'connector';
+      } else if (PCB.layers.some(layer => layer.id === layerId)) {
+        type = 'pcb';
+      }
+
+      setSelectedFeature({
+        type,
+        lat: event.lngLat.lat,
+        lng: event.lngLat.lng,
+        info: feature.properties,
+      });
+    } else {
+      clearSelectedFeature();
+    }
   };
 
-  const onRouteFeatureClick = useCallback(createFeatureClickHandler('route'), []);
-  const onConnectorFeatureClick = useCallback(createFeatureClickHandler('connector'), []);
-  const onIconFeatureClick = useCallback(createFeatureClickHandler('icon'), []);
-  const onPCBFeatureClick = useCallback(createFeatureClickHandler('pcb'), []);
+  // Handle mouse movement for cursor changes
+  const handleMouseMove = (event) => {
+    const features = event.features;
+    if (features && features.length > 0) {
+      setCursorStyle('pointer');
+    } else {
+      setCursorStyle('default');
+    }
+  };
 
-  const resetCursor = () => setCursorStyle(null);
-  const setPointerCursor = () => setCursorStyle('pointer');
+  // Get all layer IDs that should be interactive
+  const getInteractiveLayerIds = () => {
+    return [
+      ...ROUTES.layers.map(layer => layer.id),
+      ...CONNECTORS.layers.map(layer => layer.id),
+      ...PCB.layers.map(layer => layer.id),
+      ...ICONS.layers.map(layer => layer.id),
+    ];
+  };
 
   const mapLayerSources = [
     {
@@ -57,7 +86,6 @@ const App  = () => {
         globals.focusedLayer,
         ICONS.layers.slice(-1)[0]?.id
       ),
-      onLayerClick: onRouteFeatureClick
     },
     {
       ...CONNECTORS.source,
@@ -66,7 +94,6 @@ const App  = () => {
         layerVisibility,
         globals.focusedLayer
       ),
-      onLayerClick: onConnectorFeatureClick
     },
     {
       ...PCB.source,
@@ -75,7 +102,6 @@ const App  = () => {
         layerVisibility,
         globals.focusedLayer
       ),
-      onLayerClick: onPCBFeatureClick
     },
     {
       ...ICONS.source,
@@ -84,7 +110,6 @@ const App  = () => {
         layerVisibility,
         globals.focusedLayer
       ),
-      onLayerClick: onIconFeatureClick
     },
   ];
 
@@ -92,17 +117,19 @@ const App  = () => {
 
   return (
     <div className="container">
-      <MapGL
-        accessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+      <Map
+        mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        initialViewState={MAP_DEFAULTS.viewport}
+        style={{width: '100vw', height: '100vh'}}
         mapStyle={styles.light}
-        onClick={clearSelectedFeature}
-        onViewportChange={setViewport}
-        cursorStyle={cursorStyle}
+        onClick={handleMapClick}
+        onMouseMove={handleMouseMove}
+        cursor={cursorStyle}
         attributionControl={false}
-        {...viewport}
+        interactiveLayerIds={getInteractiveLayerIds()}
       >
         {
-          mapLayerSources.map(({layers, onLayerClick, ...source}) => {
+          mapLayerSources.map(({layers, ...source}) => {
             const filteredLayers = layers
               .map(layer =>
                 globals.focusedLayer === layer.id
@@ -112,10 +139,7 @@ const App  = () => {
               .map((layer) => (
                 <Layer
                   key={layer.id}
-                  { ...layer }
-                  onClick={onLayerClick}
-                  onHover={setPointerCursor}
-                  onLeave={resetCursor}
+                  {...layer}
                 />
               ));
             if (!filteredLayers.length) return null;
@@ -125,7 +149,6 @@ const App  = () => {
               </Source>
             );
           }).filter(source => source)
-            
         }
         
         {
@@ -150,7 +173,7 @@ const App  = () => {
           compact={true}
         />
         <SidebarControl />
-      </MapGL>
+      </Map>
       <Sidebar show={globals.showSidebar}></Sidebar>
     </div>
   );
