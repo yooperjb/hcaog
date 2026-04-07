@@ -29,20 +29,21 @@ const App  = () => {
   
   const [selectedFeature, setSelectedFeature] = useState();
 
-  const clearSelectedFeature = () => setSelectedFeature(() => null);
+  const clearSelectedFeature = () => setSelectedFeature(null);
 
-  const onFeatureClick = (type) => useCallback(({features, lngLat}) => {
-    setSelectedFeature(() => ({
+  // Factory function to create feature click handlers
+  const createFeatureClickHandler = (type) => ({features, lngLat}) => {
+    setSelectedFeature({
       type,
       ...lngLat,
       info: features[0]?.properties,
-    }));
-  }, [type]);
+    });
+  };
 
-  const onRouteFeatureClick = onFeatureClick('route');
-  const onConnectorFeatureClick = onFeatureClick('connector');
-  const onIconFeatureClick = onFeatureClick('icon');
-  const onPCBFeatureClick = onFeatureClick('pcb');
+  const onRouteFeatureClick = useCallback(createFeatureClickHandler('route'), []);
+  const onConnectorFeatureClick = useCallback(createFeatureClickHandler('connector'), []);
+  const onIconFeatureClick = useCallback(createFeatureClickHandler('icon'), []);
+  const onPCBFeatureClick = useCallback(createFeatureClickHandler('pcb'), []);
 
   const resetCursor = () => setCursorStyle(null);
   const setPointerCursor = () => setCursorStyle('pointer');

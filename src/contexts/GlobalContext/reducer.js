@@ -1,16 +1,16 @@
-import { setFocusedLayer, clearFocusedLayer, showSidebar, hideSidebar, toggleSidebar } from './actions';
+import { GLOBAL_ACTIONS } from './actions';
 
 export default (state, {type, value}) => {
   switch (type) {
-  case setFocusedLayer:
+  case GLOBAL_ACTIONS.SET_FOCUSED_LAYER:
     return { ...state, focusedLayer: value };
-  case clearFocusedLayer:
+  case GLOBAL_ACTIONS.CLEAR_FOCUSED_LAYER:
     return { ...state, focusedLayer: undefined };
-  case showSidebar:
+  case GLOBAL_ACTIONS.SHOW_SIDEBAR:
     return {...state, showSidebar: true};
-  case hideSidebar:
+  case GLOBAL_ACTIONS.HIDE_SIDEBAR:
     return {...state, showSidebar: false};
-  case toggleSidebar:
+  case GLOBAL_ACTIONS.TOGGLE_SIDEBAR:
     return {...state, showSidebar: !state.showSidebar};
   }
 };

@@ -25,7 +25,7 @@ export const GlobalProvider = ({children}) => {
 };
 
 GlobalProvider.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.node.isRequired
 };
 
 export const useGlobals = () => useContext(GlobalContext);

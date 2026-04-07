@@ -12,29 +12,25 @@ export const filterVisibleLayers = (
   focusedLayerId,
   baseLayerId
 ) => {
-  const visibleLayers = useMemo(
-    () => layers.filter((layer) => layerVisibility[layer.id]),
-    [layers, layerVisibility]
-  );
-  const layersOrderedByFocus = useMemo(
-    () => visibleLayers.map((layer, i) => [i, layer])
+  // Filter visible layers and sort by focus in one step
+  const processedLayers = useMemo(() => {
+    const visible = layers.filter((layer) => layerVisibility[layer.id]);
+    const sorted = visible
+      .map((layer, i) => [i, layer])
       .sort(([ai, a], [bi, b]) => {
-        if (a.id == focusedLayerId) return -1;
-        if (b.id == focusedLayerId) return 1;
+        if (a.id === focusedLayerId) return -1;
+        if (b.id === focusedLayerId) return 1;
         return ai - bi;
       })
-      .map(([,layer]) => layer),
-    [visibleLayers, focusedLayerId]
-  );
-  return Array.from(
-    useMemo(
-      () => layersOrderedByFocus.map((layer, i, layers) => ({
-        ...layer,
-        before: layers[i - 1]?.id ?? baseLayerId
-      })),
-      [layersOrderedByFocus, baseLayerId]
-    )
-  );
+      .map(([,layer]) => layer);
+
+    return sorted.map((layer, i, layers) => ({
+      ...layer,
+      before: layers[i - 1]?.id ?? baseLayerId
+    }));
+  }, [layers, layerVisibility, focusedLayerId, baseLayerId]);
+
+  return processedLayers;
 };
 export const applyFocusStyleToLayer = (layer) => {
   switch (layer.type) {

@@ -20,7 +20,12 @@ const SidebarControl = () => {
     if (showSidebar) return;
     dispatch(toggleSidebar());
   }, [showControl]);
-  useEffect(() => map.resize(), [showSidebar]);
+
+  useEffect(() => {
+    if (map) {
+      map.resize();
+    }
+  }, [showSidebar, map]);
 
   if (!showControl) return <></>;
 

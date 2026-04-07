@@ -13,7 +13,7 @@ export const ViewPortProvider = ({children}) => {
     };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
-  }, [viewPort]);
+  }, []);
 
   return (
     <ViewPortContext.Provider value={viewPort}>
@@ -23,7 +23,7 @@ export const ViewPortProvider = ({children}) => {
 };
 
 ViewPortProvider.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.node.isRequired
 };
 
 export const useViewPort = () => useContext(ViewPortContext);
