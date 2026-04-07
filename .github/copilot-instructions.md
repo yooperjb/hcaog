@@ -5,8 +5,8 @@
 **HCAOG** (Humboldt County Association of Governments) is a geospatial bikeway visualization tool built with React and Mapbox GL. It displays bicycle infrastructure (routes, connectors, points of interest) across Humboldt County with interactive layer toggling, feature details, and responsive sidebar controls.
 
 **Key Stack:**
-- React 17 (Create React App) with React Map GL
-- Mapbox GL 2.3 with custom vector tilesets
+- React 18.3.1 (Create React App) with react-map-gl v7
+- Mapbox GL 2.15 with custom vector tilesets
 - Three-tier context state management
 - CSS Modules for scoped styling
 
@@ -27,8 +27,21 @@ npm run deploy
 ```
 
 **Environment Requirements:**
+- **Node.js 24.14.0** (locked via .nvmrc)
 - `REACT_APP_MAPBOX_TOKEN` — Required in `.env` or environment to render the map. Get token from Mapbox account.
 - Optional: adjust `MAP_DEFAULTS.viewport` in [src/config/map.js](src/config/map.js) for different geographic focus
+
+## Recent Modernization (2026)
+
+This project was recently modernized from its 2021 origins:
+
+- ✅ **React 17 → 18.3.1** with createRoot API
+- ✅ **react-scripts 4 → 5** (Webpack 5, Node 24 compatible)
+- ✅ **@urbica/react-map-gl → react-map-gl v7** (official, maintained library)
+- ✅ **Fixed React 18 Strict Mode** compatibility issues
+- ✅ **Updated testing libraries** to latest versions
+- ✅ **Code quality improvements** (anti-patterns, PropTypes, equality checks)
+- ✅ **Modern event handling** for map interactions
 
 ## Code Style and Patterns
 
