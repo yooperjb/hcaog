@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 
 import '@fortawesome/fontawesome-svg-core/attribution';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {faInfoCircle, faExternalLinkAlt, faChevronRight, faChevronLeft, faDollarSign, faBicycle, faWrench, faStoreAlt} from '@fortawesome/free-solid-svg-icons';
+import {faInfoCircle, faExternalLinkAlt, faChevronRight, faChevronLeft, faDollarSign, faBicycle, faWrench, faStoreAlt, faMap} from '@fortawesome/free-solid-svg-icons';
 
 import App from './App';
 
@@ -23,7 +23,8 @@ library.add(
   faDollarSign,
   faBicycle,
   faWrench,
-  faStoreAlt
+  faStoreAlt,
+  faMap
 );
 
 const container = document.getElementById('root');
