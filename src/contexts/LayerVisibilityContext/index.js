@@ -6,6 +6,7 @@ const initialState = {
   ClassI: true,
   ClassII: true,
   ClassIII: true,
+  ClassIV: true,
   Trail: true,
   'rental': true,
   'bike-shops': true,

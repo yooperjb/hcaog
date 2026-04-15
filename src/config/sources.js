@@ -2,23 +2,23 @@ export const SOURCES = {
   get: (id) => ({ ...SOURCES[id], id}),
   'bike-points': {
     id: 'bike-points',
-    type: 'vector',
-    url: 'mapbox://hcaog.4f94k5tj',
+    type: 'geojson',
+    data: 'https://services6.arcgis.com/CIAecyfzYKLq6rPc/arcgis/rest/services/Bike_Facilities/FeatureServer/2/query?f=geojson&where=1%3D1&outFields=*',
   },
   'bike-routes': {
     id: 'bike-routes',
-    type: 'vector',
-    url: 'mapbox://hcaog.1nksq7lv',
+    type: 'geojson',
+    data: 'https://services6.arcgis.com/CIAecyfzYKLq6rPc/arcgis/rest/services/Bike_Facilities/FeatureServer/4/query?f=geojson&where=1%3D1&outFields=*',
   },
   'connectors': {
     id: 'connectors',
-    type: 'vector',
-    url: 'mapbox://hcaog.digdwntd'
+    type: 'geojson',
+    data: 'https://services6.arcgis.com/CIAecyfzYKLq6rPc/arcgis/rest/services/Bike_Facilities/FeatureServer/3/query?f=geojson&where=1%3D1&outFields=*'
   },
   'pcb': {
     id: 'pcb',
-    type: 'vector',
-    url: 'mapbox://hcaog.6vx5ufzz'
+    type: 'geojson',
+    data: 'https://services6.arcgis.com/CIAecyfzYKLq6rPc/arcgis/rest/services/Bike_Facilities/FeatureServer/8/query?f=geojson&where=1%3D1&outFields=*'
   }
 };
 

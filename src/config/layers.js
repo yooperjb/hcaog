@@ -1,5 +1,5 @@
-import { MAP_DEFAULTS } from './map';
-import { SOURCES, SOURCE_LAYERS } from './sources';
+﻿import { MAP_DEFAULTS } from './map';
+import { SOURCES } from './sources';
 
 // Set default symbol and line size
 export const LAYER_WEIGHTS = {
@@ -8,27 +8,25 @@ export const LAYER_WEIGHTS = {
 };
 
 export const calculateLineWidth = (width) => [
-  'interpolate', 
-  ['linear'], 
+  'interpolate',
+  ['linear'],
   ['zoom'],
-  MAP_DEFAULTS.viewport.zoom, width, 
-  MAP_DEFAULTS.viewport.zoom + 8, width*2, 
+  MAP_DEFAULTS.viewport.zoom, width,
+  MAP_DEFAULTS.viewport.zoom + 8, width * 2,
   MAP_DEFAULTS.viewport.zoom + 16, width * 4
 ];
 
 const makeLayerGenerator = ({
   type,
   sourceId,
-  sourceLayerId,
   layout: baseLayout,
   paint: basePaint,
   filter
-}) =>  {
+}) => {
   return ({ id, layerName, layout, paint }) => ({
     id,
     type,
     source: sourceId,
-    'source-layer': SOURCE_LAYERS[sourceLayerId],
     layout: {
       ...baseLayout,
       ...layout
@@ -38,41 +36,34 @@ const makeLayerGenerator = ({
       ...paint
     },
     filter: filter(layerName),
-  }
-  );
+  });
 };
 
 const makeSymbolLayerGenerator = ({
   sourceId,
-  sourceLayerId,
   filter
 }) => makeLayerGenerator({
   type: 'symbol',
   sourceId,
-  sourceLayerId,
   layout: {
     'icon-size': LAYER_WEIGHTS.symbol,
     'icon-allow-overlap': false,
-    'visibility': 'visible',
+    visibility: 'visible',
   },
-  paint: {
-    // 'icon-opacity': 1,
-  },
+  paint: {},
   filter
 });
 
 const makeLineLayerGenerator = ({
   sourceId,
-  sourceLayerId,
   filter
 }) => makeLayerGenerator({
   type: 'line',
   sourceId,
-  sourceLayerId,
   layout: {
     'line-cap': 'round',
     'line-join': 'round',
-    'visibility': 'visible'
+    visibility: 'visible'
   },
   paint: {
     'line-width': calculateLineWidth(LAYER_WEIGHTS.line),
@@ -83,29 +74,25 @@ const makeLineLayerGenerator = ({
 // create bike points ICON layer
 const buildIconLayer = makeSymbolLayerGenerator({
   sourceId: 'bike-points',
-  sourceLayerId: 'bike-points',
   filter: (layerName) => ['==', 'Type', layerName]
 });
 
 // create bike routes layer
 const buildRouteLayer = makeLineLayerGenerator({
   sourceId: 'bike-routes',
-  sourceLayerId: 'bike-routes',
-  filter: (layerName) => ['==', 'type_2021', layerName]
+  filter: (layerName) => ['==', 'type', layerName]
 });
 
 // create connector routes layer
 const buildConnectorLayer = makeLineLayerGenerator({
   sourceId: 'connectors',
-  sourceLayerId: 'connectors',
   filter: (layerName) => ['==', 'Type', layerName]
 });
 
 // create pacific coast bike route layer
 const buildPcbLayer = makeLineLayerGenerator({
   sourceId: 'pcb',
-  sourceLayerId: 'pcb',
-  filter: (layerName) => ['==', 'Status', layerName]
+  filter: (layerName) => ['==', 'BikeRoute', layerName]
 });
 
 // ICON layer for bike points
@@ -114,32 +101,31 @@ export const ICONS = {
   layers: [
     {
       id: 'bike-shops',
-      layout:{
+      layout: {
         'icon-image': 'hcaog-bicycle-shop'
       },
       paint: {
-        'icon-color': 'black',
+        'icon-color': 'black'
       },
       layerName: 'Bicycle Shop'
     },
     {
       id: 'rental',
-      layout:{
+      layout: {
         'icon-image': 'hcaog-bicycle-rental-17'
       },
       paint: {
-        'icon-color': 'black',
+        'icon-color': 'black'
       },
       layerName: 'Rental'
     },
     {
       id: 'tool-station',
-      layout:{
-        // 'icon-image': 'hardware-15'
+      layout: {
         'icon-image': 'hcaog-hardware-new'
       },
       layerName: 'Tool Station'
-    },
+    }
   ].map(buildIconLayer),
   details: {
     'bike-shops': {
@@ -147,7 +133,7 @@ export const ICONS = {
       icon: 'store-alt',
       color: 'white'
     },
-    'rental': {
+    rental: {
       name: 'Bike Rental',
       icon: 'bicycle',
       color: 'white'
@@ -156,7 +142,7 @@ export const ICONS = {
       name: 'Tool Station',
       icon: 'wrench',
       color: 'white'
-    },
+    }
   }
 };
 
@@ -165,54 +151,63 @@ export const ROUTES = {
   source: SOURCES.get('bike-routes'),
   layers: [
     {
-      id: 'ClassI', 
+      id: 'ClassI',
       paint: {
-        'line-color': '#2fa021',
+        'line-color': '#2fa021'
       },
-      layerName: 'Existing Class I',
+      layerName: 'Existing Class I'
     },
     {
-      id: 'ClassII', 
+      id: 'ClassII',
       paint: {
-        'line-color': '#103ca1',
+        'line-color': '#103ca1'
       },
-      layerName: 'Existing Class II',
+      layerName: 'Existing Class II'
     },
     {
-      id: 'ClassIII', 
+      id: 'ClassIII',
       paint: {
-        'line-color': '#fa8807',
+        'line-color': '#fa8807'
       },
-      layerName: 'Existing Class III',
+      layerName: 'Existing Class III'
     },
     {
-      id: 'Trail', 
+      id: 'ClassIV',
+      paint: {
+        'line-color': '#FFFF00'
+      },
+      layerName: 'Existing Class IV'
+    },
+    {
+      id: 'Trail',
       paint: {
         'line-color': '#baa77c',
-        'line-dasharray': [1,2],
-        //"line-opacity": 1,
+        'line-dasharray': [1, 2]
       },
-      layerName: 'Existing Trail',
-    },
+      layerName: 'Existing Trail'
+    }
   ].map(buildRouteLayer),
-  // What shows up in legend
   details: {
-    'ClassI': {
+    ClassI: {
       name: 'Multi-use Path',
       description: 'A separated paved path for bicycles and pedestrians.'
     },
-    'ClassII': {
+    ClassII: {
       name: 'Bike Lane',
       description: 'A restricted right-of-way for bicycles along the side of a street (typically 5 feet wide). A thick white line separates the auto and bike lanes. Motor vehicles may merge into these lanes to make turns.'
     },
-    'ClassIII': {
+    ClassIII: {
       name: 'Shared Road',
       description: 'A travel lane shared by bicycles and motor vehicles designated only by signs or pavement markings. This type of facility mainly informs motorists of preferred cycling routes.'
     },
-    'Trail': {
+    ClassIV: {
+      name: 'Separated Bikeways',
+      description: 'On-street facilities for cyclists that feature a vertical or physical barrier from, and exclusive use away from, vehicle traffic.'
+    },
+    Trail: {
       name: 'Natural Surface',
       description: 'A dirt or gravel path that is often bicycle compatible'
-    },
+    }
   }
 };
 
@@ -221,44 +216,43 @@ export const CONNECTORS = {
   source: SOURCES.get('connectors'),
   layers: [
     {
-      id: 'Family-Friendly', 
+      id: 'Family-Friendly',
       paint: {
         'line-color': 'green',
-        'line-dasharray': [1,2],
+        'line-dasharray': [1, 2]
       },
-      layerName: 'Family Friendly',
+      layerName: 'Family Friendly'
     },
     {
-      id: 'Intermediate', 
+      id: 'Intermediate',
       paint: {
         'line-color': '#2b47a1',
-        'line-dasharray': [1,2],
+        'line-dasharray': [1, 2]
       },
-      layerName: 'Intermediate',
+      layerName: 'Intermediate'
     },
     {
-      id: 'Advanced', 
+      id: 'Advanced',
       paint: {
         'line-color': '#871f1f',
-        'line-dasharray': [1,2],
+        'line-dasharray': [1, 2]
       },
-      layerName: 'Advanced',
-    },
+      layerName: 'Advanced'
+    }
   ].map(buildConnectorLayer),
-  // What shows up in legend
   details: {
     'Family-Friendly': {
       name: 'Mellow',
-      description:'Lower traffic/speed streets; generally appropriate for children and for relaxed everyday use'
+      description: 'Lower traffic/speed streets; generally appropriate for children and for relaxed everyday use'
     },
-    'Intermediate': {
+    Intermediate: {
       name: 'Confident',
-      description:'Moderate traffic/speed with medium shoulder width streets; suitable for a range of bicyclists'
+      description: 'Moderate traffic/speed with medium shoulder width streets; suitable for a range of bicyclists'
     },
-    'Advanced': {
+    Advanced: {
       name: 'Brave',
-      description:'High traffic volume/speed; narrow or non-existent shoulder, and/or extreme topography (hills)'
-    },
+      description: 'High traffic volume/speed; narrow or non-existent shoulder, and/or extreme topography (hills)'
+    }
   }
 };
 
@@ -267,30 +261,35 @@ export const PCB = {
   source: SOURCES.get('pcb'),
   layers: [
     {
-      id: 'Official', 
+      id: 'Official',
       paint: {
-        'line-color': 'black',
+        'line-color': 'black'
       },
-      layerName: 'Official',
+      layerName: 'Pacific Coast Bike Route'
     },
     {
-      id: 'Alternative', 
+      id: 'Alternative',
       paint: {
-        'line-color': 'gray',
+        'line-color': 'gray'
       },
-      layerName: 'Alternative',
-    },
+      layerName: 'Proposed PCBR Alternate'
+    }
   ].map(buildPcbLayer),
   details: {
-    'Official': {
+    Official: {
       name: 'Official',
-      description:'Official Pacific Coast Bike Route.'
+      description: 'Official Pacific Coast Bike Route.'
     },
-    'Alternative': {
+    Alternative: {
       name: 'Alternative',
-      description:'Alternative Pacific Coast Bike Route segments.'
-    },
+      description: 'Alternative Pacific Coast Bike Route segments.'
+    }
   }
 };
 
-export default { icons:ICONS, routes:ROUTES, connectors:CONNECTORS, pcb:PCB  };
+export default {
+  icons: ICONS,
+  routes: ROUTES,
+  connectors: CONNECTORS,
+  pcb: PCB,
+};

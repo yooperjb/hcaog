@@ -47,6 +47,10 @@
   background-color: var(--class3-color);
 }
 
+.layer-toggle input[type=checkbox].line.ClassIV[checked] {
+  background-color: var(--class4-color);
+}
+
 .layer-toggle input[type=checkbox].line.Trail[checked] {
   background-color: var(--trails-color);
 }

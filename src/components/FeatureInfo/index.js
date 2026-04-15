@@ -12,7 +12,7 @@ const iconIdMap = {
 
 export const FeatureInfo = ({ type, info }) => {
   const typeProperty = useMemo(
-    () => type === 'route' ? 'type_2021' : 'Type',
+    () => type === 'route' ? 'type' : 'Type',
     [type]
   );
   const icon = useMemo(() => {
@@ -71,7 +71,7 @@ FeatureInfo.propTypes = {
     Location: PropTypes.string,
     Website: PropTypes.string,
     Bikes_Allo: PropTypes.string,
-    type_2021: PropTypes.string,
+    type: PropTypes.string,
   }).isRequired,
 };
 
