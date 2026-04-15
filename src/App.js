@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Map, { Layer, Source, Popup, NavigationControl, GeolocateControl, AttributionControl } from 'react-map-gl';
 
 import FeatureInfo from './components/FeatureInfo';
@@ -12,6 +12,7 @@ import { useGlobals } from './contexts/GlobalContext';
 import { useLayerVisibility } from './contexts/LayerVisibilityContext';
 
 import { applyFocusStyleToLayer, filterVisibleLayers } from './util/layers';
+import { ensureMapIcons } from './util/mapIcons';
 
 import './App.css';
 import SidebarControl from './components/SidebarControl';
@@ -22,12 +23,25 @@ const DEFAULT_BASEMAP = BASEMAPS.light.url;
 const App  = () => {
   const [globals] = useGlobals();
   const [ layerVisibility ] = useLayerVisibility();
+  const mapRef = useRef(null);
 
   const [cursorStyle, setCursorStyle] = useState('default');
   const [selectedFeature, setSelectedFeature] = useState();
   const [mapStyle, setMapStyle] = useState(DEFAULT_BASEMAP);
 
   const clearSelectedFeature = () => setSelectedFeature(null);
+
+  const syncMapIcons = () => {
+    const map = mapRef.current?.getMap();
+
+    if (!map) {
+      return;
+    }
+
+    ensureMapIcons(map).catch((error) => {
+      console.error('Unable to register map icons.', error);
+    });
+  };
 
   // Handle map clicks to show feature popups
   const handleMapClick = (event) => {
@@ -118,12 +132,15 @@ const App  = () => {
   return (
     <div className="container">
       <Map
+        ref={mapRef}
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         initialViewState={MAP_DEFAULTS.viewport}
         style={{width: '100vw', height: '100vh'}}
         mapStyle={mapStyle}
         onClick={handleMapClick}
+        onLoad={syncMapIcons}
         onMouseMove={handleMouseMove}
+        onStyleData={syncMapIcons}
         cursor={cursorStyle}
         attributionControl={false}
         interactiveLayerIds={getInteractiveLayerIds()}

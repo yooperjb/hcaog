@@ -3,7 +3,7 @@ import { SOURCES } from './sources';
 
 // Set default symbol and line size
 export const LAYER_WEIGHTS = {
-  symbol: 1,
+  symbol: 0.8,
   line: 2,
 };
 
@@ -104,18 +104,12 @@ export const ICONS = {
       layout: {
         'icon-image': 'hcaog-bicycle-shop'
       },
-      paint: {
-        'icon-color': 'black'
-      },
       layerName: 'Bicycle Shop'
     },
     {
       id: 'rental',
       layout: {
         'icon-image': 'hcaog-bicycle-rental-17'
-      },
-      paint: {
-        'icon-color': 'black'
       },
       layerName: 'Rental'
     },
