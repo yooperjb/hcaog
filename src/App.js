@@ -3,8 +3,9 @@ import Map, { Layer, Source, Popup, NavigationControl, GeolocateControl, Attribu
 
 import FeatureInfo from './components/FeatureInfo';
 import Sidebar from './components/Sidebar';
+import BasemapSwitcher from './components/BasemapSwitcher';
 
-import { MAP_DEFAULTS } from './config/map';
+import { MAP_DEFAULTS, BASEMAPS } from './config/map';
 import { ICONS, ROUTES, CONNECTORS, PCB } from './config/layers.js';
 
 import { useGlobals } from './contexts/GlobalContext';
@@ -15,10 +16,8 @@ import { applyFocusStyleToLayer, filterVisibleLayers } from './util/layers';
 import './App.css';
 import SidebarControl from './components/SidebarControl';
 
-// mayStyle choices
-const styles = {
-  light: 'mapbox://styles/hcaog/ckr3qf0ot95xh17linukv86ts'
-};
+// Default to light basemap to maintain current behavior
+const DEFAULT_BASEMAP = BASEMAPS.light.url;
 
 const App  = () => {
   const [globals] = useGlobals();
@@ -26,6 +25,7 @@ const App  = () => {
 
   const [cursorStyle, setCursorStyle] = useState('default');
   const [selectedFeature, setSelectedFeature] = useState();
+  const [mapStyle, setMapStyle] = useState(DEFAULT_BASEMAP);
 
   const clearSelectedFeature = () => setSelectedFeature(null);
 
@@ -121,12 +121,13 @@ const App  = () => {
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         initialViewState={MAP_DEFAULTS.viewport}
         style={{width: '100vw', height: '100vh'}}
-        mapStyle={styles.light}
+        mapStyle={mapStyle}
         onClick={handleMapClick}
         onMouseMove={handleMouseMove}
         cursor={cursorStyle}
         attributionControl={false}
         interactiveLayerIds={getInteractiveLayerIds()}
+        styleDiffing={true}
       >
         {
           mapLayerSources.map(({layers, ...source}) => {
@@ -172,6 +173,7 @@ const App  = () => {
           customAttribution="HCAOG"
           compact={true}
         />
+        <BasemapSwitcher currentStyle={mapStyle} onStyleChange={setMapStyle} />
         <SidebarControl />
       </Map>
       <Sidebar show={globals.showSidebar}></Sidebar>
