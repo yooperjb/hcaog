@@ -29,6 +29,7 @@ library.add(
 const container = document.getElementById('root');
 const root = createRoot(container);
 
+// eslint-disable-next-line react/no-deprecated
 root.render(
   <React.StrictMode>
     <GlobalProvider>
