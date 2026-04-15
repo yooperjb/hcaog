@@ -18,7 +18,8 @@ const SidebarControl = () => {
     dispatch(toggleSidebar());
   }, [showControl]);
 
-  // Note: map.resize() is not needed with react-map-gl - it handles resizing automatically
+  // Note: map.resize() is not needed with react-map-gl
+  // it handles resizing automatically
 
   if (!showControl) return <></>;
 
